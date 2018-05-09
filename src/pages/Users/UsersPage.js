@@ -48,7 +48,7 @@ class UsersPage extends Component {
 	}
 
 	//test 1
-	// test git gui 2
+	// test git gui quandv
 	render() {
 		var {users} = this.state;
 		return (
