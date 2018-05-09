@@ -7,7 +7,7 @@ class UserSpec extends Component {
 	onDelete (id) {
 		this.props.onDelete(id);
 	}
-
+	// quandv test 2
 	render() {
 		var {user, index} = this.props;
 		return (
