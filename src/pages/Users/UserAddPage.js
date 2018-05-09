@@ -22,7 +22,7 @@ class UserAddPage extends Component {
 		this.onSave = this.onSave.bind(this);
 		this.onChangeFrom = this.onChangeFrom.bind(this);
 	}
-	// test 2
+	
 	componentDidMount(){
 		var {match} = this.props;
 		if(match) {

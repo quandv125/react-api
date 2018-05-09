@@ -46,7 +46,7 @@ class UsersPage extends Component {
 		});
 		return result;
 	}
-	//test
+
 	render() {
 		var {users} = this.state;
 		return (
