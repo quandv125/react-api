@@ -10,7 +10,6 @@ class UserSpec extends Component {
 
 	render() {
 		var {user, index} = this.props;
-		console.log(typeof user.actived);
 		return (
 			<tr className="text-center">
 				<td>{index+1}</td>
