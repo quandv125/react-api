@@ -3,7 +3,7 @@ import './App.css';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import Menu from './components/Menu/Menu';
 import routes from './routes';
-// quandv commit master quandv
+
 class App extends Component {
 	showContentMenu = (routes) => {
 		var result = null;
