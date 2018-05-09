@@ -3,8 +3,8 @@ import React, { Component } from 'react';
 
 class UsersList extends Component {
 	render() {
+		// props
 		var { children } = this.props;
-		
 		return (
 			<div className="panel panel-primary">
 				<div className="panel-heading">
@@ -25,8 +25,8 @@ class UsersList extends Component {
 							</tr>
 						</thead>
 						<tbody>
-							{ children }
-							
+							{children}
+
 						</tbody>
 					</table>
 				</div>

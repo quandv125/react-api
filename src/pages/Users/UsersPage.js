@@ -27,10 +27,12 @@ class UsersPage extends Component {
 
 	onDelete (id) {
 		var {users} = this.state;
+		var {history} = this.props;
 		callApi('DELETE', config.APP_URL+'/destroy/'+id, null).then( res => {
 			var index = this.findIndex(users, id);
 			if(index !== -1) {
 				users.splice(index, 1);
+				history.push("/users");
 			}
 		});
 	}
@@ -70,7 +72,5 @@ class UsersPage extends Component {
 		return result;
 	}
 }
-
-
 
 export default connect(null, null)(UsersPage);

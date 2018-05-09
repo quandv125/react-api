@@ -13,8 +13,9 @@ class UserAddPage extends Component {
 			txtLastName: '',
 			txtEmail: '',
 			txtPassword: '',
-			txtgender: "0",
-			txtchbox: false
+			rdGender: config.GENDER_MALE,
+			chboxActive: config.DEACTIVED,
+			
 		};
 		this.onSave = this.onSave.bind(this);
 		this.onChangeFrom = this.onChangeFrom.bind(this);
@@ -29,7 +30,6 @@ class UserAddPage extends Component {
 			var id = match.params.id;
 			callApi('GET', config.APP_URL+'/edit/'+id, null).then(res => {
 				var data = res.data;
-				// console.log(data);
 				this.setState({
 					id: data.id,
 					txtUserName: data.username,
@@ -37,12 +37,16 @@ class UserAddPage extends Component {
 					txtLastName: data.lastname,
 					txtEmail: data.email,
 					txtPassword: data.password,
-					txtgender: data.gender,
-					txtchbox: data.actived
+					rdGender: (data.gender) ? config.GENDER_FEMALE: config.GENDER_MALE,
+					chboxActive: data.actived? config.ACTIVED : config.DEACTIVED
 				});
 			});
 		}
 	}
+
+	componentDidUpdate () {
+		console.log(this.state);
+	  }
 
 	onChangeFrom (event) {
 		var target = event.target;
@@ -56,23 +60,29 @@ class UserAddPage extends Component {
 	onSave (event) {
 		event.preventDefault();
 		var {history} = this.props;
-        var {id, txtUserName, txtFirstName, txtLastName,txtEmail,txtPassword, txtchbox, txtgender} = this.state;
-		var data = {username: txtUserName, firstname: txtFirstName, lastname: txtLastName, email: txtEmail, password: txtPassword, gender: txtgender, active: txtchbox};
-		console.log(data);
+        var {id, txtUserName, txtFirstName, txtLastName, txtEmail, txtPassword, chboxActive, rdGender} = this.state;
+		var data = {
+			username: txtUserName,
+			firstname: txtFirstName,
+			lastname: txtLastName,
+			email: txtEmail,
+			password: txtPassword,
+			gender: rdGender,
+			actived: chboxActive
+		};
 		if(id) { //update
 			callApi('PUT', config.APP_URL+'/update/'+ id, data).then( res => {
-				console.log('update');
 				history.push("/users");
 			});
 		} else { //create
 			callApi('POST', config.APP_URL+'/store', data).then( res => {
-				// console.log(res);
 				history.push("/users");
 			});
 		}
 	}
 
 	render() {
+		
 		return (
 			<div>
 				<div className="col-lg-6 col-sm-6 col-xs-6 col-md-6">
@@ -134,30 +144,31 @@ class UserAddPage extends Component {
 								<label>
 									<input 
 										type="checkbox" 
-										value={this.state.txtchbox} 
+										value={this.state.chboxActive} 
+										checked={this.state.chboxActive}
 										onChange={this.onChangeFrom} 
-										name="txtchbox"/>
-									Active
+										name="chboxActive"/>
+									Active 
 								</label>
 							</div>
 						</div>
-	<br/>
+
 						<div className="form-group">
 							<div className="Radio">
-								<label>
-									<input 
-										type="radio" 
-										value="0" 
-										checked="checked"
-										onChange={this.onChangeFrom} 
-										name="txtgender"/> Male
-									<input 
-										type="radio" 
-										value="1"  
-										onChange={this.onChangeFrom} 
-										name="txtgender"/> Female
-									
+								<label>									
 								</label>
+								<br/>
+								<input type='radio' 
+										name='myRadio' 
+										value='0'
+										checked={this.state.rdGender === '0'} 
+										onChange={(e) => this.setState({ rdGender: e.target.value })} /> Male
+       						 	<br />
+								<input type='radio'
+										name='myRadio'
+										value='1' 
+										checked={this.state.rdGender === '1'} 
+										onChange={(e) => this.setState({ rdGender: e.target.value })} /> Female
 							</div>
 						</div>
 						<button type="submit" className="btn btn-primary margin-right-10">Save</button>
@@ -169,7 +180,7 @@ class UserAddPage extends Component {
 			</div>
 		);
 	} // end render
-
+	
 }
 
 export default UserAddPage;
