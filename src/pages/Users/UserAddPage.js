@@ -13,6 +13,8 @@ class UserAddPage extends Component {
 			txtLastName: '',
 			txtEmail: '',
 			txtPassword: '',
+			txtAddress: '',
+			txtPhone: '',
 			rdGender: config.GENDER_MALE,
 			chboxActive: config.DEACTIVED,
 			
@@ -30,6 +32,7 @@ class UserAddPage extends Component {
 			var id = match.params.id;
 			callApi('GET', config.APP_URL+'/edit/'+id, null).then(res => {
 				var data = res.data;
+				// console.log(data);
 				this.setState({
 					id: data.id,
 					txtUserName: data.username,
@@ -37,7 +40,9 @@ class UserAddPage extends Component {
 					txtLastName: data.lastname,
 					txtEmail: data.email,
 					txtPassword: data.password,
-					rdGender: (data.gender) ? config.GENDER_FEMALE: config.GENDER_MALE,
+					txtAddress: data.address,
+					txtPhone: data.phone,
+					rdGender: (data.gender) ? config.GENDER_FEMALE : config.GENDER_MALE,
 					chboxActive: data.actived? config.ACTIVED : config.DEACTIVED
 				});
 			});
@@ -46,7 +51,7 @@ class UserAddPage extends Component {
 
 	componentDidUpdate () {
 		console.log(this.state);
-	  }
+	}
 
 	onChangeFrom (event) {
 		var target = event.target;
@@ -60,13 +65,15 @@ class UserAddPage extends Component {
 	onSave (event) {
 		event.preventDefault();
 		var {history} = this.props;
-        var {id, txtUserName, txtFirstName, txtLastName, txtEmail, txtPassword, chboxActive, rdGender} = this.state;
+        var {id, txtUserName, txtFirstName, txtLastName, txtEmail, txtPassword, txtPhone, txtAddress, chboxActive, rdGender} = this.state;
 		var data = {
 			username: txtUserName,
 			firstname: txtFirstName,
 			lastname: txtLastName,
 			email: txtEmail,
 			password: txtPassword,
+			phone: txtPhone,
+			address: txtAddress,
 			gender: rdGender,
 			actived: chboxActive
 		};
@@ -138,6 +145,26 @@ class UserAddPage extends Component {
 								onChange={this.onChangeFrom} 
 								name="txtPassword" 
 								placeholder="Password"/>
+						</div>
+						<div className="form-group">
+							<label>Phone</label>
+							<input 
+								type="Phone" 
+								className="form-control" 
+								value={this.state.txtPhone} 
+								onChange={this.onChangeFrom} 
+								name="txtPhone" 
+								placeholder="Phone"/>
+						</div>
+						<div className="form-group">
+							<label>Address</label>
+							<input 
+								type="Address" 
+								className="form-control" 
+								value={this.state.txtAddress} 
+								onChange={this.onChangeFrom} 
+								name="txtAddress" 
+								placeholder="Address"/>
 						</div>
 						<div className="form-group">
 							<div className="checkbox">
