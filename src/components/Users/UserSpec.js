@@ -18,6 +18,8 @@ class UserSpec extends Component {
 				<td>{user.firstname}</td>
 				<td>{user.lastname}</td>
 				<td>{user.email}</td>
+				<td>{user.phone}</td>
+				<td>{user.address}</td>
 				<td>
 					<span className={(user.gender === 1 )? 'label label-danger':'label label-info'}>
 						{(user.gender === 1 )? 'Female':'Male'}
