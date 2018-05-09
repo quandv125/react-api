@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 
-
 class UsersList extends Component {
 	render() {
 		var { children } = this.props;
