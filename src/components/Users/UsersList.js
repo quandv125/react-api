@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 
 class UsersList extends Component {
 	render() {
-		// props test git
+		// props test git master
 		var { children } = this.props;
 		return (
 			<div className="panel panel-primary">
