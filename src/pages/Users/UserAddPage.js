@@ -32,7 +32,6 @@ class UserAddPage extends Component {
 			var id = match.params.id;
 			callApi('GET', config.APP_URL+'/edit/'+id, null).then(res => {
 				var data = res.data;
-				// console.log(data);
 				this.setState({
 					id: data.id,
 					txtUserName: data.username,
