@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 
 class UsersList extends Component {
 	render() {
+		//children
 		var { children } = this.props;
 		return (
 			<div className="panel panel-primary">
