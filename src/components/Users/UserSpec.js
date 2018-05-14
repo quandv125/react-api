@@ -5,10 +5,13 @@ import { Link } from 'react-router-dom';
 class UserSpec extends Component {
 	
 	onDelete (id) {
-		this.props.onDelete(id);
+		if (window.confirm('Are you sure you wish to delete this item?')){
+			this.props.onDelete(id);
+		}
 	}
 	render() {
 		var {user, index} = this.props;
+		
 		return (
 			<tr className="text-center">
 				<td>{index+1}</td>
@@ -16,11 +19,12 @@ class UserSpec extends Component {
 				<td>{user.firstname}</td>
 				<td>{user.lastname}</td>
 				<td>{user.email}</td>
+				<td>{user.job}</td>
 				<td>{user.phone}</td>
 				<td>{user.address}</td>
 				<td>
-					<span className={(user.gender === 1 )? 'label label-danger':'label label-info'}>
-						{(user.gender === 1 )? 'Female':'Male'}
+					<span className={( String(user.gender) === config.GENDER_FEMALE  ) ? 'label label-danger':'label label-info'}>
+						{( String(user.gender) === config.GENDER_FEMALE ) ? 'Female':'Male'}
 					</span> 
 				</td>
 				<td>
@@ -28,7 +32,7 @@ class UserSpec extends Component {
 						{(user.actived === config.ACTIVED)? 'Actived':''}
 					</span>
 				</td>
-				<td>{user.created_at}</td>
+			
 				<td>
 					<Link to={`users/${user.id}/edit`} className="btn btn-success margin-right-10">
 						Edit

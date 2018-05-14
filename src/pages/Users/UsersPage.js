@@ -1,60 +1,35 @@
 import React, { Component } from 'react';
 import UsersList from './../../components/Users/UsersList';
 import UserSpec from './../../components/Users/UserSpec';
-import * as config from './../../constants/config';
+
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
+import {actFetchUsersRequest, actDeleteUserRequest} from './../../actions/index';
 
-import callApi from './../../utils/apiCaller';
 
 class UsersPage extends Component {
 
 	constructor(props) {
 		super(props);
-		this.state = {
-			users : [] 
-		}
 		this.onDelete = this.onDelete.bind(this);
 	}
 
 	componentDidMount(){
-		callApi('GET', config.APP_URL, null).then( res => {
-			this.setState({
-				users: res.data
-			});
-		});
+		this.props.getUsers();
 	}
 
 	onDelete (id) {
-		var {users} = this.state;
-		var {history} = this.props;
-		callApi('DELETE', config.APP_URL+'/destroy/'+id, null).then( res => {
-			var index = this.findIndex(users, id);
-			if(index !== -1) {
-				users.splice(index, 1);
-				history.push("/users");
-			}
-		});
-	}
-
-	findIndex (users, id) {
-		var result = -1;
-		users.forEach((user, index) => {
-			if(user.id === id) {
-				result = index;
-			}
-		});
-		return result;
+		this.props.onDeleteUser(id)
 	}
 
 	render() {
-		var {users} = this.state;
+		var {users} = this.props;
 		return (
 			<div className="UsersPage col-lg-12 col-sm-12 col-xs-12 col-md-12">
 				<Link to="/users/add" className="btn btn-primary">
 					Add
 				</Link>
-				<br/><br/>
+				<br/>
 				<UsersList>
                     { this.showUser(users) }
 				</UsersList>
@@ -73,4 +48,22 @@ class UsersPage extends Component {
 	}
 }
 
-export default connect(null, null)(UsersPage);
+const mpaStateToProps = state => {
+	
+	return {
+		users: state.users
+	}
+}
+
+const mapDispatchToProps = (dispatch, props) => {
+	return {
+		getUsers : () => {
+			dispatch(actFetchUsersRequest());
+		},
+		onDeleteUser : (id) => {
+			dispatch(actDeleteUserRequest(id));
+		}
+	}
+}
+
+export default connect(mpaStateToProps, mapDispatchToProps)(UsersPage);

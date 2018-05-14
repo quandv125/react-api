@@ -24,7 +24,7 @@ class App extends Component {
 	render() {
 		return (
 			<Router>
-				<div className="App text-center">
+				<div className="App">
 					<Menu />
 		
 					<Switch>
