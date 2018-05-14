@@ -3,7 +3,7 @@ import * as config from './../../constants/config';
 import { Link } from 'react-router-dom';
 
 class UserSpec extends Component {
-	
+	//test
 	onDelete (id) {
 		if (window.confirm('Are you sure you wish to delete this item?')){
 			this.props.onDelete(id);
