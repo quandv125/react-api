@@ -29,7 +29,7 @@ class UsersPage extends Component {
 				<Link to="/users/add" className="btn btn-primary">
 					Add
 				</Link>
-				<br/>
+				<br/><br/>
 				<UsersList>
                     { this.showUser(users) }
 				</UsersList>

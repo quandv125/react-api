@@ -53,13 +53,14 @@ class ProductList extends Component {
 		var {products} = this.state;
 		return (
 			<div className="ProductList col-lg-12 col-sm-12 col-xs-12 col-md-12">
-				<Link to="/products/add" className="btn btn-primary">
+				{/* <Link to="/products/add" className="btn btn-primary">
 					Add
 				</Link>
 				<br/><br/>
 				<ProductsList>
 					{this.showProduct(products)}
-				</ProductsList>
+				</ProductsList> */}
+				Product
 			</div>
 		);
 	} // end render
