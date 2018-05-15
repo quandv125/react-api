@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 
 class UsersList extends Component {
 	render() {
-		//children quandv2
+		//children
 		var { children } = this.props;
 		return (
 			<div className="panel panel-primary">
