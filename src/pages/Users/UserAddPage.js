@@ -176,8 +176,8 @@ class UserAddPage extends Component {
                                 isValidationError={this.isValidationError}
                                 isFormSubmitted={this.state.submitted} 
                                 reference={{phone : this.state.phone}}
-                                validationRules={{required:true, number:true, maxLength:50}} 
-                                validationMessages={{ required: "This field is required", number: "Not a valid number",maxLength: "Not a valid Max length: 10 "}}/>
+                                validationRules={{required:true, number:true, minLength: 10,maxLength:11}} 
+                                validationMessages={{ required: "This field is required", number: "Not a valid number", maxLength: "Not a valid Max length: 11 character", minLength: "Not a vaild min length is 10 character"}}/>
 							
 						</div>
 						<div className="form-group">
