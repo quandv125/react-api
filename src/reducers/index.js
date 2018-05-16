@@ -1,10 +1,10 @@
 import { combineReducers } from 'redux';
-// import products from './products';
+import login from './login';
 import users from './users';
 import user from './user';
 // import errors from './errors';
 const appReducers = combineReducers({
-    // products,
+    login,
     users,
     user,
     // errors

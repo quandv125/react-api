@@ -82,3 +82,20 @@ export const actGetUser = (user) => {
         user
     }
 }
+
+export const actLogin = (user) => {
+    return {
+        type: Types.LOGIN,
+        user
+    }
+}
+
+export const actLoginRequest = (user) => {
+    return dispatch => {
+        return callApi('POST', 'http://cquiz.local/api/v2/login', user).then(res => {
+            dispatch(actLogin(res.data));
+        });
+      
+        
+    }
+}

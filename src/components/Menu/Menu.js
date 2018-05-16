@@ -54,11 +54,20 @@ class Menu extends Component {
 
 	constructor(props) {
 		super(props);
+		this.state = {
+			LoginAuth: JSON.parse(localStorage.getItem('loginAuth'))
+		}
 		this.showMenu = this.showMenu.bind(this);
+		
 	}
 
 	showMenu (menus) {
 		var result = null;
+		var {status} = this.state.LoginAuth;
+		if( status ) {
+		menus.splice(4, 1);
+		}
+
 		if(menus.length > 0){
 			result = menus.map((menu, index) => {
 				return (<MenuLink label={menu.name} to={menu.to} activeOnlyWhenExact={menu.exact} key={index} />)

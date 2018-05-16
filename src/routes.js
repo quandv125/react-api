@@ -53,14 +53,14 @@ const routes = [
 		main: ({match, history}) => <UserAddPage match={match} history={history}/>
 	},
 	{
-			path: '/login',
-			exact: false,
-			main: () => <Login />
+		path: '/login',
+		exact: false,
+		main: ({match}) => <Login match={match}/>
 	},
 	{
 		path: '',
 		exact: false,
-		main: () => <NotFoundPage/>
+		main: ({match}) => <NotFoundPage  match={match}/>
 	}
 ];
 

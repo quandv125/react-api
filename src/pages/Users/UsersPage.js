@@ -12,10 +12,13 @@ class UsersPage extends Component {
 	constructor(props) {
 		super(props);
 		this.onDelete = this.onDelete.bind(this);
+		// var {loginAuth} = this.props;
 	}
 
 	componentDidMount(){
+		
 		this.props.getUsers();
+		
 	}
 
 	onDelete (id) {
@@ -24,6 +27,7 @@ class UsersPage extends Component {
 
 	render() {
 		var {users} = this.props;
+		
 		return (
 			<div className="UsersPage col-lg-12 col-sm-12 col-xs-12 col-md-12">
 				<Link to="/users/add" className="btn btn-primary">
@@ -51,7 +55,8 @@ class UsersPage extends Component {
 const mpaStateToProps = state => {
 	
 	return {
-		users: state.users
+		users: state.users,
+		loginAuth: JSON.parse(localStorage.getItem('loginAuth'))
 	}
 }
 

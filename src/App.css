@@ -90,3 +90,25 @@ span.psw {
        width: 100%;
     }
 }
+
+
+.forgot-password{
+    margin-top: 5px;
+    float: right;
+}
+  
+.div-center {
+    width: 35em;
+    background-color: #fff;
+    margin: auto;
+    max-width: 100%;
+    max-height: 100%;
+    overflow: auto;
+    padding: 1em 2em;
+    display: table;
+}
+
+div.content {
+    display: table-cell;
+    vertical-align: middle;
+}
