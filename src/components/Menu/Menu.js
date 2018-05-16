@@ -22,6 +22,11 @@ const menu = [
 		to: '/users',
 		exact: true
 	},
+	{
+		name: 'Login',
+		to: '/login',
+		exact: false
+	}
 ];
 
 

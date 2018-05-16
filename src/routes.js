@@ -6,6 +6,7 @@ import ProductActionPage from './pages/Action/ProductActionPage';
 import NotFoundPage from './pages/NotFound/NotFoundPage';
 import UsersPage from './pages/Users/UsersPage';
 import UserAddPage from './pages/Users/UserAddPage';
+import Login from './pages/Login/Login';
 const routes = [
 	{
 		path: '/',
@@ -50,6 +51,11 @@ const routes = [
 		path: '/users/:id/edit',
 		exact: false,
 		main: ({match, history}) => <UserAddPage match={match} history={history}/>
+	},
+	{
+			path: '/login',
+			exact: false,
+			main: () => <Login />
 	},
 	{
 		path: '',
