@@ -9,10 +9,10 @@ class UserAddPage extends Component {
     constructor(props){
 		super(props);
 		this.state = {
-			username: '',
+			email: '',
 			password: '',
 			loginError: '',
-			loginAuth: this.props.login
+			loginAuth: this.props.authentication
 		};
 		this.onSave = this.onSave.bind(this);
 		this.onChangeForm = this.onChangeForm.bind(this);
@@ -38,11 +38,10 @@ class UserAddPage extends Component {
 	onSave (event) {
 		event.preventDefault();
 		// var {history} = this.props;
-		var {username, password} = this.state;
-		var data = { username: username, password: password};
-		if(username !== '' && password !== '' && !this.state.isFormValidationErrors){
+		var {email, password} = this.state;
+		var data = { email: email, password: password};
+		if(email !== '' && password !== '' && !this.state.isFormValidationErrors){
 			this.props.onLogin(data);
-			
 		} else {
 			this.setState({ loginError: 'false' });
 		}
@@ -58,31 +57,20 @@ class UserAddPage extends Component {
 	}
 	
 	componentWillReceiveProps(nextprops){
-	
-		if(!nextprops.login.status){
-			alert('login failed!');
-			this.setState({
-				loginError: 'false'
-			});
-		} else  {
-			alert('login successfully!');
-			this.setState({
-				loginError: 'true'
-			});
-		}
+		this.setState({
+			loginError: String(nextprops.authentication.loggedIn)
+		});
 	}
 	
 	render() {
+		
 		if(this.state.loginError === 'true'){
-			console.log('Redirect to Home')
             return <Redirect to={{ pathname: "/"}}/>;
 		}
 		
 		return (
 			<div>
-				
 				{this.showMessageError()}
-		
 				<div className="div-center">
 					<div className="content">
 						<form noValidate onSubmit={this.onSave}>
@@ -90,22 +78,20 @@ class UserAddPage extends Component {
 								<h3>Login</h3>
 							</div>
 							<div className="form-group">
-								
 								<input 
 									type="text" 
-									value={this.state.username} 
+									value={this.state.email} 
 									onChange={this.onChangeForm} 
-									name="username" 
+									name="email" 
 									placeholder="Name"/>
 								<Validator 
 									isValidationError={this.isValidationError}
 									isFormSubmitted={this.state.submitted} 
-									reference={{username : this.state.username}}
-									validationRules={{required:true, minLength: 5,maxLength:50}} 
+									reference={{email : this.state.email}}
+									validationRules={{required: true, minLength: 5,maxLength: 50}} 
 									validationMessages={{ required: "This field is required", minLength: "Not a valid Min length: 5 ",maxLength: "Not a valid Max length: 10 "}}/>
 							</div>
 							<div className="form-group">
-								
 								<input 
 									type="password" 
 									value={this.state.password} 
@@ -116,15 +102,17 @@ class UserAddPage extends Component {
 									isValidationError={this.isValidationError}
 									isFormSubmitted={this.state.submitted} 
 									reference={{password : this.state.password}}
-									validationRules={{required:true, maxLength:50}} 
+									validationRules={{required: true, maxLength: 50}} 
 									validationMessages={{ required: "This field is required", maxLength: "Not a valid Max length: 10 "}}/>
 							</div>
-						
-							<button type="submit" >Login</button>
+							<div className="col-xs-12 col-sm-12 col-md-12 col-lg-12 text-center">
+								<button type="submit" >Login</button>	
+							</div>
+							
+							<br/>
 							<label>
 								<input type="checkbox" name="remember"/> Remember me
 							</label>
-							
 							
 							<span className="forgot-password">Forgot password?</span>
 						
@@ -140,9 +128,8 @@ class UserAddPage extends Component {
 }
 
 const mapStateToProps = state => {
-	
 	return {
-		login: state.login
+		authentication: state.authentication
 	}
 }
 

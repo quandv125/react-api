@@ -15,6 +15,7 @@ const users = (state = initialState, action) => {
     switch(action.type){
         case Types.FETCH_USERS:
             state = action.users
+            console.log(state);
             return [...state];
         case Types.DELETE_USERS:
             var index = findIndex(state, action.id);
@@ -23,6 +24,7 @@ const users = (state = initialState, action) => {
             }
             return [...state];
         case Types.ADD_USERS: 
+        console.log(action);
             state.push(action.user);
             return [...state];
         case Types.UPDATE_USERS:

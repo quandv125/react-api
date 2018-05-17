@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Route, Link } from 'react-router-dom';
-
+import {connect} from 'react-redux';
 const menu = [
 	{
 		name: 'Home',
@@ -55,30 +55,40 @@ class Menu extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			LoginAuth: JSON.parse(localStorage.getItem('loginAuth'))
+			loginAuth: false
 		}
-		this.showMenu = this.showMenu.bind(this);
-		
+
+		this.showMenu = this.showMenu.bind( this );
+		this.UpdateLoggedIn = this.UpdateLoggedIn.bind( this );
+	}
+
+	UpdateLoggedIn(loggedIn) {
+		this.setState({	loginAuth: loggedIn });
+	}
+	componentWillMount(){
+		this.UpdateLoggedIn( this.props.authentication.loggedIn );
+	}
+
+	componentWillReceiveProps(nextprops){
+		this.UpdateLoggedIn( nextprops.authentication.loggedIn );
 	}
 
 	showMenu (menus) {
 		var result = null;
-		var {status} = this.state.LoginAuth;
-		if( status ) {
-		menus.splice(4, 1);
+		if( this.state.loginAuth ) {
+			menus.splice(4, 1);
 		}
-
 		if(menus.length > 0){
 			result = menus.map((menu, index) => {
-				return (<MenuLink label={menu.name} to={menu.to} activeOnlyWhenExact={menu.exact} key={index} />)
+				return ( <MenuLink label={menu.name} to={menu.to} activeOnlyWhenExact={menu.exact} key={index} /> )
 			});
 		}
 		return result;
 	}
 
 	render() {
+	
 		return (
-
 			<nav className="navbar navbar-inverse">
 				<ul className="nav navbar-nav">
 					{ this.showMenu(menu) }
@@ -89,9 +99,15 @@ class Menu extends Component {
 					</li>
 				</ul>
 			</nav>
-			
 		);
 	}
 }
 
-export default Menu;
+
+const mapStateToProps = state => {
+	return {
+		authentication: state.authentication
+	}
+}
+
+export default connect(mapStateToProps, null)(Menu);

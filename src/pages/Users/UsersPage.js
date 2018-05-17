@@ -15,12 +15,6 @@ class UsersPage extends Component {
 		// var {loginAuth} = this.props;
 	}
 
-	componentDidMount(){
-		
-		this.props.getUsers();
-		
-	}
-
 	onDelete (id) {
 		this.props.onDeleteUser(id)
 	}
@@ -50,10 +44,16 @@ class UsersPage extends Component {
 		}
 		return result;
 	}
+
+	componentDidMount(){
+		this.props.getUsers();
+		
+	}
+
 }
 
 const mpaStateToProps = state => {
-	
+	// console.log(state);
 	return {
 		users: state.users,
 		loginAuth: JSON.parse(localStorage.getItem('loginAuth'))

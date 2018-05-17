@@ -4,13 +4,15 @@ import callApi from './../utils/apiCaller';
 
 export const actFetchUsersRequest = () => {
     return (dispatch) => {
-        return callApi('GET', config.APP_URL, null).then( res => {
+        return callApi('GET', 'http://127.0.0.1:8000/api/v2/user', null).then( res => {
+            
 			dispatch(actFetchUsers(res.data));
 		});
     }
 }
 
 export const actFetchUsers = (users) => {
+
     return {
         type: Types.FETCH_USERS,
         users
@@ -32,17 +34,20 @@ export const actDeleteUser = (id) => {
     }
 }
 
-export const actAddUser = (user, status, msg) => {
+export const actAddUser = (user) => {
     return {
         type: Types.ADD_USERS,
-        user, status, msg
+        user
     }
 }
 
 export const actAddUserRequest = (user) => {
     return (dispatch) => {
         return callApi('POST', config.APP_URL+'/store', user).then( res => {
-                dispatch(actAddUser(user, true, null));
+                if(res.data.success){
+                    user.id = res.data.id;
+                }
+                dispatch(actAddUser(user));
         });
     }
 }
@@ -92,10 +97,27 @@ export const actLogin = (user) => {
 
 export const actLoginRequest = (user) => {
     return dispatch => {
-        return callApi('POST', 'http://cquiz.local/api/v2/login', user).then(res => {
+        return callApi('POST', 'http://127.0.0.1:8000/api/v2/login', user).then(res => {
             dispatch(actLogin(res.data));
         });
       
         
     }
 }
+
+// export const actLogout = (user) => {
+//     return {
+//         type: Types.LOGOUT,
+//         user
+//     }
+// }
+
+// export const actLogoutRequest = (user) => {
+//     return dispatch => {
+//         return callApi('POST', 'http://cquiz.local/api/v2/logout', user).then(res => {
+//             dispatch(actLogout(res.data));
+//         });
+      
+        
+//     }
+// }

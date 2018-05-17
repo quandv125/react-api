@@ -5,3 +5,4 @@ export const DELETE_USERS = 'DELETE_USERS';
 export const GET_USER = 'GET_USER';
 export const ERROR = "ERROR";
 export const LOGIN = 'LOGIN';
+export const LOGOUT = 'LOGOUT';

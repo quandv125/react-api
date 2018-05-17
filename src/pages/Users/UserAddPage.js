@@ -15,11 +15,12 @@ class UserAddPage extends Component {
 			email: '',
 			address: '',
 			phone: '',
-			job: '',
+			image: '',
+			job: 'Dev',
 			gender: config.GENDER_FEMALE,
 			actived: config.DEACTIVED,
 			isFormValidationErrors : true,
-            submitted:false
+			submitted: false
 		};
 		this.onSave = this.onSave.bind(this);
 		this.onChangeForm = this.onChangeForm.bind(this);
@@ -67,18 +68,37 @@ class UserAddPage extends Component {
 		this.setState({
 			[name]: value
 		});
+	
+		if(target.type === 'file'){
+			let files = event.target.files || event.dataTransfer.files;
+			if (!files.length)
+				return;
+			this.createImage(files[0]);
+		}
+		
+	}
+
+	createImage(file) {
+		let reader = new FileReader();
+		reader.onload = (e) => {
+			this.setState({
+				image: e.target.result
+			})
+		};
+		reader.readAsDataURL(file);
 	}
 
 	onSave (event) {
 		event.preventDefault();
-		this.setState( { submitted:true } );
 		var {history} = this.props;
-        var {id, username, firstname, lastname, email, job, phone, address, actived, gender} = this.state;
-		var data = { username: username, firstname: firstname, lastname: lastname, email: email, job: job, phone: phone, address: address, gender: gender, actived: actived? config.ACTIVED : config.DEACTIVED };
-		
+        var {id, username, firstname, lastname, email, job, phone, address, actived, gender, image} = this.state;
+		var data = { username: username, firstname: firstname, lastname: lastname, email: email, job: job, phone: phone,
+			address: address, gender: gender, actived: actived ? config.ACTIVED : config.DEACTIVED, image: image
+		};
+
 		this.setState( { submitted:true } );
-        let { isFormValidationErrors } = this.state;
-        if ( !isFormValidationErrors ){
+		let { isFormValidationErrors } = this.state;
+        if ( isFormValidationErrors === false){
 			if(id) { //update
 				this.props.onEditUser(data, id);
 				history.goBack();
@@ -94,7 +114,7 @@ class UserAddPage extends Component {
 		return (
 			<div>
 				<div className="col-lg-6 col-sm-6 col-xs-6 col-md-6">
-					<form noValidate onSubmit={this.onSave}>
+					<form noValidate onSubmit={this.onSave} >
 						<legend>Form title</legend>
 
 						<div className="form-group">
@@ -205,7 +225,6 @@ class UserAddPage extends Component {
 									value={this.state.job}
 									onChange={this.onChangeForm}
 								>
-									<option value=''>--Select One--</option>
 									<option value='Dev'>Dev</option>
 									<option value='Doctor'>Doctor</option>
 									<option value='Driver'>Driver</option>
@@ -214,7 +233,7 @@ class UserAddPage extends Component {
 									isValidationError={this.isValidationError}
 									isFormSubmitted={this.state.submitted} 
 									reference={{job : this.state.job}}
-									validationRules={{required:true, }} 
+									validationRules={{required:true}} 
 									validationMessages={{ required: "This field is required"}}/>
 								
 							</div>
@@ -234,35 +253,47 @@ class UserAddPage extends Component {
 						</div>
 						<div className="form-group">
 							<div className="Radio">
-								<label>									
-								</label>
+								<label>	Gender </label>
 								<br/>
-								<input type="radio" 
-									name="gender" 
-									value="0"
-									checked={this.state.gender === "0"} 
-									onChange={this.onChangeForm} /> Male
-       						 	<br />
-									
+								<span className="gender-male margin-right-10">
+									<input type="radio" 
+										name="gender" 
+										value="0"
+										checked={this.state.gender === "0"} 
+										onChange={this.onChangeForm} /> Male
+								</span>
+								<span>
 								<input type="radio"
 									name="gender"
 									value="1" 
 									checked={this.state.gender === "1"} 
 									onChange={this.onChangeForm} /> Female
-								<Validator 
-									isValidationError={this.isValidationError}
-									isFormSubmitted={this.state.submitted} 
-									reference={{gender : this.state.gender}}
-									validationRules={{required:true, }} 
-									validationMessages={{ required: "This field is required"}}/>
-								
+								</span>
 							</div>
+							
 						</div>
-
-						<button type="submit" className="btn btn-primary margin-right-10">Save</button>
-						<Link to="/users" className="btn btn-success">
-								Back
-						</Link>
+						<div className="form-control">
+							<div className="file-upload">
+								<input 
+									type="file" 
+									name="picture" 
+									accept="image/*"
+									id="image-upload"
+									onChange={this.onChangeForm}
+								/> 
+							</div>	
+						</div>
+						
+						<div className="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+							<button type="submit" className="btn btn-primary margin-right-10">Save</button>
+						</div>
+						
+						<div className="col-xs-6 col-sm-6 col-md-6 col-lg-6 margin-top-8">
+							<Link to="/users" className="btn btn-success">
+									Back
+							</Link>
+						</div>
+						
 					</form>
 				</div>
 			</div>

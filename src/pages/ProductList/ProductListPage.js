@@ -61,7 +61,10 @@ class ProductList extends Component {
 				<ProductsList>
 					{this.showProduct(products)}
 				</ProductsList> */}
-				Product
+				
+
+
+
 			</div>
 		);
 	} // end render
