@@ -15,7 +15,6 @@ class UserAddPage extends Component {
 			email: '',
 			address: '',
 			phone: '',
-			picture: '',
 			job: 'Dev',
 			gender: config.GENDER_FEMALE,
 			actived: config.DEACTIVED,
@@ -45,6 +44,7 @@ class UserAddPage extends Component {
 		
 		if(nextprops && nextprops.user){
 			var {user} = nextprops;
+			
 			this.setState({
 				id: user.id,
 				username: user.username,
@@ -53,7 +53,6 @@ class UserAddPage extends Component {
 				email: user.email,
 				address: user.address,
 				phone: user.phone,
-				picture: user.picture,
 				job: user.job,
 				gender: user.gender,
 				actived: user.actived,
@@ -61,9 +60,13 @@ class UserAddPage extends Component {
 			});
 		}
 
-		if(nextprops && nextprops.users){
-			// console.log((nextprops.users.success));
-			this.setState({isValidation: String(nextprops.users.success)});
+		if(nextprops && nextprops.users && nextprops.users){
+			var {status} = nextprops.users;
+			this.setState({isValidation: String(status)});
+			if(status && status === true){
+				var {history} = this.props;
+				history.goBack();
+			}
 		}
 		
 	}
@@ -131,24 +134,8 @@ class UserAddPage extends Component {
 		return result;		
 	}
 
-	shouldComponentUpdate(nextProps, nextState){
-		console.log(nextState);
-		if (this.state.isValidation && this.state.isValidation === 'true') {
-			var {history} = this.props;
-			history.goBack();
-		} 
-		return true;
-	}
-
-	
-
-	componentDidUpdate(prevProps, prevState, snapshot){
-		
-	}
-
-
 	render() {
-		
+
 		return (
 			<div>
 				
@@ -314,7 +301,7 @@ class UserAddPage extends Component {
 							</div>
 							
 						</div>
-						<img id="output" alt="" className="width100px"/> <hr/>
+						<img id="output"  alt="" className="width100px"/> <br/>
 						<div className="form-control">
 							
 							<div className="file-upload">
@@ -327,7 +314,8 @@ class UserAddPage extends Component {
 								/> 
 							</div>	
 						</div>
-						<hr/>
+						
+						<br/>
 						<div className="col-xs-12 col-sm-12 col-md-12 col-lg-12 text-center">
 							<button type="submit" className="btn btn-primary margin-right-10">Save</button>
 
@@ -337,7 +325,7 @@ class UserAddPage extends Component {
 						</div>
 						
 						<div className="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-						<hr/><hr/>
+						<br/><br/>
 						</div>
 						
 					</form>

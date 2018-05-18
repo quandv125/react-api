@@ -23,16 +23,17 @@ class UsersPage extends Component {
 
 	showUser (users) {
 		var result = null;
-		if (users.length > 0) {
-			// console.log(users);
-			result = users.map((user, index) => {
-				return (<UserSpec key={index} user={user} index={index} onDelete={this.onDelete}/>);
-			});
+		if( users ){
+			let info = users.users;
+			if ( info && typeof info !== 'undefined' && info.length > 0) {
+				result = info.map((user, index) => {
+					return (<UserSpec key={index} user={user} index={index} onDelete={this.onDelete}/>);
+				});
+			}
 		}
 		return result;
 	}
 
-	
 	render() {
 		var {users} = this.props;
 		return (
@@ -53,7 +54,7 @@ class UsersPage extends Component {
 
 const mpaStateToProps = state => {
 	return {
-		users: state.users,
+		users: state.users
 	}
 }
 
