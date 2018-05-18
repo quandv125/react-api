@@ -14,6 +14,7 @@ class UsersList extends Component {
 						<thead>
 							<tr>
 								<th className="text-center">STT</th>
+								<th className="text-center">Picture</th>
 								<th className="text-center">UserName</th>
 								<th className="text-center">FirstName</th>
 								<th className="text-center">LastName</th>
@@ -23,7 +24,6 @@ class UsersList extends Component {
 								<th className="text-center">Address</th>
 								<th className="text-center">Gender</th>
 								<th className="text-center">Actived</th>
-							
 								<th className="text-center">Action</th>
 							</tr>
 						</thead>

@@ -5,7 +5,6 @@ import callApi from './../utils/apiCaller';
 export const actFetchUsersRequest = () => {
     return (dispatch) => {
         return callApi('GET', 'http://127.0.0.1:8000/api/v2/user', null).then( res => {
-            
 			dispatch(actFetchUsers(res.data));
 		});
     }
@@ -67,8 +66,11 @@ export const actEditUser = (user, id) => {
 
 export const actEditUserRequest = (user, id) => {
     return (dispatch) => {        
-        return callApi('PUT', config.APP_URL+'/update/'+ id, user).then( res => {            
-            dispatch(actEditUser(user, id));
+        return callApi('PUT', config.APP_URL+'/update/'+ id, user).then( res => {   
+            if (res.data.success) {
+                // console.log(res.data);         
+                dispatch(actEditUser(res.data));
+            }
         });
     }
 }

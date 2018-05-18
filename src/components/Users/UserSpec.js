@@ -15,6 +15,7 @@ class UserSpec extends Component {
 		return (
 			<tr className="text-center">
 				<td>{index+1}</td>
+				<td>{user.picture}</td>
 				<td>{user.username}</td>
 				<td>{user.firstname}</td>
 				<td>{user.lastname}</td>
@@ -32,7 +33,6 @@ class UserSpec extends Component {
 						{(user.actived === config.ACTIVED)? 'Actived':''}
 					</span>
 				</td>
-			
 				<td>
 					<Link to={`users/${user.id}/edit`} className="btn btn-success margin-right-10">
 						Edit

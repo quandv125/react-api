@@ -23,14 +23,14 @@ const users = (state = initialState, action) => {
             }
             return [...state];
         case Types.ADD_USERS: 
-        console.log(action);
+            // console.log(action);
             state.push(action.user);
             return [...state];
         case Types.UPDATE_USERS:
-            action.user.id = action.id;
-            index = findIndex(state, action.id);
+            let {id} = action.user.user; 
+            index = findIndex(state, id);
             if (index !== -1) {
-				state[index] = action.user;
+				state[index] = action.user.user;
             }
             return [...state];
         default: 

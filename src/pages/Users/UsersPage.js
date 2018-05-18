@@ -8,20 +8,33 @@ import {actFetchUsersRequest, actDeleteUserRequest} from './../../actions/index'
 
 
 class UsersPage extends Component {
-
 	constructor(props) {
 		super(props);
 		this.onDelete = this.onDelete.bind(this);
-		// var {loginAuth} = this.props;
+	}
+
+	componentWillMount(){
+		this.props.getUsers();
 	}
 
 	onDelete (id) {
 		this.props.onDeleteUser(id)
 	}
 
+	showUser (users) {
+		var result = null;
+		if (users.length > 0) {
+			// console.log(users);
+			result = users.map((user, index) => {
+				return (<UserSpec key={index} user={user} index={index} onDelete={this.onDelete}/>);
+			});
+		}
+		return result;
+	}
+
+	
 	render() {
 		var {users} = this.props;
-		
 		return (
 			<div className="UsersPage col-lg-12 col-sm-12 col-xs-12 col-md-12">
 				<Link to="/users/add" className="btn btn-primary">
@@ -35,28 +48,12 @@ class UsersPage extends Component {
 		);
 	} // end render
 
-	showUser (users) {
-		var result = null;
-		if (users.length > 0) {
-			result = users.map((user, index) => {
-				return (<UserSpec key={index} user={user} index={index} onDelete={this.onDelete}/>);
-			});
-		}
-		return result;
-	}
-
-	componentDidMount(){
-		this.props.getUsers();
-		
-	}
-
+	
 }
 
 const mpaStateToProps = state => {
-	// console.log(state);
 	return {
 		users: state.users,
-		loginAuth: JSON.parse(localStorage.getItem('loginAuth'))
 	}
 }
 

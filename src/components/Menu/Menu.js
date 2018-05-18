@@ -23,11 +23,7 @@ const menu = [
 		to: '/users',
 		exact: true
 	},
-	// {
-	// 	name: 'Login',
-	// 	to: '/login',
-	// 	exact: false
-	// }
+	
 ];
 
 const MenuLink = ({ label, to, activeOnlyWhenExact }) => {
@@ -58,22 +54,10 @@ class Menu extends Component {
 			isLogin: false,
 			token: null
 		}
-		
 		this.showMenu = this.showMenu.bind( this );
 		this.UpdateLoggedIn = this.UpdateLoggedIn.bind( this );
 		this.showLogout = this.showLogout.bind(this);
-	}
-
-	UpdateLoggedIn(loggedIn) {
-		
-		if( loggedIn ) {
-			// Login already
-			var {auth_token} = JSON.parse(sessionStorage.getItem('authentication')).data;
-			this.setState({	isLogin: loggedIn, token: auth_token });
-		} else {
-			this.setState({	isLogin: loggedIn, token: null });
-		}
-		
+		this.onLogout = this.onLogout.bind(this);
 	}
 
 	componentWillMount(){
@@ -84,6 +68,16 @@ class Menu extends Component {
 	componentWillReceiveProps(nextprops){
 		var {loggedIn} = nextprops.authentication;
 		this.UpdateLoggedIn(loggedIn);
+	}
+
+	UpdateLoggedIn(loggedIn) {
+		if( loggedIn ) {
+			// Login already
+			var {auth_token} = JSON.parse(sessionStorage.getItem('authentication')).data;
+			this.setState({	isLogin: loggedIn, token: auth_token });
+		} else {
+			this.setState({	isLogin: loggedIn, token: null });
+		}
 	}
 
 	showMenu (menus) {
@@ -123,7 +117,7 @@ class Menu extends Component {
 		return result;
 	}
 
-	onLogout = () => {
+	onLogout() {
 		var token = this.state.token;
 		this.props.onActLogout(token);
 	}
@@ -159,7 +153,6 @@ const mapDispatchToProps = (dispatch, props) => {
 			dispatch(actLogoutRequest(token));
 		}
 	}
-
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Menu);

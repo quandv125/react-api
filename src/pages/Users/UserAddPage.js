@@ -15,7 +15,7 @@ class UserAddPage extends Component {
 			email: '',
 			address: '',
 			phone: '',
-			image: '',
+			picture: '',
 			job: 'Dev',
 			gender: config.GENDER_FEMALE,
 			actived: config.DEACTIVED,
@@ -50,6 +50,7 @@ class UserAddPage extends Component {
 				email: user.email,
 				address: user.address,
 				phone: user.phone,
+				picture: user.picture,
 				job: user.job,
 				gender: user.gender,
 				actived: user.actived
@@ -82,7 +83,7 @@ class UserAddPage extends Component {
 		let reader = new FileReader();
 		reader.onload = (e) => {
 			this.setState({
-				image: e.target.result
+				picture: e.target.result
 			})
 		};
 		reader.readAsDataURL(file);
@@ -91,9 +92,9 @@ class UserAddPage extends Component {
 	onSave (event) {
 		event.preventDefault();
 		var {history} = this.props;
-        var {id, username, firstname, lastname, email, job, phone, address, actived, gender, image} = this.state;
+        var {id, username, firstname, lastname, email, job, phone, address, actived, gender, picture} = this.state;
 		var data = { username: username, firstname: firstname, lastname: lastname, email: email, job: job, phone: phone,
-			address: address, gender: gender, actived: actived ? config.ACTIVED : config.DEACTIVED, image: image
+			address: address, gender: gender, actived: actived ? config.ACTIVED : config.DEACTIVED, picture: picture
 		};
 
 		this.setState( { submitted:true } );
@@ -101,11 +102,10 @@ class UserAddPage extends Component {
         if ( isFormValidationErrors === false){
 			if(id) { //update
 				this.props.onEditUser(data, id);
-				history.goBack();
 			} else { //create
 				this.props.onAddUser(data);
-				history.goBack();
 			}
+			history.goBack();
         }
 	}
 
