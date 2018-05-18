@@ -75,43 +75,15 @@ class Menu extends Component {
 		}
 		
 	}
+
 	componentWillMount(){
 		var {loggedIn} = this.props.authentication;
 		this.UpdateLoggedIn(loggedIn);
-		
-		// var {loggedIn} = this.props.authentication;
-		// if(loggedIn === true) {
-		// 	// Da dang nhap => isLogin: true && token !== null
-		// 	var {auth_token} = this.props.authentication.data;
-		// 	// console.log('da dang nhap',loggedIn, auth_token);
-			// this.UpdateLoggedIn( loggedIn, auth_token );
-		// } else {
-		// 	// console.log('chua dang nhap,',loggedIn, this.props.authentication);
-		// 	// Chua dang nhap => isLogin: false && token === null
-		// 	this.UpdateLoggedIn( loggedIn, null );
-		// }
-		
 	}
-
-	
 
 	componentWillReceiveProps(nextprops){
 		var {loggedIn} = nextprops.authentication;
 		this.UpdateLoggedIn(loggedIn);
-		// console.log(nextprops);
-		// // console.log(loggedIn, data)
-		// if(loggedIn === true) {
-		// 	// Da dang nhap => isLogin: true && token !== null
-		// 	// var {auth_token} = nextprops.authentication.data;
-		// 	// console.log('da dang nhap',loggedIn, auth_token);
-		// 	// this.UpdateLoggedIn( loggedIn, auth_token );
-		// 	var {auth_token} = JSON.parse(sessionStorage.getItem('authentication')).data;
-		// 	this.setState({	isLogin: loggedIn, token: auth_token });
-		// } else {
-		// 	// console.log('chua dang nhap,',loggedIn, this.props.authentication);
-		// 	// Chua dang nhap => isLogin: false && token === null
-		// 	this.setState({	isLogin: loggedIn, token: null });
-		// }
 	}
 
 	showMenu (menus) {
@@ -131,7 +103,6 @@ class Menu extends Component {
 	showLogout(){
 		var result = null;
 		var {isLogin} = this.state;
-		
 		if( isLogin ) {
 			// isLogin = true => token has data => logout is display and login is hidden 
 			result = (
