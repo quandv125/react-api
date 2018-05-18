@@ -20,12 +20,14 @@ class UserAddPage extends Component {
 			gender: config.GENDER_FEMALE,
 			actived: config.DEACTIVED,
 			isFormValidationErrors : true,
-			submitted: false
+			submitted: false,
+			isValidation: ''
 		};
 		this.onSave = this.onSave.bind(this);
 		this.onChangeForm = this.onChangeForm.bind(this);
 		this.isValidationError = this.isValidationError.bind(this);
-        this.flag= true;
+		this.showErrorMessage = this.showErrorMessage.bind(this);
+        this.flag = true;
 	}
 	
 	componentDidMount(){
@@ -40,6 +42,7 @@ class UserAddPage extends Component {
 	}
 
 	componentWillReceiveProps(nextprops){
+		
 		if(nextprops && nextprops.user){
 			var {user} = nextprops;
 			this.setState({
@@ -53,11 +56,18 @@ class UserAddPage extends Component {
 				picture: user.picture,
 				job: user.job,
 				gender: user.gender,
-				actived: user.actived
+				actived: user.actived,
+				isValidation: ''
 			});
 		}
-	}
 
+		if(nextprops && nextprops.users){
+			// console.log((nextprops.users.success));
+			this.setState({isValidation: String(nextprops.users.success)});
+		}
+		
+	}
+	
 	isValidationError(flag){
 		this.setState({isFormValidationErrors:flag});
    	}
@@ -75,6 +85,8 @@ class UserAddPage extends Component {
 			if (!files.length)
 				return;
 			this.createImage(files[0]);
+			var output = document.getElementById('output');
+    		output.src = URL.createObjectURL(files[0]);
 		}
 		
 	}
@@ -91,12 +103,11 @@ class UserAddPage extends Component {
 
 	onSave (event) {
 		event.preventDefault();
-		var {history} = this.props;
         var {id, username, firstname, lastname, email, job, phone, address, actived, gender, picture} = this.state;
 		var data = { username: username, firstname: firstname, lastname: lastname, email: email, job: job, phone: phone,
 			address: address, gender: gender, actived: actived ? config.ACTIVED : config.DEACTIVED, picture: picture
 		};
-
+		
 		this.setState( { submitted:true } );
 		let { isFormValidationErrors } = this.state;
         if ( isFormValidationErrors === false){
@@ -105,15 +116,46 @@ class UserAddPage extends Component {
 			} else { //create
 				this.props.onAddUser(data);
 			}
-			history.goBack();
         }
 	}
+
+	showErrorMessage(status, message){
+		var result = null;
+		if (this.state.isValidation && this.state.isValidation === 'false') {
+			result = <div className="alert alert-danger">
+						<button type="button" className="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+						<strong>Error!</strong>
+					</div>
+		} 
+			
+		return result;		
+	}
+
+	shouldComponentUpdate(nextProps, nextState){
+		console.log(nextState);
+		if (this.state.isValidation && this.state.isValidation === 'true') {
+			var {history} = this.props;
+			history.goBack();
+		} 
+		return true;
+	}
+
+	
+
+	componentDidUpdate(prevProps, prevState, snapshot){
+		
+	}
+
 
 	render() {
 		
 		return (
 			<div>
+				
 				<div className="col-lg-6 col-sm-6 col-xs-6 col-md-6">
+
+					{this.showErrorMessage(null)}
+
 					<form noValidate onSubmit={this.onSave} >
 						<legend>Form title</legend>
 
@@ -272,7 +314,9 @@ class UserAddPage extends Component {
 							</div>
 							
 						</div>
+						<img id="output" alt="" className="width100px"/> <hr/>
 						<div className="form-control">
+							
 							<div className="file-upload">
 								<input 
 									type="file" 
@@ -283,15 +327,17 @@ class UserAddPage extends Component {
 								/> 
 							</div>	
 						</div>
-						
-						<div className="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+						<hr/>
+						<div className="col-xs-12 col-sm-12 col-md-12 col-lg-12 text-center">
 							<button type="submit" className="btn btn-primary margin-right-10">Save</button>
-						</div>
-						
-						<div className="col-xs-6 col-sm-6 col-md-6 col-lg-6 margin-top-8">
+
 							<Link to="/users" className="btn btn-success">
 									Back
 							</Link>
+						</div>
+						
+						<div className="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+						<hr/><hr/>
 						</div>
 						
 					</form>
@@ -307,7 +353,6 @@ const mapStateToProps = state => {
 	return {
 		user: state.user,
 		users: state.users,
-		errors: state.errors
 	}
 }
 

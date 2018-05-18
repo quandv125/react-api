@@ -43,10 +43,7 @@ export const actAddUser = (user) => {
 export const actAddUserRequest = (user) => {
     return (dispatch) => {
         return callApi('POST', config.APP_URL+'/store', user).then( res => {
-                if(res.data.success){
-                    user.id = res.data.id;
-                }
-                dispatch(actAddUser(user));
+            dispatch(actAddUser(res.data));
         });
     }
 }
@@ -57,16 +54,16 @@ export const actError = (status, msg) => {
         msg
     }
 }
-export const actEditUser = (user, id) => {
+export const actEditUser = (user) => {
     return {
         type: Types.UPDATE_USERS,
-        user, id
+        user
     }
 }
 
 export const actEditUserRequest = (user, id) => {
     return (dispatch) => {        
-        return callApi('PUT', config.APP_URL+'/update/'+ id, user).then( res => {   
+        return callApi('PUT', 'http://127.0.0.1:8000/api/v2/user/update/'+ id, user).then( res => {   
             if (res.data.success) {
                 // console.log(res.data);         
                 dispatch(actEditUser(res.data));

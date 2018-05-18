@@ -118,3 +118,9 @@ div.content {
     display: table-cell;
     vertical-align: middle;
 }
+.width100px{
+    width: 150px;
+}
+.width50px{
+    width: 50px;
+}

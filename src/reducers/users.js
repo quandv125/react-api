@@ -1,15 +1,6 @@
 import * as Types from './../constants/ActionType';
+import {findIndex} from 'lodash';
 var initialState = [];
-
-var findIndex = (users, id) => {
-    var result = -1;
-    users.forEach((user, index) => {
-        if(user.id === id) {
-            result = index;
-        }
-    });
-    return result;
-}
 
 const users = (state = initialState, action) => {
     switch(action.type){
@@ -17,18 +8,24 @@ const users = (state = initialState, action) => {
             state = action.users
             return [...state];
         case Types.DELETE_USERS:
-            var index = findIndex(state, action.id);
+            var index = findIndex(state, { id: action.id });
             if (index !== -1) {
 				state.splice(index, 1);
             }
             return [...state];
         case Types.ADD_USERS: 
+            // if( action.user.success ) {
+            //     console.log('save ok');
+            // } else {
+            //     console.log('save error');
+            // }
             // console.log(action);
-            state.push(action.user);
-            return [...state];
+            state = action.user;
+            // state = action
+            return state;
         case Types.UPDATE_USERS:
             let {id} = action.user.user; 
-            index = findIndex(state, id);
+            index = findIndex(state, { id: id });
             if (index !== -1) {
 				state[index] = action.user.user;
             }
