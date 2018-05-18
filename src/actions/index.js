@@ -98,26 +98,31 @@ export const actLogin = (user) => {
 export const actLoginRequest = (user) => {
     return dispatch => {
         return callApi('POST', 'http://127.0.0.1:8000/api/v2/login', user).then(res => {
-            dispatch(actLogin(res.data));
+            console.log('status login:', res.data.loggedIn);
+            if (res.data.loggedIn) {
+                dispatch(actLogin(res.data));
+            } else {
+                alert('login error');
+            }
         });
-      
-        
     }
 }
 
-// export const actLogout = (user) => {
-//     return {
-//         type: Types.LOGOUT,
-//         user
-//     }
-// }
+export const actLogout = () => {
+    return {
+        type: Types.LOGOUT,
+    }
+}
 
-// export const actLogoutRequest = (user) => {
-//     return dispatch => {
-//         return callApi('POST', 'http://cquiz.local/api/v2/logout', user).then(res => {
-//             dispatch(actLogout(res.data));
-//         });
-      
-        
-//     }
-// }
+export const actLogoutRequest = (token) => {
+    return dispatch => {
+        return callApi('GET', 'http://127.0.0.1:8000/api/v2/logout?token='+token, null).then(res => {
+            console.log('status logout: ',res.data.success);
+            if(res.data.success){
+                dispatch(actLogout());
+            } else {
+                alert("logout error");
+            }
+        });   
+    }
+}

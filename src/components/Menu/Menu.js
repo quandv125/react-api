@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Route, Link } from 'react-router-dom';
 import {connect} from 'react-redux';
+import {actLogoutRequest} from './../../actions/index';
 const menu = [
 	{
 		name: 'Home',
@@ -22,13 +23,12 @@ const menu = [
 		to: '/users',
 		exact: true
 	},
-	{
-		name: 'Login',
-		to: '/login',
-		exact: false
-	}
+	// {
+	// 	name: 'Login',
+	// 	to: '/login',
+	// 	exact: false
+	// }
 ];
-
 
 const MenuLink = ({ label, to, activeOnlyWhenExact }) => {
 	return (
@@ -55,27 +55,69 @@ class Menu extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			loginAuth: false
+			isLogin: false,
+			token: null
 		}
-
+		
 		this.showMenu = this.showMenu.bind( this );
 		this.UpdateLoggedIn = this.UpdateLoggedIn.bind( this );
+		this.showLogout = this.showLogout.bind(this);
 	}
 
 	UpdateLoggedIn(loggedIn) {
-		this.setState({	loginAuth: loggedIn });
+		
+		if( loggedIn ) {
+			// Login already
+			var {auth_token} = JSON.parse(sessionStorage.getItem('authentication')).data;
+			this.setState({	isLogin: loggedIn, token: auth_token });
+		} else {
+			this.setState({	isLogin: loggedIn, token: null });
+		}
+		
 	}
 	componentWillMount(){
-		this.UpdateLoggedIn( this.props.authentication.loggedIn );
+		var {loggedIn} = this.props.authentication;
+		this.UpdateLoggedIn(loggedIn);
+		
+		// var {loggedIn} = this.props.authentication;
+		// if(loggedIn === true) {
+		// 	// Da dang nhap => isLogin: true && token !== null
+		// 	var {auth_token} = this.props.authentication.data;
+		// 	// console.log('da dang nhap',loggedIn, auth_token);
+			// this.UpdateLoggedIn( loggedIn, auth_token );
+		// } else {
+		// 	// console.log('chua dang nhap,',loggedIn, this.props.authentication);
+		// 	// Chua dang nhap => isLogin: false && token === null
+		// 	this.UpdateLoggedIn( loggedIn, null );
+		// }
+		
 	}
 
+	
+
 	componentWillReceiveProps(nextprops){
-		this.UpdateLoggedIn( nextprops.authentication.loggedIn );
+		var {loggedIn} = nextprops.authentication;
+		this.UpdateLoggedIn(loggedIn);
+		// console.log(nextprops);
+		// // console.log(loggedIn, data)
+		// if(loggedIn === true) {
+		// 	// Da dang nhap => isLogin: true && token !== null
+		// 	// var {auth_token} = nextprops.authentication.data;
+		// 	// console.log('da dang nhap',loggedIn, auth_token);
+		// 	// this.UpdateLoggedIn( loggedIn, auth_token );
+		// 	var {auth_token} = JSON.parse(sessionStorage.getItem('authentication')).data;
+		// 	this.setState({	isLogin: loggedIn, token: auth_token });
+		// } else {
+		// 	// console.log('chua dang nhap,',loggedIn, this.props.authentication);
+		// 	// Chua dang nhap => isLogin: false && token === null
+		// 	this.setState({	isLogin: loggedIn, token: null });
+		// }
 	}
 
 	showMenu (menus) {
 		var result = null;
-		if( this.state.loginAuth ) {
+		var {isLogin} = this.state;
+		if( isLogin ) {
 			menus.splice(4, 1);
 		}
 		if(menus.length > 0){
@@ -86,8 +128,37 @@ class Menu extends Component {
 		return result;
 	}
 
+	showLogout(){
+		var result = null;
+		var {isLogin} = this.state;
+		
+		if( isLogin ) {
+			// isLogin = true => token has data => logout is display and login is hidden 
+			result = (
+				<li>
+					<a onClick={ this.onLogout } >Logout</a>
+				</li>
+			);
+		} else {
+			// isLogin = false => token is null => logout is hidden and login is display 
+			result = (
+				<li>
+					<Link to="/login" className="my-link">
+						Login
+					</Link>
+				</li>
+			);
+		}
+		return result;
+	}
+
+	onLogout = () => {
+		var token = this.state.token;
+		this.props.onActLogout(token);
+	}
+
 	render() {
-	
+		
 		return (
 			<nav className="navbar navbar-inverse">
 				<ul className="nav navbar-nav">
@@ -97,6 +168,7 @@ class Menu extends Component {
 							Not Found
 						</Link>
 					</li>
+					{this.showLogout()}
 				</ul>
 			</nav>
 		);
@@ -110,4 +182,13 @@ const mapStateToProps = state => {
 	}
 }
 
-export default connect(mapStateToProps, null)(Menu);
+const mapDispatchToProps = (dispatch, props) => {
+	return {
+		onActLogout: (token) => {
+			dispatch(actLogoutRequest(token));
+		}
+	}
+
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Menu);
