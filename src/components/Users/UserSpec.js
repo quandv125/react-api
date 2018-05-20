@@ -16,7 +16,7 @@ class UserSpec extends Component {
 			<tr className="text-center">
 				<td>{index+1}</td>
 				<td>
-					<img src={`http://127.0.0.1:8000/images/${user.picture}`} className="img-responsive width50px" alt={user.picture}/>
+					<img src={`http://127.0.0.1:8000/images/${user.picture?user.picture:"no.png"}`} className="img-responsive width50px" alt={user.picture}/>
 				</td>
 				<td>{user.username}</td>
 				<td>{user.firstname}</td>

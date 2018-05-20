@@ -37,10 +37,21 @@ class UsersPage extends Component {
 	render() {
 		var {users} = this.props;
 		return (
-			<div className="UsersPage col-lg-12 col-sm-12 col-xs-12 col-md-12">
+			<div className="col-lg-12 col-sm-12 col-xs-12 col-md-12">
+			
 				<Link to="/users/add" className="btn btn-primary">
 					Add
 				</Link>
+				
+				<div className="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+					<input
+						type="text"
+						className="form-control"
+						name="search"
+						placeholder="search"
+					/>
+				</div>
+				
 				<br/><br/>
 				<UsersList>
                     { this.showUser(users) }

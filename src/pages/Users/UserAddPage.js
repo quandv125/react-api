@@ -4,6 +4,8 @@ import * as config from './../../constants/config';
 import Validator from 'react-forms-validator';
 import { connect } from 'react-redux';
 import {actAddUserRequest, actEditUserRequest, actGetUserRequest} from './../../actions/index';
+import ErrorMessage from './../../components/Users/ErrorMessage';
+
 class UserAddPage extends Component {
     constructor(props){
 		super(props);
@@ -25,8 +27,7 @@ class UserAddPage extends Component {
 		this.onSave = this.onSave.bind(this);
 		this.onChangeForm = this.onChangeForm.bind(this);
 		this.isValidationError = this.isValidationError.bind(this);
-		this.showErrorMessage = this.showErrorMessage.bind(this);
-        this.flag = true;
+		this.flag = true;
 	}
 	
 	componentDidMount(){
@@ -44,28 +45,24 @@ class UserAddPage extends Component {
 		
 		if(nextprops && nextprops.user){
 			var {user} = nextprops;
-			
 			this.setState({
-				id: user.id,
-				username: user.username,
-				firstname: user.firstname,
-				lastname: user.lastname,
-				email: user.email,
-				address: user.address,
-				phone: user.phone,
-				job: user.job,
-				gender: user.gender,
-				actived: user.actived,
-				isValidation: ''
+				id: user.id, username: user.username, firstname: user.firstname, lastname: user.lastname, email: user.email, address: user.address, phone: user.phone, job: user.job, gender: user.gender, actived: user.actived
 			});
 		}
 
 		if(nextprops && nextprops.users && nextprops.users){
 			var {status} = nextprops.users;
 			this.setState({isValidation: String(status)});
-			if(status && status === true){
+			if(status === true){
 				var {history} = this.props;
 				history.goBack();
+			} else {
+				if(nextprops.users && nextprops.users.preUser){
+					var preUser = nextprops.users.preUser;
+					this.setState({
+						id: preUser.id,	username: preUser.username,	firstname: preUser.firstname,	lastname: preUser.lastname,	email: preUser.email,	address: preUser.address,	phone: preUser.phone,	job: preUser.job,	gender: preUser.gender,	actived: preUser.actived
+					});
+				}
 			}
 		}
 		
@@ -107,9 +104,7 @@ class UserAddPage extends Component {
 	onSave (event) {
 		event.preventDefault();
         var {id, username, firstname, lastname, email, job, phone, address, actived, gender, picture} = this.state;
-		var data = { username: username, firstname: firstname, lastname: lastname, email: email, job: job, phone: phone,
-			address: address, gender: gender, actived: actived ? config.ACTIVED : config.DEACTIVED, picture: picture
-		};
+		var data = { username: username, firstname: firstname, lastname: lastname, email: email, job: job, phone: phone, address: address, gender: gender, actived: actived ? config.ACTIVED : config.DEACTIVED, picture: picture };
 		
 		this.setState( { submitted:true } );
 		let { isFormValidationErrors } = this.state;
@@ -122,28 +117,15 @@ class UserAddPage extends Component {
         }
 	}
 
-	showErrorMessage(status, message){
-		var result = null;
-		if (this.state.isValidation && this.state.isValidation === 'false') {
-			result = <div className="alert alert-danger">
-						<button type="button" className="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-						<strong>Error!</strong>
-					</div>
-		} 
-			
-		return result;		
-	}
-
 	render() {
-
+	
 		return (
 			<div>
-				
 				<div className="col-lg-6 col-sm-6 col-xs-6 col-md-6">
 
-					{this.showErrorMessage(null)}
+					{ this.state.isValidation === 'false' ? <ErrorMessage messages={this.props.users}/>: ''}
 
-					<form noValidate onSubmit={this.onSave} >
+					<form noValidate  >
 						<legend>Form title</legend>
 
 						<div className="form-group">
@@ -317,7 +299,7 @@ class UserAddPage extends Component {
 						
 						<br/>
 						<div className="col-xs-12 col-sm-12 col-md-12 col-lg-12 text-center">
-							<button type="submit" className="btn btn-primary margin-right-10">Save</button>
+							<button type="submit" className="btn btn-primary margin-right-10" onClick={this.onSave}>Save</button>
 
 							<Link to="/users" className="btn btn-success">
 									Back

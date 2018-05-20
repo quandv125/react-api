@@ -33,17 +33,19 @@ export const actDeleteUser = (id) => {
     }
 }
 
-export const actAddUser = (user) => {
+export const actAddUser = (user, userOld) => {
     return {
         type: Types.ADD_USERS,
-        user
+        user,
+        userOld
     }
 }
 
 export const actAddUserRequest = (user) => {
     return (dispatch) => {
         return callApi('POST', config.APP_URL+'/store', user).then( res => {
-            dispatch(actAddUser(res.data));
+            // console.log(res.data);
+            dispatch(actAddUser(res.data, user));
         });
     }
 }

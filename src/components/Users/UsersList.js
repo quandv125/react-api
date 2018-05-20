@@ -28,7 +28,37 @@ class UsersList extends Component {
 							</tr>
 						</thead>
 						<tbody>
-							
+							<tr>
+								<td></td>
+								<td></td>
+								<td>username</td>
+								<td>FirstName</td>
+								<td>LastName</td>
+								<td>Email</td>
+								
+								<td>
+									<select
+										className="form-control"
+										name="filterStatus"
+									
+									>
+									
+									</select>
+								</td>
+								<td>
+									<input
+										type="text"
+										className="form-control"
+										name="phone"
+										placeholder="Phone"
+									/>
+								</td>
+								<td>Address</td>
+								<td>Gender</td>
+								<td>Actived</td>
+								<td></td>
+								
+							</tr>
 							{children}
 
 						</tbody>

@@ -1,13 +1,13 @@
 import * as Types from './../constants/ActionType';
 import {findIndex} from 'lodash';
-var initialState = { status: false, users: null };
+var initialState = { status: null, users: null };
 
 const users = (state = initialState, action) => {
    
     switch(action.type){
         case Types.FETCH_USERS:
             state = {
-                status: false,
+                status: null,
                 users: action.users
             }
             return state;
@@ -22,9 +22,11 @@ const users = (state = initialState, action) => {
             }
             return state;
         case Types.ADD_USERS: 
+            
             state = { 
                 status: action.user.success, 
-                users: action.users 
+                users: action.user,
+                preUser: !action.user.success ? action.userOld : null
             };
             return state;
         case Types.UPDATE_USERS:
@@ -35,7 +37,7 @@ const users = (state = initialState, action) => {
             }
             state = {
                 status: action.user.success,
-                users: action.users
+                users: action.usel
             }
             return state;
         default: 
