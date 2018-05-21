@@ -10,17 +10,7 @@ class UserAddPage extends Component {
     constructor(props){
 		super(props);
 		this.state = {
-			id: '',
-			username: '',
-			firstname: '',
-			lastname: '',
-			email: '',
-			address: '',
-			phone: '',
-			job: 'Dev',
-			gender: config.GENDER_FEMALE,
-			actived: config.DEACTIVED,
-			isFormValidationErrors : true,
+			id: '', username: '', firstname: '', lastname: '', email: '', address: '', phone: '', job: 'Dev', gender: config.GENDER_FEMALE, actived: config.DEACTIVED, isFormValidationErrors : true,
 			submitted: false,
 			isValidation: ''
 		};
@@ -42,11 +32,10 @@ class UserAddPage extends Component {
 	}
 
 	componentWillReceiveProps(nextprops){
-		
-		if(nextprops && nextprops.user){
-			var {user} = nextprops;
+		if(nextprops && nextprops.userEdit){
+			var {userEdit} = nextprops;
 			this.setState({
-				id: user.id, username: user.username, firstname: user.firstname, lastname: user.lastname, email: user.email, address: user.address, phone: user.phone, job: user.job, gender: user.gender, actived: user.actived
+				id: userEdit.id, username: userEdit.username, firstname: userEdit.firstname, lastname: userEdit.lastname, email: userEdit.email, address: userEdit.address, phone: userEdit.phone, job: userEdit.job, gender: userEdit.gender, actived: userEdit.actived
 			});
 		}
 
@@ -123,7 +112,7 @@ class UserAddPage extends Component {
 			<div>
 				<div className="col-lg-6 col-sm-6 col-xs-6 col-md-6">
 
-					{ this.state.isValidation === 'false' ? <ErrorMessage messages={this.props.users}/>: ''}
+					{ this.state.isValidation === 'false' ? <ErrorMessage messages={this.props.users}/>: null}
 
 					<form noValidate  >
 						<legend>Form title</legend>
@@ -321,7 +310,7 @@ class UserAddPage extends Component {
 const mapStateToProps = state => {
 	
 	return {
-		user: state.user,
+		userEdit: state.userEdit,
 		users: state.users,
 	}
 }

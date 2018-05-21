@@ -14,7 +14,7 @@ var initialState = {
     actived: config.DEACTIVED
 };
 
-const user = (state = initialState, action) => {
+const userEdit = (state = initialState, action) => {
     switch(action.type){
         case Types.GET_USER:
             state = {
@@ -36,4 +36,4 @@ const user = (state = initialState, action) => {
     }
 }
 
-export default user;
+export default userEdit;

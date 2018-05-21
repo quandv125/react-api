@@ -4,7 +4,7 @@ import callApi from './../utils/apiCaller';
 
 export const actFetchUsersRequest = () => {
     return (dispatch) => {
-        return callApi('GET', 'http://127.0.0.1:8000/api/v2/user', null).then( res => {
+        return callApi('GET', config.APP_URL , null).then( res => {
 			dispatch(actFetchUsers(res.data));
 		});
     }
@@ -65,7 +65,7 @@ export const actEditUser = (user) => {
 
 export const actEditUserRequest = (user, id) => {
     return (dispatch) => {        
-        return callApi('PUT', 'http://127.0.0.1:8000/api/v2/user/update/'+ id, user).then( res => {   
+        return callApi('PUT', config.APP_URL+'/update/'+ id, user).then( res => {   
             if (res.data.success) {
                 // console.log(res.data);         
                 dispatch(actEditUser(res.data));
@@ -98,7 +98,7 @@ export const actLogin = (user) => {
 
 export const actLoginRequest = (user) => {
     return dispatch => {
-        return callApi('POST', 'http://127.0.0.1:8000/api/v2/login', user).then(res => {
+        return callApi('POST', config.LOGIN_URL , user).then(res => {
             console.log('status login:', res.data.loggedIn);
             if (res.data.loggedIn) {
                 dispatch(actLogin(res.data));
@@ -117,7 +117,7 @@ export const actLogout = () => {
 
 export const actLogoutRequest = (token) => {
     return dispatch => {
-        return callApi('GET', 'http://127.0.0.1:8000/api/v2/logout?token='+token, null).then(res => {
+        return callApi('GET', config.LOGOUT_URL+token, null).then(res => {
             console.log('status logout: ',res.data.success);
             if(res.data.success){
                 dispatch(actLogout());
