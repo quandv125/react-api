@@ -1,10 +1,9 @@
 import React, { Component } from 'react';
 import UsersList from './../../components/Users/UsersList';
 import UserSpec from './../../components/Users/UserSpec';
-
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
-import {actFetchUsersRequest, actDeleteUserRequest} from './../../actions/index';
+import { actFetchUsersRequest, actDeleteUserRequest } from './../../actions/index';
 
 
 class UsersPage extends Component {
@@ -43,14 +42,14 @@ class UsersPage extends Component {
 					Add
 				</Link>
 				
-				<div className="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+				{/* <div className="col-xs-3 col-sm-3 col-md-3 col-lg-3">
 					<input
 						type="text"
 						className="form-control"
 						name="search"
 						placeholder="search"
 					/>
-				</div>
+				</div> */}
 				
 				<br/><br/>
 				<UsersList>
@@ -63,7 +62,7 @@ class UsersPage extends Component {
 	
 }
 
-const mpaStateToProps = state => {
+const mapStateToProps = state => {
 	return {
 		users: state.users
 	}
@@ -80,4 +79,4 @@ const mapDispatchToProps = (dispatch, props) => {
 	}
 }
 
-export default connect(mpaStateToProps, mapDispatchToProps)(UsersPage);
+export default connect(mapStateToProps, mapDispatchToProps)(UsersPage);

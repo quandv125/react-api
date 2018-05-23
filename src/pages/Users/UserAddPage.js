@@ -18,6 +18,7 @@ class UserAddPage extends Component {
 		this.onChangeForm = this.onChangeForm.bind(this);
 		this.isValidationError = this.isValidationError.bind(this);
 		this.flag = true;
+		this.isBlocking = false;
 	}
 	
 	componentDidMount(){
@@ -92,10 +93,13 @@ class UserAddPage extends Component {
 
 	onSave (event) {
 		event.preventDefault();
+		this.setState({
+			// isBlocking: false,
+			submitted:true
+		});
         var {id, username, firstname, lastname, email, job, phone, address, actived, gender, picture} = this.state;
 		var data = { username: username, firstname: firstname, lastname: lastname, email: email, job: job, phone: phone, address: address, gender: gender, actived: actived ? config.ACTIVED : config.DEACTIVED, picture: picture };
 		
-		this.setState( { submitted:true } );
 		let { isFormValidationErrors } = this.state;
         if ( isFormValidationErrors === false){
 			if(id) { //update
@@ -107,13 +111,13 @@ class UserAddPage extends Component {
 	}
 
 	render() {
-	
+		// const { isBlocking } = this.state;
 		return (
 			<div>
 				<div className="col-lg-6 col-sm-6 col-xs-6 col-md-6">
 
 					{ this.state.isValidation === 'false' ? <ErrorMessage messages={this.props.users}/>: null}
-
+	
 					<form noValidate  >
 						<legend>Form title</legend>
 
@@ -300,6 +304,11 @@ class UserAddPage extends Component {
 						</div>
 						
 					</form>
+
+					{/* <Prompt
+						when={isBlocking}
+						message={location => `Are you sure you want to go to ${location.pathname}`	}
+					/> */}
 				</div>
 			</div>
 		);
