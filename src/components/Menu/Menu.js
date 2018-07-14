@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Route, Link } from 'react-router-dom';
-
+//test 14/07
 const menu = [
 	{
 		name: 'Home',
