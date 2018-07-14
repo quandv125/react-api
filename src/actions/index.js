@@ -1,7 +1,7 @@
 import * as Types from './../constants/ActionType';
 import * as config from './../constants/config';
 import callApi from './../utils/apiCaller';
-//test
+
 export const actFetchUsersRequest = () => {
     return (dispatch) => {
         return callApi('GET', config.APP_URL , null).then( res => {
