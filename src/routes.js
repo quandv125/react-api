@@ -6,6 +6,7 @@ import ProductActionPage from './pages/Action/ProductActionPage';
 import NotFoundPage from './pages/NotFound/NotFoundPage';
 import UsersPage from './pages/Users/UsersPage';
 import UserAddPage from './pages/Users/UserAddPage';
+import Login from './pages/Login/Login';
 const routes = [
 	{
 		path: '/',
@@ -44,17 +45,22 @@ const routes = [
 	{
 		path: '/users/add',
 		exact: false,
-		main: ({history}) => <UserAddPage history={history}/>
+		main: ({location, history}) => <UserAddPage history={history} location={location}/>
 	},
 	{
 		path: '/users/:id/edit',
 		exact: false,
-		main: ({match, history}) => <UserAddPage match={match} history={history}/>
+		main: ({match, location, history}) => <UserAddPage match={match} history={history} location={location}/>
+	},
+	{
+		path: '/login',
+		exact: false,
+		main: ({match}) => <Login match={match}/>
 	},
 	{
 		path: '',
 		exact: false,
-		main: () => <NotFoundPage/>
+		main: ({match}) => <NotFoundPage  match={match}/>
 	}
 ];
 

@@ -1,20 +1,18 @@
 import React, { Component } from 'react';
 import UsersList from './../../components/Users/UsersList';
 import UserSpec from './../../components/Users/UserSpec';
-
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
-import {actFetchUsersRequest, actDeleteUserRequest} from './../../actions/index';
+import { actFetchUsersRequest, actDeleteUserRequest } from './../../actions/index';
 
 
 class UsersPage extends Component {
-
 	constructor(props) {
 		super(props);
 		this.onDelete = this.onDelete.bind(this);
 	}
 
-	componentDidMount(){
+	componentWillMount(){
 		this.props.getUsers();
 	}
 
@@ -22,13 +20,37 @@ class UsersPage extends Component {
 		this.props.onDeleteUser(id)
 	}
 
+	showUser (users) {
+		var result = null;
+		if( users ){
+			let info = users.users;
+			if ( info && typeof info !== 'undefined' && info.length > 0) {
+				result = info.map((user, index) => {
+					return (<UserSpec key={index} user={user} index={index} onDelete={this.onDelete}/>);
+				});
+			}
+		}
+		return result;
+	}
+
 	render() {
 		var {users} = this.props;
 		return (
-			<div className="UsersPage col-lg-12 col-sm-12 col-xs-12 col-md-12">
+			<div className="col-lg-12 col-sm-12 col-xs-12 col-md-12">
+			
 				<Link to="/users/add" className="btn btn-primary">
 					Add
 				</Link>
+				
+				{/* <div className="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+					<input
+						type="text"
+						className="form-control"
+						name="search"
+						placeholder="search"
+					/>
+				</div> */}
+				
 				<br/><br/>
 				<UsersList>
                     { this.showUser(users) }
@@ -37,19 +59,10 @@ class UsersPage extends Component {
 		);
 	} // end render
 
-	showUser (users) {
-		var result = null;
-		if (users.length > 0) {
-			result = users.map((user, index) => {
-				return (<UserSpec key={index} user={user} index={index} onDelete={this.onDelete}/>);
-			});
-		}
-		return result;
-	}
+	
 }
 
-const mpaStateToProps = state => {
-	
+const mapStateToProps = state => {
 	return {
 		users: state.users
 	}
@@ -66,4 +79,4 @@ const mapDispatchToProps = (dispatch, props) => {
 	}
 }
 
-export default connect(mpaStateToProps, mapDispatchToProps)(UsersPage);
+export default connect(mapStateToProps, mapDispatchToProps)(UsersPage);

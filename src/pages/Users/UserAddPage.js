@@ -4,27 +4,21 @@ import * as config from './../../constants/config';
 import Validator from 'react-forms-validator';
 import { connect } from 'react-redux';
 import {actAddUserRequest, actEditUserRequest, actGetUserRequest} from './../../actions/index';
+import ErrorMessage from './../../components/Users/ErrorMessage';
+
 class UserAddPage extends Component {
     constructor(props){
 		super(props);
 		this.state = {
-			id: '',
-			username: '',
-			firstname: '',
-			lastname: '',
-			email: '',
-			address: '',
-			phone: '',
-			job: '',
-			gender: config.GENDER_FEMALE,
-			actived: config.DEACTIVED,
-			isFormValidationErrors : true,
-            submitted:false
+			id: '', username: '', firstname: '', lastname: '', email: '', address: '', phone: '', job: 'Dev', gender: config.GENDER_FEMALE, actived: config.DEACTIVED, isFormValidationErrors : true,
+			submitted: false,
+			isValidation: ''
 		};
 		this.onSave = this.onSave.bind(this);
 		this.onChangeForm = this.onChangeForm.bind(this);
 		this.isValidationError = this.isValidationError.bind(this);
-        this.flag= true;
+		this.flag = true;
+		this.isBlocking = false;
 	}
 	
 	componentDidMount(){
@@ -39,23 +33,31 @@ class UserAddPage extends Component {
 	}
 
 	componentWillReceiveProps(nextprops){
-		if(nextprops && nextprops.user){
-			var {user} = nextprops;
+		if(nextprops && nextprops.userEdit){
+			var {userEdit} = nextprops;
 			this.setState({
-				id: user.id,
-				username: user.username,
-				firstname: user.firstname,
-				lastname: user.lastname,
-				email: user.email,
-				address: user.address,
-				phone: user.phone,
-				job: user.job,
-				gender: user.gender,
-				actived: user.actived
+				id: userEdit.id, username: userEdit.username, firstname: userEdit.firstname, lastname: userEdit.lastname, email: userEdit.email, address: userEdit.address, phone: userEdit.phone, job: userEdit.job, gender: userEdit.gender, actived: userEdit.actived
 			});
 		}
-	}
 
+		if(nextprops && nextprops.users && nextprops.users){
+			var {status} = nextprops.users;
+			this.setState({isValidation: String(status)});
+			if(status === true){
+				var {history} = this.props;
+				history.goBack();
+			} else {
+				if(nextprops.users && nextprops.users.preUser){
+					var preUser = nextprops.users.preUser;
+					this.setState({
+						id: preUser.id,	username: preUser.username,	firstname: preUser.firstname,	lastname: preUser.lastname,	email: preUser.email,	address: preUser.address,	phone: preUser.phone,	job: preUser.job,	gender: preUser.gender,	actived: preUser.actived
+					});
+				}
+			}
+		}
+		
+	}
+	
 	isValidationError(flag){
 		this.setState({isFormValidationErrors:flag});
    	}
@@ -67,34 +69,56 @@ class UserAddPage extends Component {
 		this.setState({
 			[name]: value
 		});
+	
+		if(target.type === 'file'){
+			let files = event.target.files || event.dataTransfer.files;
+			if (!files.length)
+				return;
+			this.createImage(files[0]);
+			var output = document.getElementById('output');
+    		output.src = URL.createObjectURL(files[0]);
+		}
+		
+	}
+
+	createImage(file) {
+		let reader = new FileReader();
+		reader.onload = (e) => {
+			this.setState({
+				picture: e.target.result
+			})
+		};
+		reader.readAsDataURL(file);
 	}
 
 	onSave (event) {
 		event.preventDefault();
-		this.setState( { submitted:true } );
-		var {history} = this.props;
-        var {id, username, firstname, lastname, email, job, phone, address, actived, gender} = this.state;
-		var data = { username: username, firstname: firstname, lastname: lastname, email: email, job: job, phone: phone, address: address, gender: gender, actived: actived? config.ACTIVED : config.DEACTIVED };
+		this.setState({
+			// isBlocking: false,
+			submitted:true
+		});
+        var {id, username, firstname, lastname, email, job, phone, address, actived, gender, picture} = this.state;
+		var data = { username: username, firstname: firstname, lastname: lastname, email: email, job: job, phone: phone, address: address, gender: gender, actived: actived ? config.ACTIVED : config.DEACTIVED, picture: picture };
 		
-		this.setState( { submitted:true } );
-        let { isFormValidationErrors } = this.state;
-        if ( !isFormValidationErrors ){
+		let { isFormValidationErrors } = this.state;
+        if ( isFormValidationErrors === false){
 			if(id) { //update
 				this.props.onEditUser(data, id);
-				history.goBack();
 			} else { //create
 				this.props.onAddUser(data);
-				history.goBack();
 			}
         }
 	}
 
 	render() {
-		
+		// const { isBlocking } = this.state;
 		return (
 			<div>
 				<div className="col-lg-6 col-sm-6 col-xs-6 col-md-6">
-					<form noValidate onSubmit={this.onSave}>
+
+					{ this.state.isValidation === 'false' ? <ErrorMessage messages={this.props.users}/>: null}
+	
+					<form noValidate  >
 						<legend>Form title</legend>
 
 						<div className="form-group">
@@ -176,8 +200,8 @@ class UserAddPage extends Component {
                                 isValidationError={this.isValidationError}
                                 isFormSubmitted={this.state.submitted} 
                                 reference={{phone : this.state.phone}}
-                                validationRules={{required:true, number:true, maxLength:50}} 
-                                validationMessages={{ required: "This field is required", number: "Not a valid number",maxLength: "Not a valid Max length: 10 "}}/>
+                                validationRules={{required:true, number:true, minLength: 10,maxLength:11}} 
+                                validationMessages={{ required: "This field is required", number: "Not a valid number", maxLength: "Not a valid Max length: 11 character", minLength: "Not a vaild min length is 10 character"}}/>
 							
 						</div>
 						<div className="form-group">
@@ -205,7 +229,6 @@ class UserAddPage extends Component {
 									value={this.state.job}
 									onChange={this.onChangeForm}
 								>
-									<option value=''>--Select One--</option>
 									<option value='Dev'>Dev</option>
 									<option value='Doctor'>Doctor</option>
 									<option value='Driver'>Driver</option>
@@ -214,7 +237,7 @@ class UserAddPage extends Component {
 									isValidationError={this.isValidationError}
 									isFormSubmitted={this.state.submitted} 
 									reference={{job : this.state.job}}
-									validationRules={{required:true, }} 
+									validationRules={{required:true}} 
 									validationMessages={{ required: "This field is required"}}/>
 								
 							</div>
@@ -234,36 +257,58 @@ class UserAddPage extends Component {
 						</div>
 						<div className="form-group">
 							<div className="Radio">
-								<label>									
-								</label>
+								<label>	Gender </label>
 								<br/>
-								<input type="radio" 
-									name="gender" 
-									value="0"
-									checked={this.state.gender === "0"} 
-									onChange={this.onChangeForm} /> Male
-       						 	<br />
-									
+								<span className="gender-male margin-right-10">
+									<input type="radio" 
+										name="gender" 
+										value="0"
+										checked={this.state.gender === "0"} 
+										onChange={this.onChangeForm} /> Male
+								</span>
+								<span>
 								<input type="radio"
 									name="gender"
 									value="1" 
 									checked={this.state.gender === "1"} 
 									onChange={this.onChangeForm} /> Female
-								<Validator 
-									isValidationError={this.isValidationError}
-									isFormSubmitted={this.state.submitted} 
-									reference={{gender : this.state.gender}}
-									validationRules={{required:true, }} 
-									validationMessages={{ required: "This field is required"}}/>
-								
+								</span>
 							</div>
+							
 						</div>
+						<img id="output"  alt="" className="width100px"/> <br/>
+						<div className="form-control">
+							
+							<div className="file-upload">
+								<input 
+									type="file" 
+									name="picture" 
+									accept="image/*"
+									id="image-upload"
+									onChange={this.onChangeForm}
+								/> 
+							</div>	
+						</div>
+						
+						<br/>
+						<div className="col-xs-12 col-sm-12 col-md-12 col-lg-12 text-center">
+							<button type="submit" className="btn btn-primary margin-right-10" onClick={this.onSave}>Save</button>
 
-						<button type="submit" className="btn btn-primary margin-right-10">Save</button>
-						<Link to="/users" className="btn btn-success">
-								Back
-						</Link>
+							<Link to="/users" className="btn btn-success">
+									Back
+							</Link>
+						</div>
+						
+						<div className="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+						<br/><br/>
+						</div>
+						
 					</form>
+
+					{/* <Prompt
+						when={isBlocking}
+						message={location => `Are you sure you want to go to ${location.pathname}`	}
+					/> */}
 				</div>
 			</div>
 		);
@@ -274,9 +319,8 @@ class UserAddPage extends Component {
 const mapStateToProps = state => {
 	
 	return {
-		user: state.user,
+		userEdit: state.userEdit,
 		users: state.users,
-		errors: state.errors
 	}
 }
 

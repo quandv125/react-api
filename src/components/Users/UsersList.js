@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 
 class UsersList extends Component {
 	render() {
-		//children quandv2
+		//children
 		var { children } = this.props;
 		return (
 			<div className="panel panel-primary">
@@ -14,6 +14,7 @@ class UsersList extends Component {
 						<thead>
 							<tr>
 								<th className="text-center">STT</th>
+								<th className="text-center">Picture</th>
 								<th className="text-center">UserName</th>
 								<th className="text-center">FirstName</th>
 								<th className="text-center">LastName</th>
@@ -23,12 +24,38 @@ class UsersList extends Component {
 								<th className="text-center">Address</th>
 								<th className="text-center">Gender</th>
 								<th className="text-center">Actived</th>
-							
 								<th className="text-center">Action</th>
 							</tr>
 						</thead>
 						<tbody>
-							
+
+							{/* <tr>
+								<td></td>
+								<td></td>
+								<td>username</td>
+								<td>FirstName</td>
+								<td>LastName</td>
+								<td>Email</td>
+								<td>
+									<select
+										className="form-control"
+										name="filterStatus"
+									>
+									</select>
+								</td>
+								<td>
+									<input
+										type="text"
+										className="form-control"
+										name="phone"
+										placeholder="Phone"
+									/>
+								</td>
+								<td>Address</td>
+								<td>Gender</td>
+								<td>Actived</td>
+								<td></td>
+							</tr> */}
 							{children}
 
 						</tbody>

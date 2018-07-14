@@ -1,39 +1,47 @@
 import * as Types from './../constants/ActionType';
-var initialState = [];
-
-var findIndex = (users, id) => {
-    var result = -1;
-    users.forEach((user, index) => {
-        if(user.id === id) {
-            result = index;
-        }
-    });
-    return result;
-}
+import {findIndex} from 'lodash';
+var initialState = { status: null, users: null };
 
 const users = (state = initialState, action) => {
+   
     switch(action.type){
         case Types.FETCH_USERS:
-            state = action.users
-            return [...state];
+            state = {
+                status: null,
+                users: action.users
+            }
+            return state;
         case Types.DELETE_USERS:
-            var index = findIndex(state, action.id);
+            var index = findIndex(state.users, { id: action.id });
             if (index !== -1) {
-				state.splice(index, 1);
+				state.users.splice(index, 1);
             }
-            return [...state];
+            state = {
+                status: false,
+                users: state.users
+            }
+            return state;
         case Types.ADD_USERS: 
-            state.push(action.user);
-            return [...state];
+            
+            state = { 
+                status: action.user.success, 
+                users: action.user,
+                preUser: !action.user.success ? action.userOld : null
+            };
+            return state;
         case Types.UPDATE_USERS:
-            action.user.id = action.id;
-            index = findIndex(state, action.id);
+            let {id} = action.user.user; 
+            index = findIndex(state.users, { id: id });
             if (index !== -1) {
-				state[index] = action.user;
+                state.users[index] = action.user.user;
             }
-            return [...state];
+            state = {
+                status: action.user.success,
+                users: action.usel
+            }
+            return state;
         default: 
-            return [...state];
+            return state;
     }
 }
 

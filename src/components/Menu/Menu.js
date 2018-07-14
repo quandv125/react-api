@@ -1,11 +1,20 @@
 import React, { Component } from 'react';
 import { Route, Link } from 'react-router-dom';
+<<<<<<< HEAD
 //test 14/07
+=======
+import LoginButton from "./LoginButton";
+>>>>>>> master
 const menu = [
 	{
 		name: 'Home',
 		to: '/',
 		exact: true
+	},
+	{
+		name: 'Users',
+		to: '/users',
+		exact: false
 	},
 	{
 		name: 'About',
@@ -16,20 +25,15 @@ const menu = [
 		name: 'Products',
 		to: '/products-list',
 		exact: false
-	},
-	{
-		name: 'Users',
-		to: '/users',
-		exact: true
-	},
+	}
 ];
 
-
 const MenuLink = ({ label, to, activeOnlyWhenExact }) => {
+
 	return (
-		<Route 
-			path={to} 
-			exact={activeOnlyWhenExact} 
+		<Route
+			path={to}
+			exact={activeOnlyWhenExact}
 			children={({ match }) => {
 				var active = (match && match !== null) ? 'active abc' : '';
 				return (
@@ -44,17 +48,15 @@ const MenuLink = ({ label, to, activeOnlyWhenExact }) => {
 	)
 }
 
-
 class Menu extends Component {
 
 	constructor(props) {
 		super(props);
 		this.showMenu = this.showMenu.bind(this);
 	}
-
-	showMenu (menus) {
+	showMenu(menus) {
 		var result = null;
-		if(menus.length > 0){
+		if (menus.length > 0) {
 			result = menus.map((menu, index) => {
 				return (<MenuLink label={menu.name} to={menu.to} activeOnlyWhenExact={menu.exact} key={index} />)
 			});
@@ -64,18 +66,13 @@ class Menu extends Component {
 
 	render() {
 		return (
-
 			<nav className="navbar navbar-inverse">
 				<ul className="nav navbar-nav">
-					{ this.showMenu(menu) }
-					<li> 
-						<Link to="/dfasdfadfasdf" className="my-link">
-							Not Found
-						</Link>
-					</li>
+					{this.showMenu(menu)}
+
+					<LoginButton />
 				</ul>
 			</nav>
-			
 		);
 	}
 }
