@@ -22,8 +22,6 @@ const menu = [
 		to: '/products-list',
 		exact: false
 	}
-
-
 ];
 
 const MenuLink = ({ label, to, activeOnlyWhenExact }) => {
