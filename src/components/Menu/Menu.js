@@ -1,10 +1,6 @@
 import React, { Component } from 'react';
 import { Route, Link } from 'react-router-dom';
-<<<<<<< HEAD
-//test 14/07
-=======
 import LoginButton from "./LoginButton";
->>>>>>> master
 const menu = [
 	{
 		name: 'Home',
