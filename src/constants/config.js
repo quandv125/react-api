@@ -1,10 +1,16 @@
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 //Api
 export const APP_URL = 'http://127.0.0.1:8000/api/v1/user';
 export const LOGIN_URL = 'http://127.0.0.1:8000/api/v1/login';
 export const LOGOUT_URL = 'http://127.0.0.1:8000/api/v1/logout?token=';
+=======
+export const APP_URL = 'http://127.0.0.1:8000/api/v2/user';
+export const LOGIN_URL = 'http://127.0.0.1:8000/api/v2/login';
+export const LOGOUT_URL = 'http://127.0.0.1:8000/api/v2/logout?token=';
+>>>>>>> parent of 0b19f1ad... change api v2 > v1
 =======
 export const APP_URL = 'http://127.0.0.1:8000/api/v2/user';
 export const LOGIN_URL = 'http://127.0.0.1:8000/api/v2/login';
