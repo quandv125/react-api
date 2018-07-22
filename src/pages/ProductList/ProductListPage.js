@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
-// import ProductsList from './../../components/Product/ProductsList';
+import ProductsList from './../../components/Product/ProductsList';
 import ProductItem from './../../components/Product/ProductItem';
-import * as config from './../../constants/config';
-// import { Link } from 'react-router-dom';
+// import * as config from './../../constants/config';
+import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 // import {findIndex} from 'lodash';
-import callApi from './../../utils/apiCaller';
+// import callApi from './../../utils/apiCaller';
+import { actFetchProductsRequest } from './../../actions/index';
 
 class ProductList extends Component {
 
@@ -17,12 +18,13 @@ class ProductList extends Component {
 		this.onDelete = this.onDelete.bind(this);
 	}
 
-	componentDidMount(){		
-		callApi('GET', config.APP_URL, null).then( res => {
-			this.setState({
-				products: res.data
-			});
-		});
+	componentWillMount(){
+		this.props.getProducts();		
+		// callApi('GET', config.APP_URL, null).then( res => {
+		// 	this.setState({
+		// 		products: res.data
+		// 	});
+		// });
 	}
 
 	onDelete (id) {
@@ -54,16 +56,16 @@ class ProductList extends Component {
 	// }
 
 	render() {
-		// var {products} = this.state;
+		var {products} = this.props.products;
 		return (
 			<div className="ProductList col-lg-12 col-sm-12 col-xs-12 col-md-12">
-			  	{/* <Link to="/products/add" className="btn btn-primary">
+			  	<Link to="/products/add" className="btn btn-primary">
 			 		Add
 			 	</Link>
 			 	<br/><br/>
 			 	<ProductsList>
 			 		{this.showProduct(products)}
-			 	</ProductsList>  */}
+			 	</ProductsList> 
 				
 			</div>
 		);
@@ -71,8 +73,10 @@ class ProductList extends Component {
 
 	showProduct (products) {
 		var result = null;
-		if (products.length > 0) {
+		if (products) {
+			console.log(products)
 			result = products.map((product, index) => {
+				console.log(product)
 				return (<ProductItem key={index} product={product} index={index} onDelete={this.onDelete}/>);
 			});
 		}
@@ -85,5 +89,11 @@ const mapStateToProps = (state) => {
 		products: state.products
 	};
 }
-
-export default connect(mapStateToProps, null)(ProductList);
+const mapDispatchToProps = (dispatch, props) => {
+	return {
+		getProducts : () => {
+			dispatch(actFetchProductsRequest());
+		}
+	}
+}
+export default connect(mapStateToProps, mapDispatchToProps)(ProductList);

@@ -15,15 +15,16 @@ class ProductList extends Component {
 						<thead>
 							<tr>
 								<th className="text-center">STT</th>
-								<th className="text-center">ID</th>
-								<th className="text-center">FirstName</th>
-								<th className="text-center">LastName</th>
-								<th className="text-center">Avatar</th>
-								{/* <th className="text-center">Status</th> */}
+								<th className="text-center">Tiêu đề</th>
+								<th className="text-center">Giá niêm yết</th>
+								<th className="text-center">Giá khuyến maị</th>
+								<th className="text-center">Danh mục</th>
+								<th className="text-center">Hãng</th>
 								<th className="text-center">Action</th>
 							</tr>
 						</thead>
 						<tbody>
+							
 							{ children }
 							
 						</tbody>

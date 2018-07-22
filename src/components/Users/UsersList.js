@@ -19,7 +19,7 @@ class UsersList extends Component {
 								<th className="text-center">FirstName</th>
 								<th className="text-center">LastName</th>
 								<th className="text-center">Email</th>
-								<th className="text-center">Job</th>
+								<th className="text-center">Birthday</th>
 								<th className="text-center">Phone</th>
 								<th className="text-center">Address</th>
 								<th className="text-center">Gender</th>

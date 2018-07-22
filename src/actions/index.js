@@ -1,17 +1,32 @@
 import * as Types from './../constants/ActionType';
 import * as config from './../constants/config';
-import callApi from './../utils/apiCaller';
+import apiCaller from './../utils/apiCaller';
 //test 14/07
+// Product
+export const actFetchProductsRequest = () => {
+    return (dispatch) => {
+        return apiCaller('GET', config.API_URL + config.PRODUCTS + config.TOKEN , null).then( res => {
+			dispatch(actFetchProducts(res.data));
+        });
+    }
+}
+
+export const actFetchProducts = (products) => {
+    return {
+        type: Types.FETCH_PRODUCTS,
+        products
+    }
+}
+// Users
 export const actFetchUsersRequest = () => {
     return (dispatch) => {
-        return callApi('GET', config.APP_URL , null).then( res => {
+        return apiCaller('GET', config.API_URL + config.USERS + config.TOKEN , null).then( res => {            
 			dispatch(actFetchUsers(res.data));
 		});
     }
 }
 
 export const actFetchUsers = (users) => {
-
     return {
         type: Types.FETCH_USERS,
         users
@@ -20,7 +35,7 @@ export const actFetchUsers = (users) => {
     
 export const actDeleteUserRequest = (id) => {
     return (dispatch) => {
-        return callApi('DELETE', config.APP_URL+'/destroy/'+id, null).then( res => {
+        return apiCaller('DELETE', config.APP_URL+'/destroy/'+id, null).then( res => {
 			dispatch(actDeleteUser(id));
 		}); 
     }
@@ -43,7 +58,7 @@ export const actAddUser = (user, userOld) => {
 
 export const actAddUserRequest = (user) => {
     return (dispatch) => {
-        return callApi('POST', config.APP_URL+'/store', user).then( res => {
+        return apiCaller('POST', config.APP_URL+'/store', user).then( res => {
             // console.log(res.data);
             dispatch(actAddUser(res.data, user));
         });
@@ -65,7 +80,7 @@ export const actEditUser = (user) => {
 
 export const actEditUserRequest = (user, id) => {
     return (dispatch) => {        
-        return callApi('PUT', config.APP_URL+'/update/'+ id, user).then( res => {   
+        return apiCaller('PUT', config.APP_URL+'/update/'+ id, user).then( res => {   
             if (res.data.success) {
                 // console.log(res.data);         
                 dispatch(actEditUser(res.data));
@@ -76,7 +91,7 @@ export const actEditUserRequest = (user, id) => {
 
 export const actGetUserRequest = id => {
     return (dispatch) => {
-        return callApi('GET', config.APP_URL+'/edit/'+id, null).then(res => {
+        return apiCaller('GET', config.APP_URL+'/edit/'+id, null).then(res => {
             dispatch(actGetUser(res.data));
         });
     }
@@ -88,7 +103,7 @@ export const actGetUser = (user) => {
         user
     }
 }
-
+// Login & logout
 export const actLogin = (user) => {
     return {
         type: Types.LOGIN,
@@ -98,12 +113,12 @@ export const actLogin = (user) => {
 
 export const actLoginRequest = (user) => {
     return dispatch => {
-        return callApi('POST', config.LOGIN_URL , user).then(res => {
-            console.log('status login:', res.data.loggedIn);
-            if (res.data.loggedIn) {
+        return apiCaller('POST', config.LOGIN_URL, user).then(res => {
+            console.log('status login:', res.data);
+            if (res.data.status) {
                 dispatch(actLogin(res.data));
             } else {
-                alert('login error');
+                alert(res.data.data);
             }
         });
     }
@@ -117,7 +132,7 @@ export const actLogout = () => {
 
 export const actLogoutRequest = (token) => {
     return dispatch => {
-        return callApi('GET', config.LOGOUT_URL+token, null).then(res => {
+        return apiCaller('GET', config.LOGOUT_URL+token, null).then(res => {
             console.log('status logout: ',res.data.success);
             if(res.data.success){
                 dispatch(actLogout());

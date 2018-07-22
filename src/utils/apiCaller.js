@@ -1,5 +1,4 @@
 import axios from 'axios';
-
 export default function apiCaller(menthod = 'GET', url, data){
     return axios({
         method: menthod,

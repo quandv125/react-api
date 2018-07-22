@@ -11,18 +11,17 @@ class UserSpec extends Component {
 	}
 	render() {
 		var {user, index} = this.props;
-		
 		return (
 			<tr className="text-center">
 				<td>{index+1}</td>
 				<td>
-					<img src={`http://127.0.0.1:8000/images/${user.picture?user.picture:"no.png"}`} className="img-responsive width50px" alt={user.picture}/>
+					<img src={`http://127.0.0.1:8000/images/thumbnails/150_${ user.avatar ? user.avatar : "placeholder.jpg"}`} className="img-responsive width50px" alt={user.picture}/>
 				</td>
 				<td>{user.username}</td>
 				<td>{user.firstname}</td>
 				<td>{user.lastname}</td>
 				<td>{user.email}</td>
-				<td>{user.job}</td>
+				<td>{user.birthday}</td>
 				<td>{user.phone}</td>
 				<td>{user.address}</td>
 				<td>
@@ -32,7 +31,7 @@ class UserSpec extends Component {
 				</td>
 				<td>
 					<span className="label label-success">
-						{(user.actived === config.ACTIVED)? 'Actived':''}
+						{(user.is_active === config.ACTIVED)? 'Actived':''}
 					</span>
 				</td>
 				<td>

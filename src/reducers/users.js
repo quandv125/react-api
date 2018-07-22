@@ -6,9 +6,11 @@ const users = (state = initialState, action) => {
    
     switch(action.type){
         case Types.FETCH_USERS:
-            state = {
-                status: null,
-                users: action.users
+            if (action.users.status){
+                state = {
+                    status: action.users.status, 
+                    users: action.users.data
+                }
             }
             return state;
         case Types.DELETE_USERS:

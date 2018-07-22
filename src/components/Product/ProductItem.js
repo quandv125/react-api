@@ -9,13 +9,15 @@ class ProductItem extends Component {
 
 	render() {
 		var {product, index} = this.props;
+		var price = JSON.parse(product.prices);
 		return (
 			<tr>
 				<td>{index+1}</td>
-				<td>{product.id}</td>
-				<td>{product.name}</td>
-				<td>{product.email}</td>
-				<td>{product.created_at}</td>
+				<td>{product.title}</td>
+				<td>{price[0].price}</td>
+				<td>{price[0].sale_price}</td>
+				<td>{product.productcategory.title}</td>
+				<td>{product.productbranch.title}</td>
 				<td>
 					<Link to={`products/${product.id}/edit`} className="btn btn-success margin-right-10">
 						Edit

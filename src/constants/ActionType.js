@@ -6,3 +6,4 @@ export const GET_USER = 'GET_USER';
 export const ERROR = "ERROR";
 export const LOGIN = 'LOGIN';
 export const LOGOUT = 'LOGOUT';
+export const FETCH_PRODUCTS = 'FETCH_PROODUCTS';

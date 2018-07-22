@@ -20,36 +20,14 @@ class UsersPage extends Component {
 		this.props.onDeleteUser(id)
 	}
 
-	showUser (users) {
-		var result = null;
-		if( users ){
-			let info = users.users;
-			if ( info && typeof info !== 'undefined' && info.length > 0) {
-				result = info.map((user, index) => {
-					return (<UserSpec key={index} user={user} index={index} onDelete={this.onDelete}/>);
-				});
-			}
-		}
-		return result;
-	}
-
 	render() {
-		var {users} = this.props;
+		var {users} = this.props.users;
 		return (
 			<div className="col-lg-12 col-sm-12 col-xs-12 col-md-12">
 			
 				<Link to="/users/add" className="btn btn-primary">
 					Add
 				</Link>
-				
-				{/* <div className="col-xs-3 col-sm-3 col-md-3 col-lg-3">
-					<input
-						type="text"
-						className="form-control"
-						name="search"
-						placeholder="search"
-					/>
-				</div> */}
 				
 				<br/><br/>
 				<UsersList>
@@ -59,6 +37,17 @@ class UsersPage extends Component {
 		);
 	} // end render
 
+	showUser (users) {
+		var result = null;
+		if( users ){
+			if ( users && typeof users !== 'undefined' && users.length > 0) {
+				result = users.map((user, index) => {
+					return (<UserSpec key={index} user={user} index={index} onDelete={this.onDelete}/>);
+				});
+			}
+		}
+		return result;
+	}
 	
 }
 
