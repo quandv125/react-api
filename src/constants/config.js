@@ -15,7 +15,6 @@ export const LOGIN_URL = 'http://127.0.0.1:8000/api/v2/login';
 export const LOGOUT_URL = 'http://127.0.0.1:8000/api/v2/logout?token=';
 >>>>>>> parent of 0b19f1ad... change api v2 > v1
 export const URL_IMAGES = 'http://127.0.0.1:8000/images/';
-
 export const GENDER_MALE = '0';
 export const GENDER_FEMALE = '1';
 export const DEACTIVED = 0;
