@@ -74,9 +74,9 @@ class ProductList extends Component {
 	showProduct (products) {
 		var result = null;
 		if (products) {
-			console.log(products)
+			// console.log(products)
 			result = products.map((product, index) => {
-				console.log(product)
+				// console.log(product)
 				return (<ProductItem key={index} product={product} index={index} onDelete={this.onDelete}/>);
 			});
 		}

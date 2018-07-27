@@ -11,4 +11,5 @@ export const PRODUCTS = 'products';
 export const PRODUCT = 'product';
 export const USERS = 'users';
 export const USER = 'user';
-export const TOKEN = '?token='+JSON.parse(sessionStorage.getItem('authentication')).data.token;
+export const USER_ADD = 'user/store';
+export const TOKEN = sessionStorage.getItem('authentication') ? '?token='+JSON.parse(sessionStorage.getItem('authentication')).data.token : '';

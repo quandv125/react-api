@@ -10,7 +10,17 @@ class UserAddPage extends Component {
     constructor(props){
 		super(props);
 		this.state = {
-			id: '', username: '', firstname: '', lastname: '', email: '', address: '', phone: '', job: 'Dev', gender: config.GENDER_FEMALE, actived: config.DEACTIVED, isFormValidationErrors : true,
+			id: '',
+			username: 'test1',
+			firstname: 'demo',
+			lastname: 'demo',
+			email: 'test1@gmail.com',
+			address: 'Ha Noi',
+			phone: '0976459551',
+			role: '14',
+			gender: config.GENDER_FEMALE,
+			actived: config.DEACTIVED,
+			isFormValidationErrors : true,
 			submitted: false,
 			isValidation: ''
 		};
@@ -36,7 +46,16 @@ class UserAddPage extends Component {
 		if(nextprops && nextprops.userEdit){
 			var {userEdit} = nextprops;
 			this.setState({
-				id: userEdit.id, username: userEdit.username, firstname: userEdit.firstname, lastname: userEdit.lastname, email: userEdit.email, address: userEdit.address, phone: userEdit.phone, job: userEdit.job, gender: userEdit.gender, actived: userEdit.actived
+				id: userEdit.id,
+				username: userEdit.username,
+				firstname: userEdit.firstname,
+				lastname: userEdit.lastname,
+				email: userEdit.email,
+				address: userEdit.address,
+				phone: userEdit.phone,
+				role: userEdit.role,
+				gender: userEdit.gender,
+				actived: userEdit.actived
 			});
 		}
 
@@ -50,7 +69,7 @@ class UserAddPage extends Component {
 				if(nextprops.users && nextprops.users.preUser){
 					var preUser = nextprops.users.preUser;
 					this.setState({
-						id: preUser.id,	username: preUser.username,	firstname: preUser.firstname,	lastname: preUser.lastname,	email: preUser.email,	address: preUser.address,	phone: preUser.phone,	job: preUser.job,	gender: preUser.gender,	actived: preUser.actived
+						id: preUser.id,	username: preUser.username,	firstname: preUser.firstname,	lastname: preUser.lastname,	email: preUser.email,	address: preUser.address,	phone: preUser.phone,	role: preUser.role,	gender: preUser.gender,	actived: preUser.actived
 					});
 				}
 			}
@@ -85,7 +104,7 @@ class UserAddPage extends Component {
 		let reader = new FileReader();
 		reader.onload = (e) => {
 			this.setState({
-				picture: e.target.result
+				avatar: e.target.result
 			})
 		};
 		reader.readAsDataURL(file);
@@ -94,14 +113,24 @@ class UserAddPage extends Component {
 	onSave (event) {
 		event.preventDefault();
 		this.setState({
-			// isBlocking: false,
 			submitted:true
 		});
-        var {id, username, firstname, lastname, email, job, phone, address, actived, gender, picture} = this.state;
-		var data = { username: username, firstname: firstname, lastname: lastname, email: email, job: job, phone: phone, address: address, gender: gender, actived: actived ? config.ACTIVED : config.DEACTIVED, picture: picture };
-		
+		var {id, username, firstname, lastname, email, role, phone, address, actived, gender, avatar} = this.state;
+		var data = { 
+			username: username,
+			firstname: firstname,
+			lastname: lastname,
+			email: email,
+			role: role,
+			phone: phone,
+			address: address,
+			gender: gender,
+			actived: actived ? config.ACTIVED : config.DEACTIVED,
+			avatar: avatar 
+		};
 		let { isFormValidationErrors } = this.state;
-        if ( isFormValidationErrors === false){
+		//console.log(isFormValidationErrors, data)
+        if ( isFormValidationErrors === true){
 			if(id) { //update
 				this.props.onEditUser(data, id);
 			} else { //create
@@ -129,7 +158,7 @@ class UserAddPage extends Component {
 								value={this.state.username} 
 								onChange={this.onChangeForm} 
 								name="username" 
-								placeholder="UserName"/>
+								placeholder="username"/>
 							<Validator 
                                 isValidationError={this.isValidationError}
                                 isFormSubmitted={this.state.submitted} 
@@ -145,7 +174,7 @@ class UserAddPage extends Component {
 								value={this.state.firstname} 
 								onChange={this.onChangeForm} 
 								name="firstname" 
-								placeholder="FirstName"/>
+								placeholder="firstname"/>
 							<Validator 
                                 isValidationError={this.isValidationError}
                                 isFormSubmitted={this.state.submitted} 
@@ -161,7 +190,7 @@ class UserAddPage extends Component {
 								value={this.state.lastname} 
 								onChange={this.onChangeForm} 
 								name="lastname" 
-								placeholder="LastName"/>
+								placeholder="lastname"/>
 							<Validator 
                                 isValidationError={this.isValidationError}
                                 isFormSubmitted={this.state.submitted} 
@@ -178,7 +207,7 @@ class UserAddPage extends Component {
 								value={this.state.email} 
 								onChange={this.onChangeForm} 
 								name="email" 
-								placeholder="Email"/>
+								placeholder="email"/>
 							<Validator 
                                 isValidationError={this.isValidationError}
                                 isFormSubmitted={this.state.submitted} 
@@ -195,7 +224,7 @@ class UserAddPage extends Component {
 								value={this.state.phone} 
 								onChange={this.onChangeForm} 
 								name="phone" 
-								placeholder="Phone"/>
+								placeholder="phone"/>
 							<Validator 
                                 isValidationError={this.isValidationError}
                                 isFormSubmitted={this.state.submitted} 
@@ -212,7 +241,7 @@ class UserAddPage extends Component {
 								value={this.state.address} 
 								onChange={this.onChangeForm} 
 								name="address" 
-								placeholder="Address"/>
+								placeholder="address"/>
 							<Validator 
                                 isValidationError={this.isValidationError}
                                 isFormSubmitted={this.state.submitted} 
@@ -221,22 +250,22 @@ class UserAddPage extends Component {
                                 validationMessages={{ required: "This field is required", maxLength: "Not a valid Max length: 10 "}}/>
 						</div>
 						<div className="form-group">
-							<div className="Job">
-								<label>Job</label>
+							<div className="role">
+								<label>Role</label>
 								<select
 									className="form-control"
-									name="job"
-									value={this.state.job}
+									name="role"
+									value={this.state.role}
 									onChange={this.onChangeForm}
 								>
-									<option value='Dev'>Dev</option>
-									<option value='Doctor'>Doctor</option>
-									<option value='Driver'>Driver</option>
+									<option value='14'>Administrator</option>
+									<option value='15'>Manager</option>
+									<option value='16'>Member</option>
 								</select>
 								<Validator 
 									isValidationError={this.isValidationError}
 									isFormSubmitted={this.state.submitted} 
-									reference={{job : this.state.job}}
+									reference={{role : this.state.role}}
 									validationRules={{required:true}} 
 									validationMessages={{ required: "This field is required"}}/>
 								
@@ -282,7 +311,7 @@ class UserAddPage extends Component {
 							<div className="file-upload">
 								<input 
 									type="file" 
-									name="picture" 
+									name="avatar" 
 									accept="image/*"
 									id="image-upload"
 									onChange={this.onChangeForm}

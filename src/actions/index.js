@@ -6,7 +6,10 @@ import apiCaller from './../utils/apiCaller';
 export const actFetchProductsRequest = () => {
     return (dispatch) => {
         return apiCaller('GET', config.API_URL + config.PRODUCTS + config.TOKEN , null).then( res => {
-			dispatch(actFetchProducts(res.data));
+            if(res){
+                dispatch(actFetchProducts(res.data));
+
+            }
         });
     }
 }
@@ -20,8 +23,11 @@ export const actFetchProducts = (products) => {
 // Users
 export const actFetchUsersRequest = () => {
     return (dispatch) => {
-        return apiCaller('GET', config.API_URL + config.USERS + config.TOKEN , null).then( res => {            
-			dispatch(actFetchUsers(res.data));
+        return apiCaller('GET', config.API_URL + config.USERS + config.TOKEN , null).then( res => {     
+            // console.log(res);   
+            if(res){     
+                dispatch(actFetchUsers(res.data));
+            }
 		});
     }
 }
@@ -32,7 +38,7 @@ export const actFetchUsers = (users) => {
         users
     }
 }
-    
+// Delete User    
 export const actDeleteUserRequest = (id) => {
     return (dispatch) => {
         return apiCaller('DELETE', config.APP_URL+'/destroy/'+id, null).then( res => {
@@ -47,7 +53,7 @@ export const actDeleteUser = (id) => {
         id
     }
 }
-
+// Add User
 export const actAddUser = (user, userOld) => {
     return {
         type: Types.ADD_USERS,
@@ -58,12 +64,13 @@ export const actAddUser = (user, userOld) => {
 
 export const actAddUserRequest = (user) => {
     return (dispatch) => {
-        return apiCaller('POST', config.APP_URL+'/store', user).then( res => {
-            // console.log(res.data);
+        return apiCaller('POST', config.API_URL + config.USER_ADD + config.TOKEN, user).then( res => {
+            console.log(res.data);
             dispatch(actAddUser(res.data, user));
         });
     }
 }
+//
 export const actError = (status, msg) => {
     return {
         type: Types.ERROR,
