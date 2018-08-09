@@ -9,14 +9,29 @@ import ErrorMessage from './../../components/Users/ErrorMessage';
 class UserAddPage extends Component {
     constructor(props){
 		super(props);
+		// this.state = {
+		// 	id: '',
+		// 	username: 'test1',
+		// 	firstname: 'demo',
+		// 	lastname: 'demo',
+		// 	email: 'test1@gmail.com',
+		// 	address: 'Ha Noi',
+		// 	phone: '0976459551',
+		// 	role: '14',
+		// 	gender: config.GENDER_FEMALE,
+		// 	actived: config.DEACTIVED,
+		// 	isFormValidationErrors : true,
+		// 	submitted: false,
+		// 	isValidation: ''
+		// };
 		this.state = {
 			id: '',
-			username: 'test1',
-			firstname: 'demo',
-			lastname: 'demo',
-			email: 'test1@gmail.com',
-			address: 'Ha Noi',
-			phone: '0976459551',
+			username: '',
+			firstname: '',
+			lastname: '',
+			email: '',
+			address: '',
+			phone: '',
 			role: '14',
 			gender: config.GENDER_FEMALE,
 			actived: config.DEACTIVED,
@@ -43,8 +58,9 @@ class UserAddPage extends Component {
 	}
 
 	componentWillReceiveProps(nextprops){
-		if(nextprops && nextprops.userEdit){
-			var {userEdit} = nextprops;
+		if(nextprops && nextprops.users.userEdit){
+			var {userEdit} = nextprops.users;
+			// console.log(typeof userEdit, userEdit)
 			this.setState({
 				id: userEdit.id,
 				username: userEdit.username,
@@ -53,27 +69,28 @@ class UserAddPage extends Component {
 				email: userEdit.email,
 				address: userEdit.address,
 				phone: userEdit.phone,
-				role: userEdit.role,
+				role: userEdit.role_id,
 				gender: userEdit.gender,
-				actived: userEdit.actived
+				actived: userEdit.is_active
 			});
 		}
 
-		if(nextprops && nextprops.users && nextprops.users){
-			var {status} = nextprops.users;
-			this.setState({isValidation: String(status)});
-			if(status === true){
-				var {history} = this.props;
-				history.goBack();
-			} else {
-				if(nextprops.users && nextprops.users.preUser){
-					var preUser = nextprops.users.preUser;
-					this.setState({
-						id: preUser.id,	username: preUser.username,	firstname: preUser.firstname,	lastname: preUser.lastname,	email: preUser.email,	address: preUser.address,	phone: preUser.phone,	role: preUser.role,	gender: preUser.gender,	actived: preUser.actived
-					});
-				}
-			}
-		}
+		// if(nextprops && nextprops.users && nextprops.users){
+		// 	console.log(nextprops);	
+		// 	var {status} = nextprops.users;
+		// 	this.setState({isValidation: String(status)});
+		// 	if(status === true){
+		// 		var {history} = this.props;
+		// 		history.goBack();
+		// 	} else {
+		// 		if(nextprops.users && nextprops.users.preUser){
+		// 			var preUser = nextprops.users.preUser;
+		// 			this.setState({
+		// 				id: preUser.id,	username: preUser.username,	firstname: preUser.firstname,	lastname: preUser.lastname,	email: preUser.email,	address: preUser.address,	phone: preUser.phone,	role: preUser.role,	gender: preUser.gender,	actived: preUser.actived
+		// 			});
+		// 		}
+		// 	}
+		// }
 		
 	}
 	
@@ -140,6 +157,7 @@ class UserAddPage extends Component {
 	}
 
 	render() {
+		// console.log('render');
 		// const { isBlocking } = this.state;
 		return (
 			<div>
@@ -346,7 +364,7 @@ class UserAddPage extends Component {
 }
 
 const mapStateToProps = state => {
-	
+	// console.log(state)
 	return {
 		userEdit: state.userEdit,
 		users: state.users,

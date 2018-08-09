@@ -78,8 +78,8 @@ class Home extends Component {
 	//Case 2:  1. func: test 2. shouldComponentUpdate 3. ComponentWillUpdate 4. render 5. componentDidUpdate
 	render() {
 		// console.log('render'); // 3 | 1.4
-		var username = this.state.AuthLogin && this.state.AuthLogin.loggedIn ? this.state.AuthLogin.data.username : null;
-		var email = this.state.AuthLogin && this.state.AuthLogin.loggedIn ? this.state.AuthLogin.data.email : null;
+		var username = this.state.AuthLogin && this.state.AuthLogin.status ? this.state.AuthLogin.user.username : null;
+		var email = this.state.AuthLogin && this.state.AuthLogin.status ? this.state.AuthLogin.user.email : null;
 	
 		return (
 			<React.Fragment>
@@ -88,7 +88,7 @@ class Home extends Component {
 					<button type="button" onClick={this.onTest} className="btn btn-default">button</button>
 				</div>
 				<div className="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-					{ this.state.AuthLogin && this.state.AuthLogin.loggedIn ? 
+					{ this.state.AuthLogin && this.state.AuthLogin.status ? 
 						<div> <h3>Login Successfully </h3> 
 							<div>Username: {username}</div>
 							<div>Email: {email}</div>

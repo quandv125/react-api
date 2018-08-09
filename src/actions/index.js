@@ -23,7 +23,7 @@ export const actFetchProducts = (products) => {
 // Users
 export const actFetchUsersRequest = () => {
     return (dispatch) => {
-        return apiCaller('GET', config.API_URL + config.USERS + config.TOKEN , null).then( res => {     
+        return apiCaller('GET', config.API_URL + config.USER + config.TOKEN , null).then( res => {     
             // console.log(res);   
             if(res){     
                 dispatch(actFetchUsers(res.data));
@@ -98,7 +98,7 @@ export const actEditUserRequest = (user, id) => {
 
 export const actGetUserRequest = id => {
     return (dispatch) => {
-        return apiCaller('GET', config.APP_URL+'/edit/'+id, null).then(res => {
+        return apiCaller('GET', config.APP_URL+'/'+id+ config.TOKEN, null).then(res => {
             dispatch(actGetUser(res.data));
         });
     }
@@ -110,6 +110,8 @@ export const actGetUser = (user) => {
         user
     }
 }
+
+
 // Login & logout
 export const actLogin = (user) => {
     return {
@@ -121,7 +123,7 @@ export const actLogin = (user) => {
 export const actLoginRequest = (user) => {
     return dispatch => {
         return apiCaller('POST', config.LOGIN_URL, user).then(res => {
-            console.log('status login:', res.data);
+            // console.log('status login:', res.data);
             if (res.data.status) {
                 dispatch(actLogin(res.data));
             } else {
@@ -139,9 +141,9 @@ export const actLogout = () => {
 
 export const actLogoutRequest = (token) => {
     return dispatch => {
-        return apiCaller('GET', config.LOGOUT_URL+token, null).then(res => {
-            console.log('status logout: ',res.data.success);
-            if(res.data.success){
+        return apiCaller('POST', config.LOGOUT_URL+token, null).then(res => {
+            // console.log('status logout: ',res.data);
+            if(res.data.status){
                 dispatch(actLogout());
             } else {
                 alert("logout error");

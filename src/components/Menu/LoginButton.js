@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from "react-redux";
 import { actLogoutRequest } from './../../actions/index';
+import { TOKEN } from './../../constants/config.js';
+import {Redirect} from 'react-router-dom';
 
 class LoginButton extends Component {
 
@@ -9,22 +11,23 @@ class LoginButton extends Component {
         super(props);
         let session = JSON.parse(sessionStorage.getItem('authentication'));
         this.state = {
-            isLogin: session ? session.loggedIn : false,
-            token: session ? session.data.auth_token : null,
+            isLogin: (session && session.status) ? session.status : false,
+            token: TOKEN,
         }
         this.showLogout = this.showLogout.bind(this);
     }
 
+    
     componentWillReceiveProps(nextprops) {
-        let { loggedIn } = nextprops.authentication
         this.setState({
-            isLogin: typeof loggedIn === 'undefined' ? this.state.isLogin : loggedIn
+            isLogin: nextprops.authentication.loggedIn 
         });
     }
 
     showLogout() {
         var result = null;
         var { isLogin, token } = this.state;
+        console.log(isLogin)
         if (isLogin) {// isLogin = true => token has data => logout is display and login is hidden 
             result = <li> <a onClick={() => this.onLogout(token)} >Logout</a>	</li>;
         } else { // isLogin = false => token is null => logout is hidden and login is display 
@@ -42,7 +45,9 @@ class LoginButton extends Component {
     }
 
     render() {
-
+        if(this.state.isLogin){
+            return <Redirect to={{ pathname: "/"}}/>;
+        }
         return (
             <React.Fragment>
 
@@ -62,6 +67,7 @@ const mapStateToProps = state => {
 const mapDispatchToProps = (dispatch, props) => {
     return {
         onActLogout: (token) => {
+            // console.log(token)
             dispatch(actLogoutRequest(token));
         }
     }

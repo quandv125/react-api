@@ -42,6 +42,13 @@ const users = (state = initialState, action) => {
                 users: action.usel
             }
             return state;
+        case Types.GET_USER: 
+            if (action.user){
+                state = {
+                    userEdit: action.user
+                }
+            }
+            return state;
         default: 
             return state;
     }

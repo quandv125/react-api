@@ -1,19 +1,31 @@
 import React, { Component } from 'react';
 import LoginForm from './../../components/Login/LoginForm';
 import {Redirect} from 'react-router-dom';
+import { connect } from "react-redux";
+
 class Login extends Component {
 
-    constructor(props) {
+     constructor(props) {
         super(props);
         this.state = {
-            loginAuth: JSON.parse(sessionStorage.getItem('authentication')) ? JSON.parse(sessionStorage.getItem('authentication')) : {}
+            isLogin: false
+        };
+    }
+
+    componentWillReceiveProps(nextprops) {
+        if(nextprops.authentication){
+            this.setState({
+                isLogin: nextprops.authentication 
+            });
         }
     }
 
     render() {
-        if(this.state.loginAuth && this.state.loginAuth.loggedIn === true){
+
+        if(this.state.isLogin){
             return <Redirect to={{ pathname: "/"}}/>;
 		}
+        
         return (
             <div className="col-lg-12 col-sm-12 col-xs-12 col-md-12">
             
@@ -25,4 +37,9 @@ class Login extends Component {
     }
 }
 
-export default Login;
+const mapStateToProps = state => {
+    return {
+        authentication: state.authentication.status
+    }
+}
+export default connect(mapStateToProps, null)(Login);

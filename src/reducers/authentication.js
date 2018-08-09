@@ -1,20 +1,23 @@
 import * as Types from './../constants/ActionType';
-let user = JSON.parse(sessionStorage.getItem('authentication'));
+// let user = JSON.parse(sessionStorage.getItem('authentication'));
 
-const initialState = user ? { loggedIn: true, user } : { loggedIn: false };
+// const initialState = user ? { loggedIn: true, user } : { loggedIn: false };
+const initialState = { loggedIn: false };
 
 // const initialState = {};
 const authentication = (state = initialState, action) => {
     switch(action.type){
         case Types.LOGIN:
-            sessionStorage.setItem('authentication', JSON.stringify(action.user));
-            if(state.loggedIn === false && action.user.loggedIn === true){
+        // console.log(action);
+        // console.log(action.user);
+            if(action.user && action.user.status){
+                sessionStorage.setItem('authentication', JSON.stringify(action.user));
                 state = { loggedIn: true, user: JSON.parse(sessionStorage.getItem('authentication')) };
             }
-            return action.user;
+            return state;
         case Types.LOGOUT:
             sessionStorage.removeItem('authentication');
-            state = { loggedIn: false };
+            state = { loggedIn: true };
             return state;
         default: 
             return state;

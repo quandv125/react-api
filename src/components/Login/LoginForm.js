@@ -8,10 +8,13 @@ import { actLoginRequest } from './../../actions/index';
 class UserAddPage extends Component {
     constructor(props){
 		super(props);
+		let session = JSON.parse(sessionStorage.getItem('authentication'));
+
 		this.state = {
 			email: '',
 			password: '',
 			loginError: '',
+			isLogin: (session && session.status) ? session.status : false,
 			loginAuth: this.props.authentication
 		};
 		this.onSave = this.onSave.bind(this);
@@ -19,7 +22,6 @@ class UserAddPage extends Component {
 		this.showMessageError = this.showMessageError.bind(this);
 		this.isValidationError = this.isValidationError.bind(this);
 		this.flag= true;
-		
 	}
 	
 	isValidationError(flag){
@@ -37,7 +39,6 @@ class UserAddPage extends Component {
 
 	onSave (event) {
 		event.preventDefault();
-		// var {history} = this.props;
 		var {email, password} = this.state;
 		var data = { email: email, password: password};
 		if(email !== '' && password !== '' && !this.state.isFormValidationErrors){
@@ -58,13 +59,12 @@ class UserAddPage extends Component {
 	
 	componentWillReceiveProps(nextprops){
 		this.setState({
-			loginError: String(nextprops.authentication.loggedIn)
+            isLogin: nextprops.authentication.loggedIn 
 		});
 	}
 	
 	render() {
-		
-		if(this.state.loginError === 'true'){
+		if(this.state.isLogin){
             return <Redirect to={{ pathname: "/"}}/>;
 		}
 		

@@ -12,7 +12,9 @@ class UsersPage extends Component {
 		this.onDelete = this.onDelete.bind(this);
 	}
 
+
 	componentWillMount(){
+		console.log('componentWillMount');
 		this.props.getUsers();
 	}
 
@@ -22,6 +24,7 @@ class UsersPage extends Component {
 
 	render() {
 		var {users} = this.props.users;
+		// console.log(this.props);
 		return (
 			<div className="col-lg-12 col-sm-12 col-xs-12 col-md-12">
 			
@@ -53,6 +56,7 @@ class UsersPage extends Component {
 
 const mapStateToProps = state => {
 	return {
+		authentication: state.authentication,
 		users: state.users
 	}
 }
