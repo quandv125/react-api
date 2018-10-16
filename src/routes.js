@@ -24,7 +24,6 @@ const routes = [
 		exact: false,
 		main: ({match, location, history}) => <ProductListPage match={match} location={location} history={history}/>
 	},
-
 	{
 		path: '/products/add',
 		exact: false,

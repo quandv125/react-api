@@ -9,36 +9,37 @@ import ErrorMessage from './../../components/Users/ErrorMessage';
 class UserAddPage extends Component {
     constructor(props){
 		super(props);
-		// this.state = {
-		// 	id: '',
-		// 	username: 'test1',
-		// 	firstname: 'demo',
-		// 	lastname: 'demo',
-		// 	email: 'test1@gmail.com',
-		// 	address: 'Ha Noi',
-		// 	phone: '0976459551',
-		// 	role: '14',
-		// 	gender: config.GENDER_FEMALE,
-		// 	actived: config.DEACTIVED,
-		// 	isFormValidationErrors : true,
-		// 	submitted: false,
-		// 	isValidation: ''
-		// };
 		this.state = {
 			id: '',
-			username: '',
-			firstname: '',
-			lastname: '',
-			email: '',
-			address: '',
-			phone: '',
-			role: '14',
+			username: 'test'+Math.floor((Math.random() * 100) + 1),
+			firstname: 'demo',
+			lastname: 'demo',
+			email: 'test'+Math.floor((Math.random() * 100) + 1)+'@gmail.com',
+			address: 'Ha Noi',
+			phone: '0976459551',
+			birthday: '2018-07-22',
+			role_id: '14',
 			gender: config.GENDER_FEMALE,
-			actived: config.DEACTIVED,
+			is_active: config.ACTIVED,
 			isFormValidationErrors : true,
 			submitted: false,
 			isValidation: ''
 		};
+		// this.state = {
+		// 	id: '',
+		// 	username: '',
+		// 	firstname: '',
+		// 	lastname: '',
+		// 	email: '',
+		// 	address: '',
+		// 	phone: '',
+		// 	role_id: '14',
+		// 	gender: config.GENDER_FEMALE,
+		// 	is_active: config.DEACTIVED,
+		// 	isFormValidationErrors : true,
+		// 	submitted: false,
+		// 	isValidation: ''
+		// };
 		this.onSave = this.onSave.bind(this);
 		this.onChangeForm = this.onChangeForm.bind(this);
 		this.isValidationError = this.isValidationError.bind(this);
@@ -60,7 +61,6 @@ class UserAddPage extends Component {
 	componentWillReceiveProps(nextprops){
 		if(nextprops && nextprops.users.userEdit){
 			var {userEdit} = nextprops.users;
-			// console.log(typeof userEdit, userEdit)
 			this.setState({
 				id: userEdit.id,
 				username: userEdit.username,
@@ -69,29 +69,28 @@ class UserAddPage extends Component {
 				email: userEdit.email,
 				address: userEdit.address,
 				phone: userEdit.phone,
-				role: userEdit.role_id,
+				role_id: userEdit.role_id,
 				gender: userEdit.gender,
-				actived: userEdit.is_active
+				is_active: userEdit.is_active
 			});
 		}
-
-		// if(nextprops && nextprops.users && nextprops.users){
-		// 	console.log(nextprops);	
-		// 	var {status} = nextprops.users;
-		// 	this.setState({isValidation: String(status)});
-		// 	if(status === true){
-		// 		var {history} = this.props;
-		// 		history.goBack();
-		// 	} else {
-		// 		if(nextprops.users && nextprops.users.preUser){
-		// 			var preUser = nextprops.users.preUser;
-		// 			this.setState({
-		// 				id: preUser.id,	username: preUser.username,	firstname: preUser.firstname,	lastname: preUser.lastname,	email: preUser.email,	address: preUser.address,	phone: preUser.phone,	role: preUser.role,	gender: preUser.gender,	actived: preUser.actived
-		// 			});
-		// 		}
-		// 	}
-		// }
-		
+		if(nextprops && nextprops.users && nextprops.users){
+			// console.log(nextprops.users);	
+			var {status} = nextprops.users;
+			this.setState({isValidation: String(status)});
+			if(status === true){
+				var {history} = this.props;
+				history.goBack();
+			} else {
+				if(nextprops.users && nextprops.users.preUser){
+					var preUser = nextprops.users.preUser;
+					this.setState({
+						id: preUser.id,	username: preUser.username,	firstname: preUser.firstname, lastname: preUser.lastname, email: preUser.email,	address: preUser.address, phone: preUser.phone,	role_id: preUser.role_id, gender: preUser.gender, is_active: preUser.is_active
+					});
+				}
+			}
+			
+		}
 	}
 	
 	isValidationError(flag){
@@ -132,22 +131,22 @@ class UserAddPage extends Component {
 		this.setState({
 			submitted:true
 		});
-		var {id, username, firstname, lastname, email, role, phone, address, actived, gender, avatar} = this.state;
+		var {id, username, firstname, lastname, email, role_id, phone, address, is_active, gender, avatar} = this.state;
 		var data = { 
 			username: username,
 			firstname: firstname,
 			lastname: lastname,
 			email: email,
-			role: role,
+			role_id: role_id,
 			phone: phone,
 			address: address,
 			gender: gender,
-			actived: actived ? config.ACTIVED : config.DEACTIVED,
+			is_active: is_active ? config.ACTIVED : config.DEACTIVED,
 			avatar: avatar 
 		};
 		let { isFormValidationErrors } = this.state;
-		//console.log(isFormValidationErrors, data)
-        if ( isFormValidationErrors === true){
+
+        if ( !isFormValidationErrors ){
 			if(id) { //update
 				this.props.onEditUser(data, id);
 			} else { //create
@@ -157,8 +156,10 @@ class UserAddPage extends Component {
 	}
 
 	render() {
-		// console.log('render');
+
+		// console.log('role_id: '+this.state.role_id);
 		// const { isBlocking } = this.state;
+		// const { gender } = this.state;
 		return (
 			<div>
 				<div className="col-lg-6 col-sm-6 col-xs-6 col-md-6">
@@ -237,7 +238,7 @@ class UserAddPage extends Component {
 						<div className="form-group">
 							<label>Phone</label>
 							<input 
-								type="Phone" 
+								type="text" 
 								className="form-control" 
 								value={this.state.phone} 
 								onChange={this.onChangeForm} 
@@ -254,7 +255,7 @@ class UserAddPage extends Component {
 						<div className="form-group">
 							<label>Address</label>
 							<input 
-								type="Address" 
+								type="text" 
 								className="form-control" 
 								value={this.state.address} 
 								onChange={this.onChangeForm} 
@@ -268,12 +269,29 @@ class UserAddPage extends Component {
                                 validationMessages={{ required: "This field is required", maxLength: "Not a valid Max length: 10 "}}/>
 						</div>
 						<div className="form-group">
-							<div className="role">
+							<label>Birthday</label>
+							<input 
+								type="date" 
+								className="form-control" 
+								value={this.state.birthday} 
+								onChange={this.onChangeForm} 
+								name="birthday" 
+								placeholder="birthday"/>
+								
+							<Validator 
+                                isValidationError={this.isValidationError}
+                                isFormSubmitted={this.state.submitted} 
+                                reference={{birthday : this.state.birthday}}
+                                validationRules={{required:true, maxLength:50}} 
+                                validationMessages={{ required: "This field is required", maxLength: "Not a valid Max length: 10 "}}/>
+						</div>
+						<div className="form-group">
+							<div className="role_id">
 								<label>Role</label>
 								<select
 									className="form-control"
-									name="role"
-									value={this.state.role}
+									name="role_id"
+									value={this.state.role_id}
 									onChange={this.onChangeForm}
 								>
 									<option value='14'>Administrator</option>
@@ -283,7 +301,7 @@ class UserAddPage extends Component {
 								<Validator 
 									isValidationError={this.isValidationError}
 									isFormSubmitted={this.state.submitted} 
-									reference={{role : this.state.role}}
+									reference={{role_id : this.state.role_id}}
 									validationRules={{required:true}} 
 									validationMessages={{ required: "This field is required"}}/>
 								
@@ -294,15 +312,15 @@ class UserAddPage extends Component {
 								<label>
 									<input 
 										type="checkbox" 
-										value={this.state.actived} 
-										checked={this.state.actived}
+										value={this.state.is_active} 
+										checked={this.state.is_active}
 										onChange={this.onChangeForm} 
-										name="actived"/>
+										name="is_active"/>
 									Active 
 								</label>
 							</div>
 						</div>
-						<div className="form-group">
+						{/* <div className="form-group">
 							<div className="Radio">
 								<label>	Gender </label>
 								<br/>
@@ -310,22 +328,42 @@ class UserAddPage extends Component {
 									<input type="radio" 
 										name="gender" 
 										value="0"
-										checked={this.state.gender === "0"} 
+										checked={gender === config.GENDER_MALE } 
 										onChange={this.onChangeForm} /> Male
 								</span>
 								<span>
 								<input type="radio"
 									name="gender"
 									value="1" 
-									checked={this.state.gender === "1"} 
+									checked={gender === config.GENDER_FEMALE } 
 									onChange={this.onChangeForm} /> Female
 								</span>
 							</div>
-							
+						</div> */}
+						<div className="form-group">
+							<div className="gender">
+								<label>gender</label>
+								<select
+									className="form-control"
+									name="gender"
+									value={this.state.gender}
+									onChange={this.onChangeForm}
+								>
+									<option value={config.GENDER_MALE}>Male</option>
+									<option value={config.GENDER_FEMALE}>Female</option>
+									
+								</select>
+								<Validator 
+									isValidationError={this.isValidationError}
+									isFormSubmitted={this.state.submitted} 
+									reference={{gender : this.state.gender}}
+									validationRules={{required:true}} 
+									validationMessages={{ required: "This field is required"}}/>
+								
+							</div>
 						</div>
 						<img id="output"  alt="" className="width100px"/> <br/>
 						<div className="form-control">
-							
 							<div className="file-upload">
 								<input 
 									type="file" 
@@ -342,7 +380,7 @@ class UserAddPage extends Component {
 							<button type="submit" className="btn btn-primary margin-right-10" onClick={this.onSave}>Save</button>
 
 							<Link to="/users" className="btn btn-success">
-									Back
+								Back
 							</Link>
 						</div>
 						
@@ -364,7 +402,6 @@ class UserAddPage extends Component {
 }
 
 const mapStateToProps = state => {
-	// console.log(state)
 	return {
 		userEdit: state.userEdit,
 		users: state.users,

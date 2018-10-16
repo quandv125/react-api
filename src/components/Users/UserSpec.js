@@ -15,18 +15,18 @@ class UserSpec extends Component {
 			<tr className="text-center">
 				<td>{index+1}</td>
 				<td>
-					<img src={`http://127.0.0.1:8000/images/thumbnails/150_${ user.avatar ? user.avatar : "placeholder.jpg"}`} className="img-responsive width50px" alt={user.picture}/>
+					{/* <img src={`http://127.0.0.1:8000/images/thumbnails/150_${ user.avatar ? user.avatar : "placeholder.jpg"}`} className="img-responsive width50px" alt={user.picture}/> */}
 				</td>
 				<td>{user.username}</td>
 				<td>{user.firstname}</td>
 				<td>{user.lastname}</td>
 				<td>{user.email}</td>
-				<td>{user.birthday}</td>
+				<td>{user.created_at}</td>
 				<td>{user.phone}</td>
 				<td>{user.address}</td>
 				<td>
-					<span className={( String(user.gender) === config.GENDER_FEMALE  ) ? 'label label-danger':'label label-info'}>
-						{( String(user.gender) === config.GENDER_FEMALE ) ? 'Female':'Male'}
+					<span className={( user.gender === config.GENDER_FEMALE  ) ? 'label label-danger':'label label-info'}>
+						{( user.gender === config.GENDER_FEMALE ) ? 'Female':'Male'}
 					</span> 
 				</td>
 				<td>

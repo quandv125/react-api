@@ -1,13 +1,15 @@
 import axios from 'axios';
-// import * as config from './../constants/config';
 
 export default function apiCaller(menthod = 'GET', url, data){
+    const TOKEN = sessionStorage.getItem('authentication') ? JSON.parse(sessionStorage.getItem('authentication')).access_token : '';
+    
     return axios({
-    	// headers: {"Authorization" : `Bearer ${config.TOKEN}`},
+        headers: {"Authorization" : `Bearer ${TOKEN}`},
         method: menthod,
         url: url,
         data: data
     }).catch( err => {
         console.log(err);
     });
+    
 };

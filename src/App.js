@@ -24,7 +24,6 @@ class App extends Component {
 		return result;
 	}
 	render() {
-		
 		return (
 			<Router>
 				<Route render={({ location }) => (
@@ -35,9 +34,9 @@ class App extends Component {
 					<CSSTransition key={location.key}  classNames="fade" timeout={100}> */}
                 	<Switch location={location}>
 				
-						{this.showContentMenu(routes,location)}
+										{this.showContentMenu(routes,location)}
 
-					 </Switch>
+									 </Switch>
 					{/* </CSSTransition>
 					</TransitionGroup> */}
 				</div>

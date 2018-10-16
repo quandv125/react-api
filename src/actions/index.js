@@ -1,11 +1,11 @@
 import * as Types from './../constants/ActionType';
 import * as config from './../constants/config';
 import apiCaller from './../utils/apiCaller';
-//test 14/07
+
 // Product
 export const actFetchProductsRequest = () => {
     return (dispatch) => {
-        return apiCaller('GET', config.API_URL + config.PRODUCTS + config.TOKEN , null).then( res => {
+        return apiCaller('GET', config.API_URL + config.PRODUCTS  , null).then( res => {
             if(res){
                 dispatch(actFetchProducts(res.data));
 
@@ -23,8 +23,7 @@ export const actFetchProducts = (products) => {
 // Users
 export const actFetchUsersRequest = () => {
     return (dispatch) => {
-        return apiCaller('GET', config.API_URL + config.USER + config.TOKEN , null).then( res => {     
-            // console.log(res);   
+        return apiCaller('GET', config.USER_URL  , null).then( res => {     
             if(res){     
                 dispatch(actFetchUsers(res.data));
             }
@@ -41,7 +40,7 @@ export const actFetchUsers = (users) => {
 // Delete User    
 export const actDeleteUserRequest = (id) => {
     return (dispatch) => {
-        return apiCaller('DELETE', config.APP_URL+'/destroy/'+id, null).then( res => {
+        return apiCaller('DELETE', config.USER_URL + id , null).then( res => {
 			dispatch(actDeleteUser(id));
 		}); 
     }
@@ -64,8 +63,7 @@ export const actAddUser = (user, userOld) => {
 
 export const actAddUserRequest = (user) => {
     return (dispatch) => {
-        return apiCaller('POST', config.API_URL + config.USER_ADD + config.TOKEN, user).then( res => {
-            console.log(res.data);
+        return apiCaller('POST', config.USER_URL , user).then( res => {
             dispatch(actAddUser(res.data, user));
         });
     }
@@ -86,19 +84,18 @@ export const actEditUser = (user) => {
 }
 
 export const actEditUserRequest = (user, id) => {
-    return (dispatch) => {        
-        return apiCaller('PUT', config.APP_URL+'/update/'+ id, user).then( res => {   
-            if (res.data.success) {
-                // console.log(res.data);         
+    return (dispatch) => { 
+        return apiCaller('PUT', config.USER_URL + id , user).then( res => {   
+            if (res.data.status) {
                 dispatch(actEditUser(res.data));
             }
         });
     }
 }
-
+// get infomation user
 export const actGetUserRequest = id => {
     return (dispatch) => {
-        return apiCaller('GET', config.APP_URL+'/'+id+ config.TOKEN, null).then(res => {
+        return apiCaller('GET', config.USER_URL +id, null).then(res => {
             dispatch(actGetUser(res.data));
         });
     }
@@ -139,10 +136,9 @@ export const actLogout = () => {
     }
 }
 
-export const actLogoutRequest = (token) => {
+export const actLogoutRequest = () => {
     return dispatch => {
-        return apiCaller('POST', config.LOGOUT_URL+token, null).then(res => {
-            // console.log('status logout: ',res.data);
+        return apiCaller('POST', config.LOGOUT_URL, null).then(res => {           
             if(res.data.status){
                 dispatch(actLogout());
             } else {

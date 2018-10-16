@@ -26,20 +26,21 @@ const users = (state = initialState, action) => {
         case Types.ADD_USERS: 
             
             state = { 
-                status: action.user.success, 
+                status: action.user.status, 
                 users: action.user,
-                preUser: !action.user.success ? action.userOld : null
+                preUser: !action.user.status ? action.userOld : null
             };
             return state;
         case Types.UPDATE_USERS:
+ 
             let {id} = action.user.user; 
             index = findIndex(state.users, { id: id });
             if (index !== -1) {
                 state.users[index] = action.user.user;
             }
             state = {
-                status: action.user.success,
-                users: action.usel
+                status: action.user.status,
+                users: action.user
             }
             return state;
         case Types.GET_USER: 

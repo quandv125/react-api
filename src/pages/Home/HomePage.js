@@ -23,9 +23,7 @@ class Home extends Component {
 	componentDidMount(){
 		// console.log('componentDidMount'); // 4
 	}
-
 	// ****** //
-
 
 	shouldComponentUpdate(nextProps, nextState){
 		// 1.2
@@ -85,7 +83,7 @@ class Home extends Component {
 			<React.Fragment>
 				
 				<div className="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-					<button type="button" onClick={this.onTest} className="btn btn-default">button</button>
+					{/* <button type="button" onClick={this.onTest} className="btn btn-default">button</button> */}
 				</div>
 				<div className="col-xs-6 col-sm-6 col-md-6 col-lg-6">
 					{ this.state.AuthLogin && this.state.AuthLogin.status ? 

@@ -7,16 +7,26 @@ import { connect } from 'react-redux';
 // import {findIndex} from 'lodash';
 // import callApi from './../../utils/apiCaller';
 import { actFetchProductsRequest } from './../../actions/index';
+import { Redirect } from 'react-router-dom';
 
 class ProductList extends Component {
 
 	constructor(props) {
 		super(props);
 		this.state = {
-			products : [] 
+			products : [],
+			loggedOut: false
 		}
+	
 		this.onDelete = this.onDelete.bind(this);
 	}
+
+	componentWillReceiveProps(nextprops) {
+        this.setState({
+            loggedOut: nextprops.authentication.loggedOut
+        });
+    }
+
 
 	componentWillMount(){
 		this.props.getProducts();		
@@ -57,6 +67,9 @@ class ProductList extends Component {
 
 	render() {
 		var {products} = this.props.products;
+		if(this.state.loggedOut){
+			return <Redirect to={{ pathname: "/"}}/>;
+		}
 		return (
 			<div className="ProductList col-lg-12 col-sm-12 col-xs-12 col-md-12">
 			  	<Link to="/products/add" className="btn btn-primary">
@@ -86,7 +99,8 @@ class ProductList extends Component {
 
 const mapStateToProps = (state) => {
 	return {
-		products: state.products
+		products: state.products,
+		authentication: state.authentication
 	};
 }
 const mapDispatchToProps = (dispatch, props) => {

@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 class ErrorMessage extends Component {
     render() {
-      
         var element = null;
         if(this.props.messages && this.props.messages.users) {
             var info = this.props.messages.users[0];

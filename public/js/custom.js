@@ -1,3 +1,4 @@
 $(document).ready(function(){
-    alert("OK");
+    // alert("OK");
+    // $('#datetimepicker1').datetimepicker();
 });
