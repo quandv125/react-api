@@ -1,4 +1,4 @@
-/node_modules
-/public/storage
+#/node_modules
+#/public/storage
 .vscode
 README.md

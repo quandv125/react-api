@@ -5,23 +5,24 @@
 .navbar-inverse .navbar-nav>li>span {
     color: #9d9d9d;
 }
-@media (min-width: 768px)
-.navbar-nav>li>span {
-    padding-top: 15px;
-    padding-bottom: 15px;
-}
-.navbar-nav>li>span {
-    padding-top: 10px;
-    padding-bottom: 10px;
-    line-height: 20px;
-}
-.nav>li>span {
-    position: relative;
-    display: block;
-    padding: 15px 15px;
-}
-.rt-tbody{
-    text-align: center;
+@media (min-width: 768px){
+    .navbar-nav>li>span {
+        padding-top: 15px;
+        padding-bottom: 15px;
+    }
+    .navbar-nav>li>span {
+        padding-top: 10px;
+        padding-bottom: 10px;
+        line-height: 20px;
+    }
+    .nav>li>span {
+        position: relative;
+        display: block;
+        padding: 15px 15px;
+    }
+    .rt-tbody{
+        text-align: center;
+    }
 }
 .sel-role{
     margin-top: 7px;
