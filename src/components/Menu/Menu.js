@@ -64,6 +64,7 @@ class Menu extends Component {
 		return (
 			<nav className="navbar navbar-inverse">
 				<ul className="nav navbar-nav">
+					
 					{this.showMenu(menu)}
 					 
 					<LoginButton />

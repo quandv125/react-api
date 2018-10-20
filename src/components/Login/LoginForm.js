@@ -106,16 +106,16 @@ class UserAddPage extends Component {
 									validationMessages={{ required: "This field is required", maxLength: "Not a valid Max length: 10 "}}/>
 							</div>
 							<div className="col-xs-12 col-sm-12 col-md-12 col-lg-12 text-center">
-								<button type="submit" >Login</button>	
+								<button type="submit" >Submit</button>	
 							</div>
 							
 							<br/>
-							<label>
+							{/* <label>
 								<input type="checkbox" name="remember"/> Remember me
 							</label>
 							
 							<span className="forgot-password">Forgot password?</span>
-						
+						 */}
 						</form>
 				
 					</div>

@@ -1,0 +1,9 @@
+.homeTransition-appear{
+    opacity: 0;
+  }
+  
+  .homeTransition-appear.homeTransition-appear-active{
+    opacity: 1;
+    transition: all .4s ease-in-out;
+  }
+  

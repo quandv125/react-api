@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import { CSSTransitionGroup } from 'react-transition-group';
+
 import { Link } from 'react-router-dom';
 import * as config from './../../constants/config';
 import callApi from './../../utils/apiCaller';
@@ -70,68 +72,71 @@ class ProductActionPage extends Component {
 
 	render() {
 		return (
-			<div>
-				<div className="col-lg-3 col-sm-3 col-xs-3 col-md-3">
-				</div>
-				<div className="col-lg-6 col-sm-6 col-xs-6 col-md-6">
-					
-					<form onSubmit={this.onSave}>
-						<legend>Form title</legend>
-					
-						<div className="form-group">
-							<label>FirstName</label>
-							<input 
-								type="text" 
-								className="form-control" 
-								value={this.state.firstname} 
-								onChange={this.onChangeFrom} 
-								name="firstname" 
-								placeholder="FirstName"/>
-						</div>
-						<div className="form-group">
-							<label>LastName</label>
-							<input 
-								type="text" 
-								className="form-control" 
-								value={this.state.lastname} 
-								onChange={this.onChangeFrom} 
-								name="lastname" 
-								placeholder="LastName"/>
-						</div>
-						<div className="form-group">
-							<label>Avatar</label>
-							<input 
-								type="text" 
-								className="form-control" 
-								value={this.state.txtAvatar} 
-								onChange={this.onChangeFrom} 
-								name="txtAvatar" 
-								placeholder="Avatar"/>
-						</div>
-						<div className="form-group">
-							<label>Status</label>
-							
-							<div className="checkbox">
-								<label>
-									<input 
-										type="checkbox" 
-										value={this.state.txtchbox} 
-										// checked 
-										onChange={this.onChangeFrom} 
-										name="txtchbox"/>
-									Con hang
-								</label>
+			<CSSTransitionGroup transitionName="worksTransition" transitionAppear={true} transitionAppearTimeout={500} transitionEnter={false} transitionLeave={false}>
+
+				<div>
+					<div className="col-lg-3 col-sm-3 col-xs-3 col-md-3">
+					</div>
+					<div className="col-lg-6 col-sm-6 col-xs-6 col-md-6">
+						
+						<form onSubmit={this.onSave}>
+							<legend>Form title</legend>
+						
+							<div className="form-group">
+								<label>FirstName</label>
+								<input 
+									type="text" 
+									className="form-control" 
+									value={this.state.firstname} 
+									onChange={this.onChangeFrom} 
+									name="firstname" 
+									placeholder="FirstName"/>
+							</div>
+							<div className="form-group">
+								<label>LastName</label>
+								<input 
+									type="text" 
+									className="form-control" 
+									value={this.state.lastname} 
+									onChange={this.onChangeFrom} 
+									name="lastname" 
+									placeholder="LastName"/>
+							</div>
+							<div className="form-group">
+								<label>Avatar</label>
+								<input 
+									type="text" 
+									className="form-control" 
+									value={this.state.txtAvatar} 
+									onChange={this.onChangeFrom} 
+									name="txtAvatar" 
+									placeholder="Avatar"/>
+							</div>
+							<div className="form-group">
+								<label>Status</label>
+								
+								<div className="checkbox">
+									<label>
+										<input 
+											type="checkbox" 
+											value={this.state.txtchbox} 
+											// checked 
+											onChange={this.onChangeFrom} 
+											name="txtchbox"/>
+										Con hang
+									</label>
+								</div>
+								
 							</div>
 							
-						</div>
-						
-						<button type="submit" className="btn btn-primary margin-right-10">Save</button>
-						<Link to="/products-list" className="btn btn-success">
-								Back
-						</Link>
-					</form>
+							<button type="submit" className="btn btn-primary margin-right-10">Save</button>
+							<Link to="/products-list" className="btn btn-success">
+									Back
+							</Link>
+						</form>
+					</div>
 				</div>
-			</div>
+				</CSSTransitionGroup>
 		);
 	} // end render
 

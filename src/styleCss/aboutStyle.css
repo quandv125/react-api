@@ -1,0 +1,14 @@
+.about{
+    color: red;
+  }
+  
+  .aboutTransition-appear{
+    opacity: 0;
+  }
+  
+  .aboutTransition-appear.aboutTransition-appear-active{
+    opacity: 1;
+    color: red;
+    transition: all .4s ease-in-out;
+  }
+  

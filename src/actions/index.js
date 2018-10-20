@@ -120,11 +120,11 @@ export const actLogin = (user) => {
 export const actLoginRequest = (user) => {
     return dispatch => {
         return apiCaller('POST', config.LOGIN_URL, user).then(res => {
-            // console.log('status login:', res.data);
             if (res.data.status) {
                 dispatch(actLogin(res.data));
             } else {
-                alert(res.data.data);
+                console.log(res.data);
+                alert(res.data.msg);
             }
         });
     }

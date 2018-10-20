@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import { CSSTransitionGroup } from 'react-transition-group'
+import * as config from './../../constants/config';
 import {connect} from 'react-redux';
 import { Link } from 'react-router-dom';
 class Home extends Component {
@@ -71,34 +73,30 @@ class Home extends Component {
 		});
 		
 	}
-	
 	//Case 1:  1. contrucstor 2. componentWillMount 3. render 4. componentDidMount
 	//Case 2:  1. func: test 2. shouldComponentUpdate 3. ComponentWillUpdate 4. render 5. componentDidUpdate
 	render() {
 		// console.log('render'); // 3 | 1.4
-		var username = this.state.AuthLogin && this.state.AuthLogin.status ? this.state.AuthLogin.user.username : null;
-		var email = this.state.AuthLogin && this.state.AuthLogin.status ? this.state.AuthLogin.user.email : null;
-	
 		return (
-			<React.Fragment>
-				
-				<div className="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-					{/* <button type="button" onClick={this.onTest} className="btn btn-default">button</button> */}
+			<CSSTransitionGroup transitionName={config.PAGETRANSITION} transitionAppear={true} transitionAppearTimeout={config.TRANSITIONSPEED} transitionEnter={false} transitionLeave={false}>
+				<div>
+					<div className="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+						{ this.state.AuthLogin && this.state.AuthLogin.status ? 
+							(
+								<div> 
+									<h3>Login Successfully </h3> 
+								</div> 
+							)
+							: 
+							(
+								<Link to="/login" className="my-link">
+									Login
+								</Link>
+							)
+						}
+					</div>
 				</div>
-				<div className="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-					{ this.state.AuthLogin && this.state.AuthLogin.status ? 
-						<div> <h3>Login Successfully </h3> 
-							<div>Username: {username}</div>
-							<div>Email: {email}</div>
-						</div> 
-						: <Link to="/login" className="my-link">
-							Login
-						</Link>
-					}
-				
-				</div>
-				
-			</React.Fragment>
+			</CSSTransitionGroup>
 		);
 		
 	}
@@ -106,7 +104,6 @@ class Home extends Component {
 }
 
 const mapStateToProps = (state) => {
-
 	return {
 		AuthLogin: state.authentication
 	}

@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import { CSSTransitionGroup } from 'react-transition-group'
+
 // import UsersList from './../../components/Users/UsersList';
 // import UserSpec from './../../components/Users/UserSpec';
 import { Link } from 'react-router-dom';
@@ -49,7 +51,7 @@ class UsersPage extends Component {
 
 	renderAddButton(){
 		if( this.state.isLogin === true)
-		   return <Link to="/users/add" className="btn btn-primary">Add</Link>;
+		   return <Link to="/users/add" className="btn btn-primary"><i className="fa fa-plus"></i></Link>;
 		return null;
 	 }
 
@@ -63,14 +65,16 @@ class UsersPage extends Component {
 		}
 		
 		return (
-			
-			<div className="col-lg-12 col-sm-12 col-xs-12 col-md-12">
-			
-				{this.renderAddButton()}
+			<CSSTransitionGroup transitionName={config.PAGETRANSITION} transitionAppear={true} transitionAppearTimeout={config.TRANSITIONSPEED} transitionEnter={false} transitionLeave={false}>
 
-				{ this.showUser(users) }
+				<div className="col-lg-12 col-sm-12 col-xs-12 col-md-12">
+				
+					{this.renderAddButton()}
+					<br/> <br/>
+					{ this.showUser(users) }
 
-			</div>
+				</div>
+			</CSSTransitionGroup>
 		);
 	} // end render
 
@@ -166,15 +170,34 @@ class UsersPage extends Component {
 											id: "gender",
 											accessor: d => d.gender,
 											Cell: ({ value }) => (value === config.GENDER_MALE	 ? "Male" : "Female"),
-											filterMethod: (filter, rows) => matchSorter(rows, filter.value, { keys: ["gender"] }),
-											filterAll: true
+											filterMethod: (filter, row) => {
+												if (filter.value === "all") {
+												  	return true;
+												}
+												if (filter.value === String(config.GENDER_MALE)) {
+													return row[filter.id] === config.GENDER_MALE;
+												}
+												if (filter.value === String(config.GENDER_FEMALE)) {
+													return row[filter.id] === config.GENDER_FEMALE;
+												}
+
+											  },
+											  Filter: ({ filter, onChange }) =>
+												<select
+												  className="sel-role"
+												  onChange={event => onChange(event.target.value)}
+												  style={{ width: "100%" }}
+												  value={filter ? filter.value : "all"}
+												>
+												  <option value="all">Show All</option>
+												  <option value="0">Male</option>
+												  <option value="1">Female</option>
+												</select>
 										},
 										{
 											Header: "Role",
 											id: "role_id",
 											accessor: d => d.role_id,
-											// filterMethod: (filter, rows) => matchSorter(rows, filter.value, { keys: ["role_id"] }),
-											// filterAll: true,
 											Cell: ({ value }) => {
 												if(value === 14){
 													return 'Administrator'
@@ -220,24 +243,53 @@ class UsersPage extends Component {
 											id: "is_active",
 											accessor: d => d.is_active,
 											Cell: ({ value }) => (value === config.ACTIVED ? "Active" : ""),
-											filterMethod: (filter, rows) => matchSorter(rows, filter.value, { keys: ["is_active"] }),
-											filterAll: true
+											filterMethod: (filter, row) => {
+												if (filter.value === "all") {
+												  	return true;
+												}
+												if (filter.value === String(config.ACTIVED)) {
+													return row[filter.id] === config.ACTIVED;
+												}
+												if (filter.value === String(config.DEACTIVED)) {
+													return row[filter.id] === config.DEACTIVED;
+												}
+
+											  },
+											  Filter: ({ filter, onChange }) =>
+												<select
+												  className="sel-role"
+												  onChange={event => onChange(event.target.value)}
+												  style={{ width: "100%" }}
+												  value={filter ? filter.value : "all"}
+												>
+												  <option value="all">Show All</option>
+												  <option value="1">ACTIVE</option>
+												  <option value="0">NO ACTIVE</option>
+												
+
+												</select>
 										},
 										{
 											Header: "Action",
 											filterable: false,
 											Cell: row => (
 												<div>
-												  	<Link to={`users/${row.original.id}/edit`} className="btn btn-success margin-right-10">
+												  	{/* <Link to={`users/${row.original.id}/edit`} className="btn btn-success margin-right-10">
 													  	Edit
-													</Link>
-													<button type="button" className="btn btn-danger" onClick={ () => this.onDelete(row.original.id)}>Delete</button>
+													</Link> */}
+													<button type="button" className="btn btn-danger" onClick={ () => this.onDelete(row.original.id)}><i className="fa fa-trash"></i></button>
 												</div>
 											)
 										}
 									]
 								}
 						]}
+						defaultSorted={[
+							{
+							  id: "row",
+							  desc: true
+							}
+						  ]}
 						defaultPageSize={10}  
 						className="-striped -highlight"
 					/>

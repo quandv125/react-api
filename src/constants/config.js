@@ -27,7 +27,10 @@ export const ADMINISTRATOR = 14;
 export const MANAGER = 15;
 export const MEMBER = 16;
 
-
-// export const TOKEN = sessionStorage.getItem('authentication') ? '?token='+JSON.parse(sessionStorage.getItem('authentication')).access_token : '';
 export const TOKEN = sessionStorage.getItem('authentication') ? JSON.parse(sessionStorage.getItem('authentication')).access_token : '';
+export const ISLOGIN = sessionStorage.getItem('authentication') ? true : false;
 
+// Transition  
+export const PAGETRANSITION = 'worksTransition';
+export const LOGINTRANSITION = 'aboutTransition';
+export const TRANSITIONSPEED = 300;

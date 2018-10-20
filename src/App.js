@@ -2,12 +2,64 @@ import React, { Component } from 'react';
 import './App.css';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import Menu from './components/Menu/Menu';
+import Login from './pages/Login/Login';
 import routes from './routes';
-// import { TransitionGroup, CSSTransition } from "react-transition-group";
+import { ISLOGIN } from './constants/config';
+import { connect } from 'react-redux';
+import { CSSTransitionGroup } from 'react-transition-group'
+import * as config from './constants/config';
 
 class App extends Component {
+
+	constructor(props){
+		super(props)
+		this.state = {
+			isLogin : ISLOGIN
+		}
+	}
+
+	componentWillReceiveProps(nextprops){
+		this.setState({
+			isLogin: nextprops.authentication.loggedIn
+		});	
+	}
+
+	render() {
+		if( this.state.isLogin ) {
+			return (
+				<Router>
+					<Route render={({ location }) => (
+						<div className="App" >
+							
+							<CSSTransitionGroup transitionName={config.PAGETRANSITION} transitionAppear={true} transitionAppearTimeout={config.TRANSITIONSPEED} transitionEnter={false} transitionLeave={false}>
+							<Menu />
+							<Switch location={location}>
+
+								{this.showContentMenu(routes,location)}
+							</Switch>
+							</CSSTransitionGroup>
+
+						</div>
+					)}/>
+				</Router>
+			);
+		} else {
+			return (
+				<Router>
+					<Route render={({ location }) => (
+						<div className="App" >
+							
+							<Login />
+							
+						</div>
+					)}/>
+				</Router>
+			);
+		}
+		
+	}
+
 	showContentMenu = (routes,location) => {
-		// console.log(location);
 		var result = null;
 		if(routes.length > 0){
 			result = routes.map((route, index) => {
@@ -23,73 +75,25 @@ class App extends Component {
 		}
 		return result;
 	}
-	render() {
-		return (
-			<Router>
-				<Route render={({ location }) => (
-					
-				<div className="App" style={styles.content}>
-					<Menu />
-					{/* <TransitionGroup>
-					<CSSTransition key={location.key}  classNames="fade" timeout={100}> */}
-                	<Switch location={location}>
-				
-										{this.showContentMenu(routes,location)}
-
-									 </Switch>
-					{/* </CSSTransition>
-					</TransitionGroup> */}
-				</div>
-				)}/>
-			</Router>
-		);
-	}
 	
 }
-const styles = {};
 
-styles.fill = {
-  position: "absolute",
-  left: 0,
-  right: 0,
-  top: 0,
-  bottom: 0
-};
+const mapStateToProps = state => {
+	return {
+		authentication: state.authentication,
+	}
+}
 
-styles.content = {
-  ...styles.fill,
-  top: "0px",
-//   textAlign: "center"
-};
+// const mapDispatchToProps = (dispatch, props) => {
+// 	return {
+// 		getUsers : () => {
+// 			dispatch(actFetchUsersRequest());
+// 		},
+// 		onDeleteUser : (id) => {
+// 			dispatch(actDeleteUserRequest(id));
+// 		}
+// 	}
+// }
 
-styles.nav = {
-  padding: 0,
-  margin: 0,
-  position: "absolute",
-  top: 0,
-  height: "40px",
-  width: "100%",
-  display: "flex"
-};
+export default connect(mapStateToProps, null)(App);
 
-styles.navItem = {
-  textAlign: "center",
-  flex: 1,
-  listStyleType: "none",
-  padding: "0px"
-};
-
-styles.hsl = {
-  ...styles.fill,
-  color: "white",
-  paddingTop: "20px",
-  fontSize: "30px"
-};
-
-styles.rgb = {
-  ...styles.fill,
-  color: "white",
-  paddingTop: "20px",
-  fontSize: "30px"
-};
-export default App;

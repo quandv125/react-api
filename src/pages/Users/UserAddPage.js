@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import { CSSTransitionGroup } from 'react-transition-group'
+
 import { Link } from 'react-router-dom';
 import * as config from './../../constants/config';
 import Validator from 'react-forms-validator';
@@ -156,246 +158,235 @@ class UserAddPage extends Component {
 	}
 
 	render() {
-
-		// console.log('role_id: '+this.state.role_id);
-		// const { isBlocking } = this.state;
-		// const { gender } = this.state;
 		return (
-			<div>
-				<div className="col-lg-6 col-sm-6 col-xs-6 col-md-6">
-
-					{ this.state.isValidation === 'false' ? <ErrorMessage messages={this.props.users}/>: null}
-	
-					<form noValidate  >
-						<legend>Form title</legend>
-
-						<div className="form-group">
-							<label>UserName</label>
-							<input 
-								type="text" 
-								className="form-control" 
-								value={this.state.username} 
-								onChange={this.onChangeForm} 
-								name="username" 
-								placeholder="username"/>
-							<Validator 
-                                isValidationError={this.isValidationError}
-                                isFormSubmitted={this.state.submitted} 
-                                reference={{username : this.state.username}}
-                                validationRules={{required:true, minLength: 5,maxLength:10}} 
-                                validationMessages={{ required: "This field is required", minLength: "Not a valid Min length: 5 ",maxLength: "Not a valid Max length: 10 "}}/>
-						</div>
-						<div className="form-group">
-							<label>FirstName</label>
-							<input 
-								type="text" 
-								className="form-control" 
-								value={this.state.firstname} 
-								onChange={this.onChangeForm} 
-								name="firstname" 
-								placeholder="firstname"/>
-							<Validator 
-                                isValidationError={this.isValidationError}
-                                isFormSubmitted={this.state.submitted} 
-                                reference={{firstname : this.state.firstname}}
-                                validationRules={{required:true, maxLength:50}} 
-                                validationMessages={{ required: "This field is required", maxLength: "Not a valid Max length: 10 "}}/>
-						</div>
-						<div className="form-group">
-							<label>LastName</label>
-							<input 
-								type="text" 
-								className="form-control" 
-								value={this.state.lastname} 
-								onChange={this.onChangeForm} 
-								name="lastname" 
-								placeholder="lastname"/>
-							<Validator 
-                                isValidationError={this.isValidationError}
-                                isFormSubmitted={this.state.submitted} 
-                                reference={{lastname : this.state.lastname}}
-                                validationRules={{required:true, maxLength:50}} 
-                                validationMessages={{ required: "This field is required", maxLength: "Not a valid Max length: 10 "}}/>
-							
-						</div>
-						<div className="form-group">
-							<label>Email</label>
-							<input 
-								type="text" 
-								className="form-control" 
-								value={this.state.email} 
-								onChange={this.onChangeForm} 
-								name="email" 
-								placeholder="email"/>
-							<Validator 
-                                isValidationError={this.isValidationError}
-                                isFormSubmitted={this.state.submitted} 
-                                reference={{email : this.state.email}}
-                                validationRules={{required:true, email:true}} 
-                                validationMessages={{ required: "This field is required", email: "Not a valid email"}}/>
-							
-						</div>
-						<div className="form-group">
-							<label>Phone</label>
-							<input 
-								type="text" 
-								className="form-control" 
-								value={this.state.phone} 
-								onChange={this.onChangeForm} 
-								name="phone" 
-								placeholder="phone"/>
-							<Validator 
-                                isValidationError={this.isValidationError}
-                                isFormSubmitted={this.state.submitted} 
-                                reference={{phone : this.state.phone}}
-                                validationRules={{required:true, number:true, minLength: 10,maxLength:11}} 
-                                validationMessages={{ required: "This field is required", number: "Not a valid number", maxLength: "Not a valid Max length: 11 character", minLength: "Not a vaild min length is 10 character"}}/>
-							
-						</div>
-						<div className="form-group">
-							<label>Address</label>
-							<input 
-								type="text" 
-								className="form-control" 
-								value={this.state.address} 
-								onChange={this.onChangeForm} 
-								name="address" 
-								placeholder="address"/>
-							<Validator 
-                                isValidationError={this.isValidationError}
-                                isFormSubmitted={this.state.submitted} 
-                                reference={{address : this.state.address}}
-                                validationRules={{required:true, maxLength:50}} 
-                                validationMessages={{ required: "This field is required", maxLength: "Not a valid Max length: 10 "}}/>
-						</div>
-						<div className="form-group">
-							<label>Birthday</label>
-							<input 
-								type="date" 
-								className="form-control" 
-								value={this.state.birthday} 
-								onChange={this.onChangeForm} 
-								name="birthday" 
-								placeholder="birthday"/>
-								
-							<Validator 
-                                isValidationError={this.isValidationError}
-                                isFormSubmitted={this.state.submitted} 
-                                reference={{birthday : this.state.birthday}}
-                                validationRules={{required:true, maxLength:50}} 
-                                validationMessages={{ required: "This field is required", maxLength: "Not a valid Max length: 10 "}}/>
-						</div>
-						<div className="form-group">
-							<div className="role_id">
-								<label>Role</label>
-								<select
-									className="form-control"
-									name="role_id"
-									value={this.state.role_id}
-									onChange={this.onChangeForm}
-								>
-									<option value='14'>Administrator</option>
-									<option value='15'>Manager</option>
-									<option value='16'>Member</option>
-								</select>
-								<Validator 
-									isValidationError={this.isValidationError}
-									isFormSubmitted={this.state.submitted} 
-									reference={{role_id : this.state.role_id}}
-									validationRules={{required:true}} 
-									validationMessages={{ required: "This field is required"}}/>
-								
-							</div>
-						</div>
-						<div className="form-group">
-							<div className="checkbox">
-								<label>
-									<input 
-										type="checkbox" 
-										value={this.state.is_active} 
-										checked={this.state.is_active}
-										onChange={this.onChangeForm} 
-										name="is_active"/>
-									Active 
-								</label>
-							</div>
-						</div>
-						{/* <div className="form-group">
-							<div className="Radio">
-								<label>	Gender </label>
-								<br/>
-								<span className="gender-male margin-right-10">
-									<input type="radio" 
-										name="gender" 
-										value="0"
-										checked={gender === config.GENDER_MALE } 
-										onChange={this.onChangeForm} /> Male
-								</span>
-								<span>
-								<input type="radio"
-									name="gender"
-									value="1" 
-									checked={gender === config.GENDER_FEMALE } 
-									onChange={this.onChangeForm} /> Female
-								</span>
-							</div>
-						</div> */}
-						<div className="form-group">
-							<div className="gender">
-								<label>gender</label>
-								<select
-									className="form-control"
-									name="gender"
-									value={this.state.gender}
-									onChange={this.onChangeForm}
-								>
-									<option value={config.GENDER_MALE}>Male</option>
-									<option value={config.GENDER_FEMALE}>Female</option>
-									
-								</select>
-								<Validator 
-									isValidationError={this.isValidationError}
-									isFormSubmitted={this.state.submitted} 
-									reference={{gender : this.state.gender}}
-									validationRules={{required:true}} 
-									validationMessages={{ required: "This field is required"}}/>
-								
-							</div>
-						</div>
-						<img id="output"  alt="" className="width100px"/> <br/>
-						<div className="form-control">
-							<div className="file-upload">
+			<CSSTransitionGroup transitionName={config.PAGETRANSITION} transitionAppear={true} transitionAppearTimeout={config.TRANSITIONSPEED} transitionEnter={false} transitionLeave={false}>
+				<div>
+					<div className="col-lg-6 col-sm-6 col-xs-6 col-md-6">
+						{ this.state.isValidation === 'false' ? <ErrorMessage messages={this.props.users}/>: null}
+						<form noValidate  >
+							<legend>Form title</legend>
+							<div className="form-group">
+								<label>UserName</label>
 								<input 
-									type="file" 
-									name="avatar" 
-									accept="image/*"
-									id="image-upload"
-									onChange={this.onChangeForm}
-								/> 
-							</div>	
-						</div>
-						
-						<br/>
-						<div className="col-xs-12 col-sm-12 col-md-12 col-lg-12 text-center">
-							<button type="submit" className="btn btn-primary margin-right-10" onClick={this.onSave}>Save</button>
+									type="text" 
+									className="form-control" 
+									value={this.state.username} 
+									onChange={this.onChangeForm} 
+									name="username" 
+									placeholder="username"/>
+								<Validator 
+									isValidationError={this.isValidationError}
+									isFormSubmitted={this.state.submitted} 
+									reference={{username : this.state.username}}
+									validationRules={{required:true, minLength: 5,maxLength:10}} 
+									validationMessages={{ required: "This field is required", minLength: "Not a valid Min length: 5 ",maxLength: "Not a valid Max length: 10 "}}/>
+							</div>
+							<div className="form-group">
+								<label>FirstName</label>
+								<input 
+									type="text" 
+									className="form-control" 
+									value={this.state.firstname} 
+									onChange={this.onChangeForm} 
+									name="firstname" 
+									placeholder="firstname"/>
+								<Validator 
+									isValidationError={this.isValidationError}
+									isFormSubmitted={this.state.submitted} 
+									reference={{firstname : this.state.firstname}}
+									validationRules={{required:true, maxLength:50}} 
+									validationMessages={{ required: "This field is required", maxLength: "Not a valid Max length: 10 "}}/>
+							</div>
+							<div className="form-group">
+								<label>LastName</label>
+								<input 
+									type="text" 
+									className="form-control" 
+									value={this.state.lastname} 
+									onChange={this.onChangeForm} 
+									name="lastname" 
+									placeholder="lastname"/>
+								<Validator 
+									isValidationError={this.isValidationError}
+									isFormSubmitted={this.state.submitted} 
+									reference={{lastname : this.state.lastname}}
+									validationRules={{required:true, maxLength:50}} 
+									validationMessages={{ required: "This field is required", maxLength: "Not a valid Max length: 10 "}}/>
+								
+							</div>
+							<div className="form-group">
+								<label>Email</label>
+								<input 
+									type="text" 
+									className="form-control" 
+									value={this.state.email} 
+									onChange={this.onChangeForm} 
+									name="email" 
+									placeholder="email"/>
+								<Validator 
+									isValidationError={this.isValidationError}
+									isFormSubmitted={this.state.submitted} 
+									reference={{email : this.state.email}}
+									validationRules={{required:true, email:true}} 
+									validationMessages={{ required: "This field is required", email: "Not a valid email"}}/>
+								
+							</div>
+							<div className="form-group">
+								<label>Phone</label>
+								<input 
+									type="text" 
+									className="form-control" 
+									value={this.state.phone} 
+									onChange={this.onChangeForm} 
+									name="phone" 
+									placeholder="phone"/>
+								<Validator 
+									isValidationError={this.isValidationError}
+									isFormSubmitted={this.state.submitted} 
+									reference={{phone : this.state.phone}}
+									validationRules={{required:true, number:true, minLength: 10,maxLength:11}} 
+									validationMessages={{ required: "This field is required", number: "Not a valid number", maxLength: "Not a valid Max length: 11 character", minLength: "Not a vaild min length is 10 character"}}/>
+								
+							</div>
+							<div className="form-group">
+								<label>Address</label>
+								<input 
+									type="text" 
+									className="form-control" 
+									value={this.state.address} 
+									onChange={this.onChangeForm} 
+									name="address" 
+									placeholder="address"/>
+								<Validator 
+									isValidationError={this.isValidationError}
+									isFormSubmitted={this.state.submitted} 
+									reference={{address : this.state.address}}
+									validationRules={{required:true, maxLength:50}} 
+									validationMessages={{ required: "This field is required", maxLength: "Not a valid Max length: 10 "}}/>
+							</div>
+							<div className="form-group">
+								<label>Birthday</label>
+								<input 
+									type="date" 
+									className="form-control" 
+									value={this.state.birthday} 
+									onChange={this.onChangeForm} 
+									name="birthday" 
+									placeholder="birthday"/>
+									
+								<Validator 
+									isValidationError={this.isValidationError}
+									isFormSubmitted={this.state.submitted} 
+									reference={{birthday : this.state.birthday}}
+									validationRules={{required:true, maxLength:50}} 
+									validationMessages={{ required: "This field is required", maxLength: "Not a valid Max length: 10 "}}/>
+							</div>
+							<div className="form-group">
+								<div className="role_id">
+									<label>Role</label>
+									<select
+										className="form-control"
+										name="role_id"
+										value={this.state.role_id}
+										onChange={this.onChangeForm}
+									>
+										<option value='14'>Administrator</option>
+										<option value='15'>Manager</option>
+										<option value='16'>Member</option>
+									</select>
+									<Validator 
+										isValidationError={this.isValidationError}
+										isFormSubmitted={this.state.submitted} 
+										reference={{role_id : this.state.role_id}}
+										validationRules={{required:true}} 
+										validationMessages={{ required: "This field is required"}}/>
+									
+								</div>
+							</div>
+							<div className="form-group">
+								<div className="checkbox">
+									<label>
+										<input 
+											type="checkbox" 
+											value={this.state.is_active} 
+											checked={this.state.is_active}
+											onChange={this.onChangeForm} 
+											name="is_active"/>
+										Active 
+									</label>
+								</div>
+							</div>
+							{/* <div className="form-group">
+								<div className="Radio">
+									<label>	Gender </label>
+									<br/>
+									<span className="gender-male margin-right-10">
+										<input type="radio" 
+											name="gender" 
+											value="0"
+											checked={gender === config.GENDER_MALE } 
+											onChange={this.onChangeForm} /> Male
+									</span>
+									<span>
+									<input type="radio"
+										name="gender"
+										value="1" 
+										checked={gender === config.GENDER_FEMALE } 
+										onChange={this.onChangeForm} /> Female
+									</span>
+								</div>
+							</div> */}
+							<div className="form-group">
+								<div className="gender">
+									<label>gender</label>
+									<select
+										className="form-control"
+										name="gender"
+										value={this.state.gender}
+										onChange={this.onChangeForm}
+									>
+										<option value={config.GENDER_MALE}>Male</option>
+										<option value={config.GENDER_FEMALE}>Female</option>
+										
+									</select>
+									<Validator 
+										isValidationError={this.isValidationError}
+										isFormSubmitted={this.state.submitted} 
+										reference={{gender : this.state.gender}}
+										validationRules={{required:true}} 
+										validationMessages={{ required: "This field is required"}}/>
+									
+								</div>
+							</div>
+							<img id="output"  alt="" className="width100px"/> 
+							<div className="form-control">
+								<div className="file-upload">
+									<input 
+										type="file" 
+										name="avatar" 
+										accept="image/*"
+										id="image-upload"
+										onChange={this.onChangeForm}
+									/> 
+								</div>	
+							</div>
+							
+							<br/><br/>
+							<div className="col-xs-12 col-sm-12 col-md-12 col-lg-12 text-center">
+								<button type="submit" className="btn btn-primary margin-right-10" onClick={this.onSave}>Save</button>
 
-							<Link to="/users" className="btn btn-success">
-								Back
-							</Link>
-						</div>
-						
-						<div className="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-						<br/><br/>
-						</div>
-						
-					</form>
-
-					{/* <Prompt
-						when={isBlocking}
-						message={location => `Are you sure you want to go to ${location.pathname}`	}
-					/> */}
+								<Link to="/users" className="btn btn-success">
+									Back
+								</Link>
+							</div>
+							
+							
+							
+						</form>
+						<br/><br/><br/><br/>
+					</div>
 				</div>
-			</div>
+			</CSSTransitionGroup>
 		);
 	} // end render
 	

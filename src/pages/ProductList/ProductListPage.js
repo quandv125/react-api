@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
+import { CSSTransitionGroup } from 'react-transition-group'
+
 import ProductsList from './../../components/Product/ProductsList';
 import ProductItem from './../../components/Product/ProductItem';
-// import * as config from './../../constants/config';
+import * as config from './../../constants/config';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 // import {findIndex} from 'lodash';
@@ -71,6 +73,8 @@ class ProductList extends Component {
 			return <Redirect to={{ pathname: "/"}}/>;
 		}
 		return (
+			<CSSTransitionGroup transitionName={config.PAGETRANSITION} transitionAppear={true} transitionAppearTimeout={config.TRANSITIONSPEED} transitionEnter={false} transitionLeave={false}>
+
 			<div className="ProductList col-lg-12 col-sm-12 col-xs-12 col-md-12">
 			  	<Link to="/products/add" className="btn btn-primary">
 			 		Add
@@ -81,6 +85,7 @@ class ProductList extends Component {
 			 	</ProductsList> 
 				
 			</div>
+			</CSSTransitionGroup>
 		);
 	} // end render
 
