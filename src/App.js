@@ -18,6 +18,18 @@ class App extends Component {
 		}
 	}
 
+	componentDidMount(){
+		const ele = document.getElementById('ipl-progress-indicator')
+		if(ele){
+		  // fade out
+		  ele.classList.add('available')
+		  setTimeout(() => {
+			// remove from DOM
+			ele.outerHTML = ''
+		  },100)
+		}
+	}
+
 	componentWillReceiveProps(nextprops){
 		this.setState({
 			isLogin: nextprops.authentication.loggedIn
@@ -34,7 +46,6 @@ class App extends Component {
 							<CSSTransitionGroup transitionName={config.PAGETRANSITION} transitionAppear={true} transitionAppearTimeout={config.TRANSITIONSPEED} transitionEnter={false} transitionLeave={false}>
 							<Menu />
 							<Switch location={location}>
-
 								{this.showContentMenu(routes,location)}
 							</Switch>
 							</CSSTransitionGroup>
@@ -45,15 +56,11 @@ class App extends Component {
 			);
 		} else {
 			return (
-				<Router>
-					<Route render={({ location }) => (
-						<div className="App" >
-							
-							<Login />
-							
-						</div>
-					)}/>
-				</Router>
+				
+				<div className="App" >
+					<Login />
+				</div>
+				
 			);
 		}
 		

@@ -1,7 +1,12 @@
 .error {
   font-size: 12px;
 }
-
+.text-left{
+  text-align: left;
+}
+.margin-bottom20{
+  margin-bottom: 20px;
+}
 @media (min-width: 768px) {
   .navbar-inverse .navbar-nav>li>span:hover {
     color: #fff;

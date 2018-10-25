@@ -10,6 +10,7 @@ export default function apiCaller(menthod = 'GET', url, data){
         data: data
     }).catch( err => {
         console.log(err);
+        console.log(url);
     });
     
 };

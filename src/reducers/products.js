@@ -1,5 +1,5 @@
 import * as Types from './../constants/ActionType';
-// import {findIndex} from 'lodash';
+import {findIndex} from 'lodash';
 var initialState = { status: null, products: null };
 
 const products = (state = initialState, action) => {
@@ -13,7 +13,16 @@ const products = (state = initialState, action) => {
                 }
             }
             return state;
-        
+        case Types.DELETE_PRODUCTS:
+            var index = findIndex(state.products, { id: action.id });
+            if (index !== -1) {
+				state.products.splice(index, 1);
+            }
+            state = {
+                status: false,
+                products: state.products
+            }
+            return state;
         default: 
             return state;
     }

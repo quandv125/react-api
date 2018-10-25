@@ -21,7 +21,7 @@ class UsersPage extends Component {
 		this.state = {
 			image: '',
 			loggedOut: false,
-			isLogin: config.TOKEN ? true : false
+			isLogin: config.TOKEN.length > 10 ? true : false
 		}
 		this.onDelete = this.onDelete.bind(this);
 	}
@@ -50,14 +50,15 @@ class UsersPage extends Component {
 	}
 
 	renderAddButton(){
-		if( this.state.isLogin === true)
-		   return <Link to="/users/add" className="btn btn-primary"><i className="fa fa-plus"></i></Link>;
-		return null;
+		// if( this.state.isLogin === true){
+			return <Link to="/users/add" className="btn btn-primary"><i className="fa fa-plus"></i></Link>;
+		// }
+		// return null;
 	 }
 
 	render() {
-		const {loggedOut} = this.state;
-		if(loggedOut){
+		
+		if(this.state.loggedOut){
 			return <Redirect to={{ pathname: "/"}}/>;
 		}
 		if (this.props.users !== null) {

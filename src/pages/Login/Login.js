@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { CSSTransitionGroup } from 'react-transition-group'
-
 import LoginForm from './../../components/Login/LoginForm';
 import {Redirect} from 'react-router-dom';
 import { connect } from "react-redux";
@@ -14,7 +13,6 @@ class Login extends Component {
             isLogin: false
         };
     }
-
     componentWillReceiveProps(nextprops) {
         if(nextprops.authentication){
             this.setState({

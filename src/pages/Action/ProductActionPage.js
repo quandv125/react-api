@@ -130,7 +130,7 @@ class ProductActionPage extends Component {
 							</div>
 							
 							<button type="submit" className="btn btn-primary margin-right-10">Save</button>
-							<Link to="/products-list" className="btn btn-success">
+							<Link to="/products" className="btn btn-success">
 									Back
 							</Link>
 						</form>

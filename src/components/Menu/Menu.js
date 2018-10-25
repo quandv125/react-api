@@ -8,20 +8,41 @@ const menu = [
 		exact: true
 	},
 	{
+		name: 'Products',
+		to: '/products',
+		exact: false
+	},
+	{
+		name: 'Orders',
+		to: '/orders',
+		exact: false
+	},
+	{
+		name: 'Categories',
+		to: '/category',
+		exact: false
+	},
+	{
+		name: 'Customers',
+		to: '/customers',
+		exact: false
+	},
+	
+	{
 		name: 'Users',
 		to: '/users',
 		exact: false
 	},
 	{
-		name: 'About',
-		to: '/about',
+		name: 'SMS',
+		to: '/sms',
 		exact: false
 	},
-	{
-		name: 'Products',
-		to: '/products-list',
-		exact: false
-	}
+	// {
+	// 	name: 'Config',
+	// 	to: '#',
+	// 	exact: false
+	// }
 ];
 
 const MenuLink = ({ label, to, activeOnlyWhenExact }) => {
@@ -31,7 +52,7 @@ const MenuLink = ({ label, to, activeOnlyWhenExact }) => {
 			path={to}
 			exact={activeOnlyWhenExact}
 			children={({ match }) => {
-				var active = (match && match !== null) ? 'active abc' : '';
+				var active = (match && match !== null) ? 'active' : '';
 				return (
 					<li className={`class-default ${active}`}>
 						<Link to={to} className="my-link">

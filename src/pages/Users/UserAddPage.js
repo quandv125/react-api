@@ -7,41 +7,43 @@ import Validator from 'react-forms-validator';
 import { connect } from 'react-redux';
 import {actAddUserRequest, actEditUserRequest, actGetUserRequest} from './../../actions/index';
 import ErrorMessage from './../../components/Users/ErrorMessage';
+import Cleave from 'cleave.js/react';
 
 class UserAddPage extends Component {
     constructor(props){
 		super(props);
-		this.state = {
-			id: '',
-			username: 'test'+Math.floor((Math.random() * 100) + 1),
-			firstname: 'demo',
-			lastname: 'demo',
-			email: 'test'+Math.floor((Math.random() * 100) + 1)+'@gmail.com',
-			address: 'Ha Noi',
-			phone: '0976459551',
-			birthday: '2018-07-22',
-			role_id: '14',
-			gender: config.GENDER_FEMALE,
-			is_active: config.ACTIVED,
-			isFormValidationErrors : true,
-			submitted: false,
-			isValidation: ''
-		};
 		// this.state = {
 		// 	id: '',
-		// 	username: '',
-		// 	firstname: '',
-		// 	lastname: '',
-		// 	email: '',
-		// 	address: '',
-		// 	phone: '',
+		// 	username: 'test'+Math.floor((Math.random() * 100) + 1),
+		// 	firstname: 'demo',
+		// 	lastname: 'demo',
+		// 	email: 'test'+Math.floor((Math.random() * 100) + 1)+'@gmail.com',
+		// 	address: 'Ha Noi',
+		// 	phone: '0976459551',
+		// 	birthday: '2018-07-22',
 		// 	role_id: '14',
 		// 	gender: config.GENDER_FEMALE,
-		// 	is_active: config.DEACTIVED,
+		// 	is_active: config.ACTIVED,
 		// 	isFormValidationErrors : true,
 		// 	submitted: false,
 		// 	isValidation: ''
 		// };
+		this.state = {
+			id: '',
+			username: '',
+			firstname: '',
+			lastname: '',
+			email: '',
+			address: '',
+			phone: '',
+			role_id: '14',
+			birthday: '2018-07-22',
+			gender: config.GENDER_FEMALE,
+			is_active: config.DEACTIVED,
+			isFormValidationErrors : true,
+			submitted: false,
+			isValidation: ''
+		};
 		this.onSave = this.onSave.bind(this);
 		this.onChangeForm = this.onChangeForm.bind(this);
 		this.isValidationError = this.isValidationError.bind(this);
@@ -77,7 +79,6 @@ class UserAddPage extends Component {
 			});
 		}
 		if(nextprops && nextprops.users && nextprops.users){
-			// console.log(nextprops.users);	
 			var {status} = nextprops.users;
 			this.setState({isValidation: String(status)});
 			if(status === true){
@@ -106,7 +107,7 @@ class UserAddPage extends Component {
 		this.setState({
 			[name]: value
 		});
-	
+		console.log(this.state);
 		if(target.type === 'file'){
 			let files = event.target.files || event.dataTransfer.files;
 			if (!files.length)
@@ -147,7 +148,6 @@ class UserAddPage extends Component {
 			avatar: avatar 
 		};
 		let { isFormValidationErrors } = this.state;
-
         if ( !isFormValidationErrors ){
 			if(id) { //update
 				this.props.onEditUser(data, id);
@@ -266,14 +266,13 @@ class UserAddPage extends Component {
 							</div>
 							<div className="form-group">
 								<label>Birthday</label>
-								<input 
-									type="date" 
+								<Cleave 
 									className="form-control" 
-									value={this.state.birthday} 
-									onChange={this.onChangeForm} 
+									placeholder="birthday" 
 									name="birthday" 
-									placeholder="birthday"/>
-									
+									value={this.state.birthday} 
+									options={{date: true, datePattern: ['Y', 'm', 'd']}}
+									onChange={this.onDateChange}/>
 								<Validator 
 									isValidationError={this.isValidationError}
 									isFormSubmitted={this.state.submitted} 
@@ -342,7 +341,6 @@ class UserAddPage extends Component {
 									<select
 										className="form-control"
 										name="gender"
-										value={this.state.gender}
 										onChange={this.onChangeForm}
 									>
 										<option value={config.GENDER_MALE}>Male</option>
