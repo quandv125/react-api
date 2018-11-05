@@ -106,6 +106,40 @@ export const actDeleteOrder = (id) => {
     }
 }
 
+// Role
+export const actFetchRoleRequest = () => {
+    return (dispatch) => {
+        return apiCaller('GET',  config.ROLE_URL  , null).then( res => {
+            if(res){
+                dispatch(actFetchRole(res.data));
+            }
+        });
+    }
+}
+
+export const actFetchRole = (role) => {
+    return {
+        type: Types.FETCH_ROLE,
+        role
+    }
+}
+
+// Delete Role    
+export const actDeleteRoleRequest = (id) => {
+    return (dispatch) => {
+        return apiCaller('DELETE', config.ROLE_URL + id , null).then( res => {
+			dispatch(actDeleteRole(id));
+		}); 
+    }
+}
+
+export const actDeleteRole = (id) => {
+    return {
+        type: Types.DELETE_ROLE,
+        id
+    }
+}
+
 // Users
 export const actFetchUsersRequest = () => {
     return (dispatch) => {
@@ -286,7 +320,8 @@ export const actLogout = () => {
 
 export const actLogoutRequest = () => {
     return dispatch => {
-        return apiCaller('POST', config.LOGOUT_URL, null).then(res => {     
+        return apiCaller('POST', config.LOGOUT_URL, null).then(res => {  
+            // console.log(res);   
             dispatch(actLogout());
         });   
     }

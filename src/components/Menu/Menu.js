@@ -1,51 +1,54 @@
 import React, { Component } from 'react';
 import { Route, Link } from 'react-router-dom';
-import LoginButton from "./LoginButton";
+
 const menu = [
 	{
 		name: 'Home',
 		to: '/',
-		exact: true
+		exact: true,
+		icon: 'home'
 	},
 	{
 		name: 'Products',
 		to: '/products',
-		exact: false
+		exact: false,
+		icon: 'layers'
 	},
 	{
 		name: 'Orders',
 		to: '/orders',
-		exact: false
+		exact: false,
+		icon: 'card_giftcard'
 	},
-	{
-		name: 'Categories',
-		to: '/category',
-		exact: false
-	},
+	// {
+	// 	name: 'Categories',
+	// 	to: '/category',
+	// 	exact: false,
+	// 	icon: 'apps'
+	// },
 	{
 		name: 'Customers',
 		to: '/customers',
-		exact: false
+		exact: false,
+		icon: 'supervisor_account'
 	},
-	
-	{
-		name: 'Users',
-		to: '/users',
-		exact: false
-	},
+
 	{
 		name: 'SMS',
 		to: '/sms',
-		exact: false
+		exact: false,
+		icon: 'phonelink_ring'
 	},
-	// {
-	// 	name: 'Config',
-	// 	to: '#',
-	// 	exact: false
-	// }
+	{
+		name: 'Users',
+		to: '/users',
+		exact: false,
+		icon: 'account_circle'
+	},
+
 ];
 
-const MenuLink = ({ label, to, activeOnlyWhenExact }) => {
+const MenuLink = ({ label, to, activeOnlyWhenExact, icon}) => {
 
 	return (
 		<Route
@@ -56,7 +59,8 @@ const MenuLink = ({ label, to, activeOnlyWhenExact }) => {
 				return (
 					<li className={`class-default ${active}`}>
 						<Link to={to} className="my-link">
-							{label}
+							<i className="material-icons">{icon}</i>
+							<span className="title">{label}</span>
 						</Link>
 					</li>
 				)
@@ -75,7 +79,7 @@ class Menu extends Component {
 		var result = null;
 		if (menus.length > 0) {
 			result = menus.map((menu, index) => {
-				return (<MenuLink label={menu.name} to={menu.to} activeOnlyWhenExact={menu.exact} key={index} />)
+				return (<MenuLink label={menu.name} to={menu.to} activeOnlyWhenExact={menu.exact} key={index} icon={menu.icon}/>)
 			});
 		}
 		return result;
@@ -83,14 +87,11 @@ class Menu extends Component {
 
 	render() {
 		return (
-			<nav className="navbar navbar-inverse">
-				<ul className="nav navbar-nav">
+				<ul>
 					
 					{this.showMenu(menu)}
 					 
-					<LoginButton />
 				</ul>
-			</nav>
 		);
 	}
 }

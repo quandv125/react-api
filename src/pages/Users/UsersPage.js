@@ -8,7 +8,8 @@ import { connect } from 'react-redux';
 import { actFetchUsersRequest, actDeleteUserRequest } from './../../actions/index';
 import { Redirect } from 'react-router-dom';
 import * as config from './../../constants/config';
-
+import Button from '@material-ui/core/Button';
+import Swal from 'sweetalert2'
 // Import React Table
 import ReactTable from "react-table";
 import "react-table/react-table.css";
@@ -44,14 +45,47 @@ class UsersPage extends Component {
 	}
 
 	onDelete (id) {
-		if (window.confirm('Are you sure you wish to delete this item?')){
-			this.props.onDeleteUser(id)
+		
+		Swal({
+            title: 'Are you sure?',
+            text: "Are you sure you wish to delete this item?",
+            type: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, Add it!'
+          }).then((result) => {
+            if (result.value) {
+                this.props.onDeleteUser(id)
+            }
+        })
+	}
+
+	showRole = ( key ) => {
+		var jobs = null;
+		switch (key) {
+			case 14:
+				jobs = 'Administrator';
+				break;
+			case 15:
+				jobs = 'Manager';
+				break;
+			case 16:
+				jobs = 'Doctor';
+				break;
+			case 33:
+				jobs = 'Assistant';
+				break;
+			default:
+				jobs = 'Receptionist';
+				break;
 		}
+		return jobs;
 	}
 
 	renderAddButton(){
 		// if( this.state.isLogin === true){
-			return <Link to="/users/add" className="btn btn-primary"><i className="fa fa-plus"></i></Link>;
+			return <Link to="/users/add"><Button type="submit" className="btn btn-primary btn-cons" variant="contained" color="primary"> Add </Button>	</Link>;
 		// }
 		// return null;
 	 }
@@ -67,14 +101,32 @@ class UsersPage extends Component {
 		
 		return (
 			<CSSTransitionGroup transitionName={config.PAGETRANSITION} transitionAppear={true} transitionAppearTimeout={config.TRANSITIONSPEED} transitionEnter={false} transitionLeave={false}>
+				<div className="grid simple">
+					<div className="grid-body no-border">
+						<Link to="/" className="margin-right20">
+							<Button type="submit" className="btn btn-primary btn-cons" variant="contained" color="primary">
+							<i className="material-icons">arrow_back</i>
+							</Button>	
+						</Link>
+						<Link to="/role" className="margin-bottom20">
+							<Button type="submit" className="btn btn-primary btn-cons" variant="contained" color="primary">
+								Role
+							</Button>
+						</Link>
+					
+						<Link to="/users/add" className="float-right margin-right20">
+							<Button type="submit" className="btn btn-primary btn-cons" variant="contained" color="primary">
+								Add
+							</Button>					
+						</Link>
+						<div className="clearfix"></div><br/>
+								
+						{ this.showUser(users) }
 
-				<div className="col-lg-12 col-sm-12 col-xs-12 col-md-12">
-				
-					{this.renderAddButton()}
-					<br/> <br/>
-					{ this.showUser(users) }
-
+					</div>
 				</div>
+				
+				
 			</CSSTransitionGroup>
 		);
 	} // end render
@@ -84,15 +136,15 @@ class UsersPage extends Component {
 		if( users ){
 			if ( users && typeof users !== 'undefined' && users.length > 0) {
 				return <ReactTable
-							getTdProps={( column ) => ({
-								onClick: e => {
-									if(column.Header !== 'Action'){
-										console.log('action')
-										return (<Link to={`users/1/edit`}>	</Link>);
-									}
-								}
+							// getTdProps={( column ) => ({
+							// 	onClick: e => {
+							// 		if(column.Header !== 'Action'){
+							// 			console.log('action')
+							// 			return (edit/<Link to={`users/1`}>	</Link>);
+							// 		}
+							// 	}
 
-				  			})}
+				  			// })}
 							data={users}
 							filterable
 							defaultFilterMethod={(filter, row) =>
@@ -110,20 +162,7 @@ class UsersPage extends Component {
 												return <div>{row.index+1}</div>;
 											}
 										},
-										{
-											Header: "Username",
-											id: "username",
-											accessor: d => d.username,
-											filterMethod: (filter, rows) => matchSorter(rows, filter.value, { keys: ["username"] }),
-											filterAll: true,
-											Cell: (row) => {
-												return <div>
-													<Link to={`users/${row.original.id}/edit`}>
-													  	{row.original.username}
-													</Link>
-												</div>;
-											}
-										},
+										
 										{
 											Header: "Firstname",
 											id: "firstname",
@@ -132,7 +171,7 @@ class UsersPage extends Component {
 											filterAll: true,
 											Cell: (row) => {
 												return <div>
-													<Link to={`users/${row.original.id}/edit`}>
+													<Link to={`users/edit/${row.original.id}`}>
 													  	{row.original.firstname}
 													</Link>
 												</div>;
@@ -200,32 +239,34 @@ class UsersPage extends Component {
 											id: "role_id",
 											accessor: d => d.role_id,
 											Cell: ({ value }) => {
-												if(value === 14){
-													return 'Administrator'
-												} else if(value === 15) {
-													return 'Manager'
-												} else {
-													return 'Member'
-												}
+												return this.showRole(value)
 											},
 											filterMethod: (filter, row) => {
-												console.log(row[filter.id]);
-												if (filter.value === "all") {
-												  	return true;
+												var data = true;
+												// console.log(row[filter.id]);
+												switch (filter.value) {
+													case "all":
+														data = true;
+														break;
+													case String(config.ADMINISTRATOR):
+														data = row[filter.id] === config.ADMINISTRATOR;
+														break;
+													case String(config.MANAGER):
+														data = row[filter.id] === config.MANAGER;
+														break;
+													case String(config.MEMBER):
+														data = row[filter.id] === config.MEMBER;
+														break;
+													case String(config.ASSISTANT):
+														data = row[filter.id] === config.ASSISTANT;
+														break;
+													default:
+														data = row[filter.id] === config.RECRPTIONIST;
+														break;
 												}
-												if (filter.value === String(config.ADMINISTRATOR)) {
-													return row[filter.id] === config.ADMINISTRATOR;
-												}
-												if (filter.value === String(config.MANAGER)) {
-													return row[filter.id] === config.MANAGER;
-												}
-												if (filter.value === String(config.MEMBER)) {
-													return row[filter.id] === config.MEMBER;
-												}
-												
-												return row[filter.id] < 21;
-											  },
-											  Filter: ({ filter, onChange }) =>
+												return data;
+											},
+											Filter: ({ filter, onChange }) =>
 												<select
 												  className="sel-role"
 												  onChange={event => onChange(event.target.value)}
@@ -235,8 +276,9 @@ class UsersPage extends Component {
 												  <option value="all">Show All</option>
 												  <option value="14">Administrator</option>
 												  <option value="15">Manager</option>
-												  <option value="16">Member</option>
-
+												  <option value="16">Doctor</option>
+												  <option value="33">Assistant</option>
+												  <option value="34">Receptionist</option>
 												</select>
 										},
 										{
@@ -274,12 +316,10 @@ class UsersPage extends Component {
 											Header: "Action",
 											filterable: false,
 											Cell: row => (
-												<div>
-												  	{/* <Link to={`users/${row.original.id}/edit`} className="btn btn-success margin-right-10">
-													  	Edit
-													</Link> */}
-													<button type="button" className="btn btn-danger" onClick={ () => this.onDelete(row.original.id)}><i className="fa fa-trash"></i></button>
-												</div>
+												<Button type="submit" className="btn btn-primary btn-cons-small" variant="fab" color="secondary" size="small"  onClick={ () => this.onDelete(row.original.id)}>
+												<i className="material-icons">delete</i>
+												</Button>
+						
 											)
 										}
 									]

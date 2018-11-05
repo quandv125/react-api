@@ -160,7 +160,8 @@ class UserAddPage extends Component {
 	render() {
 		return (
 			<CSSTransitionGroup transitionName={config.PAGETRANSITION} transitionAppear={true} transitionAppearTimeout={config.TRANSITIONSPEED} transitionEnter={false} transitionLeave={false}>
-				<div>
+				<div className="grid simple ">
+											<div className="grid-body no-border">
 					<div className="col-lg-6 col-sm-6 col-xs-6 col-md-6">
 						{ this.state.isValidation === 'false' ? <ErrorMessage messages={this.props.users}/>: null}
 						<form noValidate  >
@@ -291,7 +292,10 @@ class UserAddPage extends Component {
 									>
 										<option value='14'>Administrator</option>
 										<option value='15'>Manager</option>
-										<option value='16'>Member</option>
+										<option value='16'>Doctor</option>
+										<option value='33'>Assistant</option>
+										<option value='34'>Receptionist</option>
+										
 									</select>
 									<Validator 
 										isValidationError={this.isValidationError}
@@ -303,16 +307,17 @@ class UserAddPage extends Component {
 								</div>
 							</div>
 							<div className="form-group">
-								<div className="checkbox">
-									<label>
+								<label>Active </label>
+								<div className="checkbox1">
+									
 										<input 
 											type="checkbox" 
 											value={this.state.is_active} 
 											checked={this.state.is_active}
 											onChange={this.onChangeForm} 
 											name="is_active"/>
-										Active 
-									</label>
+										
+									
 								</div>
 							</div>
 							{/* <div className="form-group">
@@ -378,12 +383,10 @@ class UserAddPage extends Component {
 								</Link>
 							</div>
 							
-							
-							
 						</form>
 						<br/><br/><br/><br/>
 					</div>
-				</div>
+				</div></div>
 			</CSSTransitionGroup>
 		);
 	} // end render

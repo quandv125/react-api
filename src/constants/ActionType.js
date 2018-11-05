@@ -20,3 +20,6 @@ export const DELETE_ORDERS = 'DELETE_ORDERS';
 
 export const FETCH_CATEGORY = 'FETCH_CATEGORY';
 export const DELETE_CATEGORY = 'DELETE_CATEGORY';
+
+export const FETCH_ROLE = 'FETCH_ROLE';
+export const DELETE_ROLE = 'DELETE_ROLE';

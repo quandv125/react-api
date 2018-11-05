@@ -6,8 +6,9 @@ const authentication = (state = initialState, action) => {
     switch(action.type){
         case Types.LOGIN:
             if( action.user.status ){ // if login is successfully
-                sessionStorage.setItem('authentication', JSON.stringify(action.user));
-                state = { loggedIn: action.user.status, loggedOut: false, user: JSON.parse(sessionStorage.getItem('authentication')) };
+                sessionStorage.setItem('authentication', JSON.stringify(action.user ));
+           
+                state = { loggedIn: action.user.status, loggedOut: false, role: action.user.role_id };
             } else {
                 state = { loggedIn: action.user.status, loggedOut: false, msg: action.user.msg };
             }

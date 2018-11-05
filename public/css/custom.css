@@ -1,3 +1,22 @@
+.wapper-login{
+  background-image: url('./../images/work.jpg');
+  min-height: 970px;
+}
+.vertical-center {
+  min-height: 100%;  /* Fallback for browsers do NOT support vh unit */
+  min-height: 100vh; /* These two lines are counted as one 🙂       */
+  display: flex;
+  align-items: center;
+}
+.width500px{
+  width: 500px;
+}
+.ReactTable .rt-tbody .rt-td:last-child {
+  margin: 0 auto;
+}
+.react-datepicker__input-container {
+  display: inline !important;
+}
 .error {
   font-size: 12px;
 }
@@ -7,9 +26,24 @@
 .margin-bottom20{
   margin-bottom: 20px;
 }
+.margin-right20{
+  margin-right: 20px;
+}
+.float-right{
+  float: right;
+}
+.register-form{
+  width: 300px;
+  margin: 10px auto;
+}
+.btn-cons-small {
+  min-width: 40px !important;
+  width: 40px !important;
+  height: 40px !important;
+}
 @media (min-width: 768px) {
-  .navbar-inverse .navbar-nav>li>span:hover {
-    color: #fff;
+  .navbar-inverse .navbar-nav>li>span:hover,   .navbar-inverse .navbar-nav>li>span:hover {
+    color: #e4e4e4;
     background-color: transparent;
   }
   .navbar-nav>li>span {
@@ -41,7 +75,7 @@
   height: 28px;
 }
 
-/* Effect transition page */
+/******* Effect transition page ********/
 .homeTransition-appear {
   opacity: 0;
 }
@@ -75,5 +109,25 @@
   transform: translateX(0px);
   transition: all .4s ease-in-out;
 }
+/******** Effect transition page ********/
 
-/* Effect transition page */
+
+.dropdown-menu > li > span {
+  cursor: pointer;
+  line-height: 25px;
+  color: #2a2e36;
+  margin: 4px;
+  border-radius: 3px;
+  text-align: left;
+  display: block;
+  padding: 3px 20px;
+  clear: both;
+  font-weight: 400;
+  white-space: nowrap;
+}
+.dropdown-menu > li > span:hover, .dropdown-menu > li > span:focus, .dropdown-submenu:hover > span, .dropdown-submenu:focus > span {
+  color: #1b1e24;
+  text-decoration: none;
+  background-color: #eff2f3;
+  background-image: none;
+}

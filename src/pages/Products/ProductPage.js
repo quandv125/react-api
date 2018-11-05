@@ -6,8 +6,9 @@ import * as config from '../../constants/config';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { actFetchProductsRequest, actDeleteProductRequest } from '../../actions/index';
-
+import Button from '@material-ui/core/Button';
 import { Redirect } from 'react-router-dom';
+import Swal from 'sweetalert2'
 
 class ProductList extends Component {
 
@@ -15,8 +16,10 @@ class ProductList extends Component {
 		super(props);
 		this.state = {
 			products : [],
-			loggedOut: false
+			loggedOut: false,
+			categories: []
 		}
+		
 	}
 
 	componentWillReceiveProps(nextprops) {
@@ -26,13 +29,24 @@ class ProductList extends Component {
 	}
 	
 	componentWillMount(){
-		this.props.getProducts();				
+		this.props.getProducts();			
 	}
 
 	onDelete = (id) => {
-		if (window.confirm('Are you sure you wish to delete this item?')){
-			this.props.onDeleteProduct(id)
-		}
+
+		Swal({
+            title: 'Are you sure?',
+            text: "Are you sure you wish to delete this item?",
+            type: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, Add it!'
+          }).then((result) => {
+            if (result.value) {
+                this.props.onDeleteProduct(id)
+            }
+        })
 	}
 
 	render() {
@@ -43,16 +57,33 @@ class ProductList extends Component {
 		
 		return (
 			<CSSTransitionGroup transitionName={config.PAGETRANSITION} transitionAppear={true} transitionAppearTimeout={config.TRANSITIONSPEED} transitionEnter={false} transitionLeave={false}>
+				<div className="grid simple">
+					<div className="grid-body no-border">
+							<Link to="/" className="margin-right20">
+								<Button type="submit" className="btn btn-primary btn-cons" variant="contained" color="primary">
+								<i className="material-icons">arrow_back</i>
+								</Button>	
+							</Link>
+								
+							<Link to="/category" className="margin-bottom20">
+								<Button type="submit" className="btn btn-primary btn-cons" variant="contained" color="primary">
+									Category
+								</Button>
+							</Link>
+							<Link to="/products/add" className="float-right">
+								<Button type="submit" className="btn btn-primary btn-cons" variant="contained" color="primary">
+									Add
+								</Button>
+							</Link>
+						<div className="clearfix"></div><br/>
+								
+						<ProductsList onDelete={this.onDelete} >
+							{products}
+						</ProductsList>
 
-			<div className="ProductList col-lg-12 col-sm-12 col-xs-12 col-md-12">
-			  	<Link to="/products/add" className="btn btn-primary margin-bottom20">
-				  <i className="fa fa-plus"></i>
-			 	</Link>
-			 	
-				<ProductsList onDelete={this.onDelete} >
-					{products}
-				</ProductsList>
-			</div>
+					</div>
+				</div>
+				
 			</CSSTransitionGroup>
 		);
 	} // end render

@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
 import { CSSTransitionGroup } from 'react-transition-group'
 import LoginForm from './../../components/Login/LoginForm';
+import ForgotForm from '../../components/Login/ForgotForm';
+
 import {Redirect} from 'react-router-dom';
 import { connect } from "react-redux";
-import * as config from './../../constants/config';
+import {LOGINTRANSITION, TRANSITIONSPEED} from './../../constants/config';
 
 class Login extends Component {
 
@@ -26,9 +28,37 @@ class Login extends Component {
             return <Redirect to={{ pathname: "/"}}/>;
 		}
         return (
-            <CSSTransitionGroup transitionName={config.LOGINTRANSITION} transitionAppear={true} transitionAppearTimeout={config.TRANSITIONSPEED} transitionEnter={false} transitionLeave={false}>
-                <div className="col-lg-12 col-sm-12 col-xs-12 col-md-12" >
-                    <LoginForm/>
+            <CSSTransitionGroup transitionName={LOGINTRANSITION} transitionAppear={true} transitionAppearTimeout={TRANSITIONSPEED} transitionEnter={false} transitionLeave={false}>
+                <div className="error-body no-top lazy wapper-login">
+                    <div className="container">
+                        <div className="row login-container animated fadeInUp">
+                            <div className="col-md-8 col-md-offset-2 tiles white no-padding">
+                                <div className="p-t-30 p-l-40 p-b-20 xs-p-t-10 xs-p-l-10 xs-p-b-10">
+                                    <h2 className="normal text-center">
+                                        Sign in to web
+                                    </h2>
+                                    <br/>
+                                    <div role="tablist" className="text-center">
+                                        <a href="#tab_login" className="btn btn-primary btn-cons" role="tab" data-toggle="tab">Login</a> or&nbsp;&nbsp;
+                                        <a href="#tab_forgot" className="btn btn-info btn-cons" role="tab" data-toggle="tab">Forgot password</a>or&nbsp;&nbsp;
+                                        <a href="#tab_register" className="btn btn-danger btn-cons" role="tab" data-toggle="tab">Register</a>
+                                    </div>
+                                </div>
+                        
+                                <div className="tiles grey p-t-20 p-b-20 no-margin text-black tab-content">
+                                    <div role="tabpanel" className="tab-pane active" id="tab_login">
+                                        <LoginForm/>
+                                    </div>
+                                    <div role="tabpanel" className="tab-pane" id="tab_forgot">
+                                        <ForgotForm/>
+                                    </div>
+                                    <div role="tabpanel" className="tab-pane" id="tab_register">
+                                        <div className="text-center">Comming soon</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </CSSTransitionGroup>
         );

@@ -2,11 +2,13 @@ import React, { Component } from 'react';
 import Validator from 'react-forms-validator';
 import { connect } from 'react-redux';
 // import { Redirect } from 'react-router-dom';
-import './../../App.css';
+// import './../../App.css';
 import { actLoginRequest } from './../../actions/index';
-// import Button from '@material-ui/core/Button';
+import Button from '@material-ui/core/Button';
+
 import { MSG_LOGIN, ISLOGIN } from './../../constants/config';
-class UserAddPage extends Component {
+
+class LoginForm extends Component {
     constructor(props){
 		super(props);
 		this.state = {
@@ -36,70 +38,69 @@ class UserAddPage extends Component {
 			});
 		}
 	}
-	
-	
+
 	render() {
 		// if(this.state.isLogin){
         //     return <Redirect to={{ pathname: "/"}}/>;
 		// }
 		
 		return (
-			<div>
-				{this.showMessageError()}
-				<div className="div-center">
-					<div className="content">
-						<form noValidate onSubmit={this.onSave}>
-							<div className="imgcontainer">
-								<h3>Login</h3>
-							</div>
-							<div className="form-group">
-								<input 
-									type="text" 
-									value={this.state.email} 
-									onChange={this.onChangeForm} 
-									name="email" 
-									placeholder="Name"/>
-								<Validator 
-									isValidationError={this.isValidationError}
-									isFormSubmitted={this.state.submitted} 
-									reference={{email : this.state.email}}
-									validationRules={{required: true, minLength: 5,maxLength: 50}} 
-									validationMessages={{ required: "This field is required", minLength: "Not a valid Min length: 5 ",maxLength: "Not a valid Max length: 10 "}}/>
-							</div>
-							<div className="form-group">
-								<input 
-									type="password" 
-									value={this.state.password} 
-									onChange={this.onChangeForm} 
-									name="password" 
-									placeholder="Password"/>
-								<Validator 
-									isValidationError={this.isValidationError}
-									isFormSubmitted={this.state.submitted} 
-									reference={{password : this.state.password}}
-									validationRules={{required: true, maxLength: 50}} 
-									validationMessages={{ required: "This field is required", maxLength: "Not a valid Max length: 10 "}}/>
-							</div>
-							<div className="col-xs-12 col-sm-12 col-md-12 col-lg-12 text-center">
-								<button type="submit" variant="contained" style={ styles.buttonLogin } color="primary">
-									Submit
-								</button>
-						
-							</div>
-							
-							<br/>
-							{/* <label>
-								<input type="checkbox" name="remember"/> Remember me
-							</label>
-							
-							<span className="forgot-password">Forgot password?</span>
-						 */}
-						</form>
+				<div>
+						{this.showMessageError()}
 				
-					</div>
+					<form className="animated fadeIn validate" noValidate onSubmit={this.onSave}>
+						<div className="row form-row m-l-20 m-r-20 xs-m-l-10 xs-m-r-10">
+							<div className="col-md-6 col-sm-6">
+							<input 
+										type="text" 
+										value={this.state.email} 
+										onChange={this.onChangeForm}
+										className="form-control" 
+										name="email" 
+										placeholder="Name"/>
+									<Validator 
+										isValidationError={this.isValidationError}
+										isFormSubmitted={this.state.submitted} 
+										reference={{email : this.state.email}}
+										validationRules={{required: true, minLength: 5,maxLength: 50}} 
+										validationMessages={{ required: "This field is required", minLength: "Not a valid Min length: 5 ",maxLength: "Not a valid Max length: 10 "}}/>
+								
+							</div>
+							
+							<div className="col-md-6 col-sm-6">
+							<input 
+										type="password" 
+										value={this.state.password} 
+										onChange={this.onChangeForm}
+										className="form-control" 
+										name="password" 
+										placeholder="Password"/>
+									<Validator 
+										isValidationError={this.isValidationError}
+										isFormSubmitted={this.state.submitted} 
+										reference={{password : this.state.password}}
+										validationRules={{required: true, maxLength: 50}} 
+										validationMessages={{ required: "This field is required", maxLength: "Not a valid Max length: 10 "}}/>
+								
+							</div>
+						</div>
+						<div className="row p-t-12 m-l-20 m-r-20 xs-m-l-12 xs-m-r-12">
+							<div className="control-group col-md-12 text-center">
+								{/* <div className="checkbox checkbox check-success "> */}
+									{/* <a href="#">Trouble login in?</a>&nbsp;&nbsp; */}
+									{/* <input id="checkbox1" type="checkbox" value="1"/>
+									<label >Keep me reminded</label> */}
+								{/* </div> */}
+								<br/>
+								<Button type="submit" className="btn btn-primary btn-cons" variant="contained" style={ styles.buttonLogin } color="primary">
+									Submit
+								</Button>
+								
+							</div>
+						</div>
+					</form>
 				
 				</div>
-			</div>
 		);
 	} // end render
 
@@ -140,8 +141,6 @@ styles.buttonLogin = {
 	fontSize: '14px'
 };
   
-  
-
 const mapStateToProps = state => {
 	return {
 		authentication: state.authentication
@@ -156,4 +155,4 @@ const mapDispatchToProps = (dispatch, props) => {
 	}
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(UserAddPage);
+export default connect(mapStateToProps, mapDispatchToProps)(LoginForm);

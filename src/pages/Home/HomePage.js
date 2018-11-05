@@ -79,13 +79,141 @@ class Home extends Component {
 		// console.log('render'); // 3 | 1.4
 		return (
 			<CSSTransitionGroup transitionName={config.PAGETRANSITION} transitionAppear={true} transitionAppearTimeout={config.TRANSITIONSPEED} transitionEnter={false} transitionLeave={false}>
-				<div>
-					<div className="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+					
 						{ this.state.AuthLogin && this.state.AuthLogin.status ? 
 							(
-								<div> 
-									<h3>Login Successfully </h3> 
-								</div> 
+								<div className="grid simple">
+									<div className="grid-body no-border">
+									
+									<div className="row">
+											<div className="col-md-4 col-vlg-3 col-sm-6">
+												<div className="tiles green m-b-10">
+													<div className="tiles-body">
+														{/* <div className="controller">
+															<a href="javascript:;" className="reload"></a>
+															<a href="javascript:;" className="remove"></a>
+														</div> */}
+														<div className="tiles-title text-black">OVERALL SALES </div>
+														<div className="widget-stats">
+															<div className="wrapper transparent">
+																<span className="item-title">Overall Visits</span> <span className="item-count animate-number semi-bold" data-value="2415" data-animation-duration="700">0</span>
+															</div>
+														</div>
+														<div className="widget-stats">
+															<div className="wrapper transparent">
+																<span className="item-title">Today's</span> <span className="item-count animate-number semi-bold" data-value="751" data-animation-duration="700">0</span>
+															</div>
+														</div>
+														<div className="widget-stats ">
+															<div className="wrapper last">
+																<span className="item-title">Monthly</span> <span className="item-count animate-number semi-bold" data-value="1547" data-animation-duration="700">0</span>
+															</div>
+														</div>
+														<div className="progress transparent progress-small no-radius m-t-20" >
+															<div className="progress-bar progress-bar-white animate-progress-bar" data-percentage="64.8%"></div>
+														</div>
+														<div className="description"> <span className="text-white mini-description ">4% higher <span className="blend">than last month</span></span>
+														</div>
+													</div>
+												</div>
+											</div>
+											<div className="col-md-4 col-vlg-3 col-sm-6">
+												<div className="tiles blue m-b-10">
+													<div className="tiles-body">
+														{/* <div className="controller">
+															<a href="javascript:;" className="reload"></a>
+															<a href="javascript:;" className="remove"></a>
+														</div> */}
+														<div className="tiles-title text-black">OVERALL VISITS </div>
+														<div className="widget-stats">
+															<div className="wrapper transparent">
+																<span className="item-title">Overall Visits</span> <span className="item-count animate-number semi-bold" data-value="15489" data- animation-duration="700">0</span>
+															</div>
+														</div>
+														<div className="widget-stats">
+															<div className="wrapper transparent">
+																<span className="item-title">Today's</span> <span className="item-count animate-number semi-bold" data-value="551" data-animation-duration="700">0</span>
+															</div>
+														</div>
+														<div className="widget-stats ">
+															<div className="wrapper last">
+																<span className="item-title">Monthly</span> <span className="item-count animate-number semi-bold" data-value="1450" data-animation-duration="700">0</span>
+															</div>
+														</div>
+														<div className="progress transparent progress-small no-radius m-t-20" >
+															<div className="progress-bar progress-bar-white animate-progress-bar" data-percentage="54%"></div>
+														</div>
+														<div className="description"> <span className="text-white mini-description ">4% higher <span className="blend">than last month</span></span>
+														</div>
+													</div>
+												</div>
+											</div>
+											<div className="col-md-4 col-vlg-3 col-sm-6">
+												<div className="tiles purple m-b-10">
+													<div className="tiles-body">
+														{/* <div className="controller">
+															<a href="javascript:;" className="reload"></a>
+															<a href="javascript:;" className="remove"></a>
+														</div> */}
+														<div className="tiles-title text-black">SERVER LOAD </div>
+														<div className="widget-stats">
+															<div className="wrapper transparent">
+																<span className="item-title">Overall Load</span> <span className="item-count animate-number semi-bold" data-value="5695" data-animation-duration="700">0</span>
+															</div>
+														</div>
+														<div className="widget-stats">
+															<div className="wrapper transparent">
+																<span className="item-title">Today's</span> <span className="item-count animate-number semi-bold" data-value="568" data-animation-duration="700">0</span>
+															</div>
+														</div>
+														<div className="widget-stats ">
+															<div className="wrapper last">
+																<span className="item-title">Monthly</span> <span className="item-count animate-number semi-bold" data-value="12459" data-animation-duration="700">0</span>
+															</div>
+														</div>
+														<div className="progress transparent progress-small no-radius m-t-20" >
+															<div className="progress-bar progress-bar-white animate-progress-bar" data-percentage="90%"></div>
+														</div>
+														<div className="description"> <span className="text-white mini-description ">4% higher <span className="blend">than last month</span></span>
+														</div>
+													</div>
+												</div>
+											</div>
+											<div className="col-md-4 col-vlg-3 visible-xlg visible-sm col-sm-6">
+												<div className="tiles red m-b-10">
+													<div className="tiles-body">
+														{/* <div className="controller">
+															<a href="javascript:;" className="reload"></a>
+															<a href="javascript:;" className="remove"></a>
+														</div> */}
+														<div className="tiles-title text-black">OVERALL SALES </div>
+														<div className="widget-stats">
+															<div className="wrapper transparent">
+																<span className="item-title">Overall Sales</span> <span className="item-count animate-number semi-bold" data-value="5669" data-animation-duration="700">0</span>
+															</div>
+														</div>
+														<div className="widget-stats">
+															<div className="wrapper transparent">
+																<span className="item-title">Today's</span> <span className="item-count animate-number semi-bold" data-value="751" data-animation-duration="700">0</span>
+															</div>
+														</div>
+														<div className="widget-stats ">
+															<div className="wrapper last">
+																<span className="item-title">Monthly</span> <span className="item-count animate-number semi-bold" data-value="1547" data-animation-duration="700">0</span>
+															</div>
+														</div>
+														<div className="progress transparent progress-small no-radius m-t-20" >
+															<div className="progress-bar progress-bar-white animate-progress-bar" data-percentage="64.8%"></div>
+														</div>
+														<div className="description"> <span className="text-white mini-description ">4% higher <span className="blend">than last month</span></span>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div></div></div>
+
+
+							
 							)
 							: 
 							(
@@ -94,8 +222,8 @@ class Home extends Component {
 								</Link>
 							)
 						}
-					</div>
-				</div>
+				
+				
 			</CSSTransitionGroup>
 		);
 		

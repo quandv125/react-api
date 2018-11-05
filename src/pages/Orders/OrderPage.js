@@ -1,27 +1,28 @@
 import React, { Component } from 'react';
 import { CSSTransitionGroup } from 'react-transition-group'
 import * as config from '../../constants/config';
-import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { actFetchOrdersRequest, actDeleteOrderRequest } from '../../actions/index';
-
+import Swal from 'sweetalert2';
 import { Redirect } from 'react-router-dom';
-
-// Import React Table
-import ReactTable from "react-table";
-import "react-table/react-table.css";
-import matchSorter from 'match-sorter';
-
-class OrderList extends Component {
+import OrderList from './../../components/Orders/OrderList'
+// import { connectIO } from '../../socketIO/client';
+import Modal from 'react-responsive-modal';
+import ModalOrder from './../../components/Orders/ModalOrder';
+class OrderPage extends Component {
 
 	constructor(props) {
 		super(props);
 		this.state = {
 			orders : [],
-			loggedOut: false
+			loggedOut: false,
+			open: false,
+			order_id: ''
 		}
-	
-		this.onDelete = this.onDelete.bind(this);
+		// connectIO(message => {
+		// 	this.props.getOrders();
+		// 	Swal('Good job!','You clicked the button!','success')
+		// });
 	}
 
 	componentWillReceiveProps(nextprops) {
@@ -31,13 +32,36 @@ class OrderList extends Component {
 	}
 	
 	componentWillMount(){
-		this.props.getOrders();				
+		this.props.getOrders();
 	}
 
-	onDelete (id) {
-		if (window.confirm('Are you sure you wish to delete this item?')){
-			this.props.onDeleteOrder(id)
-		}
+	onDelete = (id) => {
+		Swal({
+            title: 'Are you sure?',
+            text: "Are you sure you wish to delete this item?",
+            type: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, Add it!'
+          }).then((result) => {
+            if (result.value) {
+				this.props.onDeleteOrder(id)
+				Swal('Good job!','You clicked the button!','success')
+            }
+        })
+	}
+
+	onOpenModal = (data) => {
+		this.setState({ order_id: data.order_id , open: true });
+	};
+	
+	onCloseModal = () => {
+		this.setState({ open: false });
+    };
+
+	onActionModal = (id) => {
+		alert('test ' + id)
 	}
 
 	render() {
@@ -51,163 +75,29 @@ class OrderList extends Component {
 		
 		return (
 			<CSSTransitionGroup transitionName={config.PAGETRANSITION} transitionAppear={true} transitionAppearTimeout={config.TRANSITIONSPEED} transitionEnter={false} transitionLeave={false}>
-
-			<div className="OrderList col-lg-12 col-sm-12 col-xs-12 col-md-12">
-			  	<Link to="/orders/add" className="btn btn-primary">
-				  <i className="fa fa-plus"></i>
-			 	</Link>
-			 	<br/><br/>
-			 		{this.showOrder(orders)}
 				
-			</div>
+				<div className="grid simple">
+					<div className="grid-body no-border">
+						
+						<div className="page-title"> 
+							<i className="material-icons">card_giftcard</i>
+							<h3> <span className="semi-bold">Orders</span></h3>
+						</div>
+						
+						<OrderList onDelete={this.onDelete} onCloseModal={this.onCloseModal} onOpenModal={this.onOpenModal}>
+							{orders}
+						</OrderList>
+						
+						<Modal open={this.state.open} onClose={this.onCloseModal} center>
+							<ModalOrder order_id={this.state.order_id} action={this.onActionModal}/>
+						</Modal>
+
+					</div>
+				</div>
+				
 			</CSSTransitionGroup>
 		);
 	} // end render
-
-	showOrder (orders) {
-		var result = null;
-		if ( orders && typeof orders !== 'undefined' && orders.length > 0) {
-			return <ReactTable
-						getTdProps={( column ) => ({
-							onClick: e => {
-								if(column.Header !== 'Action'){
-									return (<Link to={`orders/1/edit`}>	</Link>);
-								}
-							}
-						  })}
-						data={orders}
-						noDataText="Oh Not found!"
-						filterable
-						defaultFilterMethod={(filter, row) =>
-							String(row[filter.id]) === filter.value}
-						columns={[
-							{
-								Header: 'Infomation',
-								columns: [
-									{
-										Header: "#",
-										id: "row",
-										filterable: false,
-										maxWidth: 100,
-										Cell: (row) => {
-											return <div>{row.index+1}</div>;
-										}
-									},
-									{
-										Header: "sku",
-										id: "sku",
-										accessor: d => d.sku,
-										filterMethod: (filter, rows) => matchSorter(rows, filter.value, { keys: ["sku"] }),
-										filterAll: true,
-										maxWidth: 100,
-										Cell: (row) => {
-											return <div>
-												<Link to={`orders/${row.original.id}/edit`}>
-													  {row.original.sku}
-												</Link>
-											</div>;
-										}
-									},
-									{
-										Header: "title",
-										id: "title",
-										accessor: d => d.title,
-										filterMethod: (filter, rows) => matchSorter(rows, filter.value, { keys: ["title"] }),
-										filterAll: true,
-										maxWidth: 600,
-										Cell: (row) => {
-											return <div>
-												<Link to={`orders/${row.original.id}/edit`}>
-													  {row.original.title}
-												</Link>
-											</div>;
-										}
-									},
-									{
-										Header: "price",
-										id: "price",
-										accessor: d => d.price,
-										filterMethod: (filter, rows) => matchSorter(rows, filter.value, { keys: ["price"] }),
-										maxWidth: 250,
-										filterAll: true
-									},
-									{
-										Header: "unit",
-										id: "unit",
-										accessor: d => d.unit,
-										filterMethod: (filter, rows) => matchSorter(rows, filter.value, { keys: ["unit"] }),
-										maxWidth: 250,
-										filterAll: true
-									},
-									{
-										Header: "quantity",
-										id: "quantity",
-										accessor: d => d.quantity,
-										filterMethod: (filter, rows) => matchSorter(rows, filter.value, { keys: ["quantity"] }),
-										filterAll: true,
-										maxWidth: 250,
-									},
-									{
-										Header: "is_publish",
-										id: "is_publish",
-										accessor: d => d.is_publish,
-										maxWidth: 200,
-										Cell: ({ value }) => (value === config.IS_PUBLISH_YES ? "Yes" : "No"),
-										filterMethod: (filter, row) => {
-											if (filter.value === "all") {
-												  return true;
-											}
-											if (filter.value === String(config.IS_PUBLISH_YES)) {
-												return row[filter.id] === config.IS_PUBLISH_YES;
-											}
-											if (filter.value === String(config.IS_PUBLISH_NO)) {
-												return row[filter.id] === config.IS_PUBLISH_NO;
-											}
-
-										  },
-										  Filter: ({ filter, onChange }) =>
-											<select
-											  className="sel-role"
-											  onChange={event => onChange(event.target.value)}
-											  style={{ width: "100%" }}
-											  value={filter ? filter.value : "all"}
-											>
-											  <option value="all">Show All</option>
-											  <option value="1">Yes</option>
-											  <option value="0">No</option>
-											
-
-											</select>
-									},
-									{
-										Header: "Action",
-										filterable: false,
-										maxWidth: 100,
-										Cell: row => (
-										
-												<button type="button" className="btn btn-danger" onClick={ () => this.onDelete(row.original.id)}><i className="fa fa-trash"></i></button>
-										
-										)
-									}
-								]
-							}
-					]}
-					defaultSorted={[
-						{
-						  id: "row",
-						  desc: true
-						}
-					  ]}
-					defaultPageSize={20}  
-					style={{
-						height: "800px" // This will force the table body to overflow and scroll, since there is not enough room
-					  }}
-					className="-striped -highlight"
-				/>
-		}
-		
-		return result;
-	}
 }
 
 const mapStateToProps = (state) => {
@@ -226,4 +116,4 @@ const mapDispatchToProps = (dispatch, props) => {
 		}
 	}
 }
-export default connect(mapStateToProps, mapDispatchToProps)(OrderList);
+export default connect(mapStateToProps, mapDispatchToProps)(OrderPage);

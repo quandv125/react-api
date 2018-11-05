@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import { CSSTransitionGroup } from 'react-transition-group'
-import { Link } from 'react-router-dom';
+import { Redirect,Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { actFetchCustomersRequest, actDeleteCustomerRequest } from '../../actions/index';
-import { Redirect } from 'react-router-dom';
 import * as config from '../../constants/config';
-
+import Button from '@material-ui/core/Button';
+import Swal from 'sweetalert2'
 // Import React Table
 import ReactTable from "react-table";
 import "react-table/react-table.css";
@@ -35,16 +35,39 @@ class CustomersPage extends Component {
 			});	
 		}
 	}
-	
-	onDelete (id) {
-		if (window.confirm('Are you sure you wish to delete this item?')){
-			this.props.onDeleteCustomer(id)
+
+	phone_format = (n) => {
+		if(n && n !== ''){
+			return "(+84) " + n.replace(/./g, function(c, i, a) {
+				return i > 0 && c !== " " && (a.length - i) % 3 === 0 ? " " + c : c;
+			});
 		}
+	};
+
+	onDelete (id) {
+		
+		Swal({
+            title: 'Are you sure?',
+            text: "Are you sure you wish to delete this item?",
+            type: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, Add it!'
+          }).then((result) => {
+            if (result.value) {
+                this.props.onDeleteCustomer(id)
+            }
+        })
 	}
 
 	renderAddButton(){
 		// if( this.state.isLogin === true){
-			return <Link to="/customers/add" className="btn btn-primary"><i className="fa fa-plus"></i></Link>;
+			return ( 
+						<Link to="/customers/add" className="float-right">
+							<Button type="submit" className="btn btn-primary btn-cons" variant="contained" color="primary"> Add </Button>
+						</Link>
+					);
 		// }
 		// return null;
 	 }
@@ -59,14 +82,25 @@ class CustomersPage extends Component {
 		}
 		return (
 			<CSSTransitionGroup transitionName={config.PAGETRANSITION} transitionAppear={true} transitionAppearTimeout={config.TRANSITIONSPEED} transitionEnter={false} transitionLeave={false}>
+				<div className="grid simple">
+					<div className="grid-body no-border">
+						<Link to="/" className="margin-right20">
+							<Button type="submit" className="btn btn-primary btn-cons" variant="contained" size="small" color="primary">
+							<i className="material-icons">arrow_back</i>
+							</Button>	
+						</Link>
+						<Link to="/customers/add" className="float-right">
+							<Button type="submit" className="btn btn-primary btn-cons" variant="contained" color="primary">
+								Add
+							</Button>					
+						</Link>
+						<div className="clearfix"></div><br/>
+								
+						{ this.showUser(customers) }
 
-				<div className="col-lg-12 col-sm-12 col-xs-12 col-md-12">
-				
-					{this.renderAddButton()}
-					<br/> <br/>
-					{ this.showUser(customers) }
-
+					</div>
 				</div>
+				
 			</CSSTransitionGroup>
 		);
 	} // end render
@@ -79,7 +113,7 @@ class CustomersPage extends Component {
 							getTdProps={( column ) => ({
 								onClick: e => {
 									if(column.Header !== 'Action'){
-										console.log('action')
+										// console.log('action')
 										return (<Link to={`customers/1/edit`}>	</Link>);
 									}
 								}
@@ -110,8 +144,8 @@ class CustomersPage extends Component {
 											filterAll: true,
 											Cell: (row) => {
 												return <div>
-													<Link to={`customers/${row.original.id}/edit`}>
-													  	{row.original.phone}
+													<Link to={`customers/edit/${row.original.id}`}>
+													  	{this.phone_format( row.original.phone )}
 													</Link>
 												</div>;
 											}
@@ -120,27 +154,23 @@ class CustomersPage extends Component {
 										{
 											Header: "Name",
 											id: "firstname",
+											width: 250,
 											accessor: d => d.firstname + d.lastname,
 											filterMethod: (filter, rows) => matchSorter(rows, filter.value, { keys: ["firstname"] }),
 											filterAll: true,
 											Cell: (row) => {
 												return <div>
-													<Link to={`customers/${row.original.id}/edit`}>
+													<Link to={`customers/edit/${row.original.id}`}>
 													  	{row.original.firstname + ' ' + row.original.lastname}
 													</Link>
 												</div>;
 											}
 										},
-										// {
-										// 	Header: "Lastname",
-										// 	id: "lastname",
-										// 	accessor: d => d.lastname,
-										// 	filterMethod: (filter, rows) => matchSorter(rows, filter.value, { keys: ["lastname"] }),
-										// 	filterAll: true
-										// },
+										
 										{
 											Header: "Email",
 											id: "email",
+											width: 250,
 											accessor: d => d.email,
 											filterMethod: (filter, rows) => matchSorter(rows, filter.value, { keys: ["email"] }),
 											filterAll: true
@@ -156,8 +186,9 @@ class CustomersPage extends Component {
 										{
 											Header: "Gender",
 											id: "gender",
+											width: 100,
 											accessor: d => d.gender,
-											Cell: ({ value }) => (value === config.GENDER_MALE	 ? "Male" : "Female"),
+											Cell: ({ value }) => (value === config.GENDER_MALE	 ? (<span className="label label-warning">Male</span>) : (<span className="label label-primary">Female</span>)),
 											filterMethod: (filter, row) => {
 												if (filter.value === "all") {
 												  	return true;
@@ -188,12 +219,11 @@ class CustomersPage extends Component {
 											Header: "Action",
 											filterable: false,
 											Cell: row => (
-												<div>
-												  	{/* <Link to={`customers/${row.original.id}/edit`} className="btn btn-success margin-right-10">
-													  	Edit
-													</Link> */}
-													<button type="button" className="btn btn-danger" onClick={ () => this.onDelete(row.original.id)}><i className="fa fa-trash"></i></button>
-												</div>
+												
+												<Button type="submit" className="btn btn-primary btn-cons-small" variant="fab" color="secondary" size="small"  onClick={ () => this.onDelete(row.original.id)}>
+												<i className="material-icons">delete</i>
+												</Button>
+						
 											)
 										}
 									]

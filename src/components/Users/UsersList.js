@@ -29,7 +29,6 @@ class UsersList extends Component {
 						</thead>
 						<tbody>
 
-							
 							{children}
 
 						</tbody>

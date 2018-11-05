@@ -3,12 +3,18 @@ import HomePage from './pages/Home/HomePage';
 
 import UsersPage from './pages/Users/UsersPage';
 import UserAddPage from './pages/Users/UserAddPage';
+import ChangePass from './pages/Users/ChangePass';
+import MyAccount from './pages/Users/MyAccount';
+import Permission from './pages/Users/Permission';
 
 import CustomersPage from './pages/Customer/CustomersPage';
 import CustomerActionPage from './pages/Customer/CustomerActionPage';
 
 import SmsPage from './pages/Sms/SmsPage';
 import SmsActionPage from './pages/Sms/SmsActionPage';
+
+import SmsCategory from './pages/Sms/SmsCategory';
+import SmsCategoryActionPage from './pages/Sms/SmsCategoryActionPage';
 
 import ProductPage from './pages/Products/ProductPage';
 import ProductActionPage from './pages/Products/ProductActionPage';
@@ -19,7 +25,13 @@ import OrderActionPage from './pages/Orders/OrderActionPage';
 import CategoryPage from './pages/Category/CategoryPage';
 import CategoryActionPage from './pages/Category/CategoryActionPage';
 
-import NotFoundPage from './pages/NotFound/NotFoundPage';
+import RolePage from './pages/Roles/RolesPage';
+import RoleActionPage from './pages/Roles/RoleActionPage';
+// 404
+import NotFoundPage from './pages/NotFound/404_NotFoundPage';
+// 403
+import Forbidden from './pages/NotFound/403_Forbidden';
+import AuthExample from './pages/Action/AuthExample';
 
 
 import Login from './pages/Login/Login';
@@ -42,9 +54,29 @@ const routes = [
 		main: ({location, history}) => <UserAddPage history={history} location={location}/>
 	},
 	{
-		path: '/users/:id/edit',
+		path: '/users/edit/:id',
 		exact: false,
 		main: ({match, location, history}) => <UserAddPage match={match} history={history} location={location}/>
+	},
+	{
+		path: '/my-account',
+		exact: false,
+		main: ({match, location, history}) => <MyAccount match={match} history={history} location={location}/>
+	},
+	{
+		path: '/change-password',
+		exact: false,
+		main: ({match, location, history}) => <ChangePass match={match} history={history} location={location}/>
+	},
+	{
+		path: '/permission/edit/:id',
+		exact: false,
+		main: ({match, location, history}) => <Permission match={match} history={history} location={location}/>
+	},
+	{
+		path: '/permission',
+		exact: true,
+		main: ({match, location, history}) => <Permission match={match} history={history} location={location}/>
 	},
 
 	// Products
@@ -59,7 +91,7 @@ const routes = [
 		main: ({location, history}) => <ProductActionPage history={history} location={location}/>
 	},
 	{
-		path: '/products/:id/edit',
+		path: '/products/edit/:id',
 		exact: false,
 		main: ({match, location, history}) => <ProductActionPage match={match} history={history} location={location}/>
 	},
@@ -75,9 +107,25 @@ const routes = [
 		main: ({location, history}) => <CategoryActionPage history={history} location={location}/>
 	},
 	{
-		path: '/category/:id/edit',
+		path: '/category/edit/:id',
 		exact: false,
 		main: ({match, location, history}) => <CategoryActionPage match={match} history={history} location={location}/>
+	},
+	// role
+	{
+		path: '/role',
+		exact: true, // required
+		main: ({match, location, history}) => <RolePage match={match} location={location} history={history}/>
+	},
+	{
+		path: '/role/add',
+		exact: false,
+		main: ({location, history}) => <RoleActionPage history={history} location={location}/>
+	},
+	{
+		path: '/role/edit/:id',
+		exact: false,
+		main: ({match, location, history}) => <RoleActionPage match={match} history={history} location={location}/>
 	},
 	// Orders
 	{
@@ -91,7 +139,7 @@ const routes = [
 		main: ({location, history}) => <OrderActionPage history={history} location={location}/>
 	},
 	{
-		path: '/orders/:id/edit',
+		path: '/orders/edit/:id/:customer_id',
 		exact: false,
 		main: ({match, location, history}) => <OrderActionPage match={match} history={history} location={location}/>
 	},
@@ -107,7 +155,7 @@ const routes = [
 		main: ({location, history}) => <CustomerActionPage history={history} location={location}/>
 	},
 	{
-		path: '/customers/:id/edit',
+		path: '/customers/edit/:id',
 		exact: false,
 		main: ({match, location, history}) => <CustomerActionPage match={match} history={history} location={location}/>
 	},
@@ -115,7 +163,8 @@ const routes = [
 	{
 		path: '/sms',
 		exact: true,
-		main: () => <SmsPage/>
+		main: ({match, location, history}) => <SmsPage match={match} history={history} location={location}/>
+
 	},
 	{
 		path: '/sms/add',
@@ -123,9 +172,20 @@ const routes = [
 		main: ({location, history}) => <SmsActionPage history={history} location={location}/>
 	},
 	{
-		path: '/sms/:id/edit',
+		path: '/sms/edit/:id',
 		exact: false,
 		main: ({match, location, history}) => <SmsActionPage match={match} history={history} location={location}/>
+	},
+	// Sms Categories
+	{
+		path: '/sms-category',
+		exact: true,
+		main: ({location, history}) => <SmsCategory history={history} location={location}/>
+	},
+	{
+		path: '/sms-category/edit/:id',
+		exact: false,
+		main: ({match, location, history}) => <SmsCategoryActionPage match={match} history={history} location={location}/>
 	},
 	// LOGIN
 	{
@@ -133,11 +193,25 @@ const routes = [
 		exact: false,
 		main: ({match}) => <Login match={match}/>
 	},
+	// LOGIN
+	{
+		path: '/auth-router',
+		exact: false,
+		main: ({match}) => <AuthExample match={match}/>
+	},
+	// 403
+	{
+		path: '/403',
+		exact: false,
+		main: ({match}) => <Forbidden match={match}/>
+	},
+	// 404 NotFoundPage
 	{
 		path: '',
 		exact: false,
 		main: ({match}) => <NotFoundPage  match={match}/>
-	}
+	},
+	
 ];
 
 export default routes;

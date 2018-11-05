@@ -4,6 +4,8 @@ import * as config from '../../constants/config';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { actFetchCategoryRequest, actDeleteCategoryRequest } from '../../actions/index';
+import Button from '@material-ui/core/Button';
+import Swal from 'sweetalert2'
 
 import { Redirect } from 'react-router-dom';
 
@@ -35,9 +37,21 @@ class CategoryList extends Component {
 	}
 
 	onDelete (id) {
-		if (window.confirm('Are you sure you wish to delete this item?')){
-			this.props.onDeleteCategory(id)
-		}
+		
+		Swal({
+            title: 'Are you sure?',
+            text: "Are you sure you wish to delete this item?",
+            type: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, Add it!'
+          }).then((result) => {
+            if (result.value) {
+				this.props.onDeleteCategory(id)
+				Swal('Good job!','You clicked the button!','success')
+            }
+        })
 	}
 
 	render() {
@@ -51,15 +65,26 @@ class CategoryList extends Component {
 		
 		return (
 			<CSSTransitionGroup transitionName={config.PAGETRANSITION} transitionAppear={true} transitionAppearTimeout={config.TRANSITIONSPEED} transitionEnter={false} transitionLeave={false}>
+				
+				<div className="grid simple ">
+					<div className="grid-body no-border">
+						<Link to="/products" className="margin-right20">
+							<Button type="submit" className="btn btn-primary btn-cons" variant="contained" color="primary">
+							<i className="material-icons">arrow_back</i>
+							</Button>	
+						</Link>
+						<Link to="/category/add" className="float-right">
+							<Button type="submit" className="btn btn-primary btn-cons" variant="contained" color="primary">
+								Add
+							</Button>					
+						</Link>
+						<div className="clearfix"></div><br/>
+								
+						{this.showcategory(category)}
 
-				<div className="CategoryList col-lg-12 col-sm-12 col-xs-12 col-md-12">
-					<Link to="/category/add" className="btn btn-primary">
-						<i className="fa fa-plus"></i>
-					</Link>
-					<br/><br/>
-					{this.showcategory(category)}
+					</div>
 				</div>
-
+					
 			</CSSTransitionGroup>
 		);
 	} // end render
@@ -102,7 +127,7 @@ class CategoryList extends Component {
 										maxWidth: 600,
 										Cell: (row) => {
 											return <div className="text-center">
-												<Link to={`category/${row.original.id}/edit`}>
+												<Link to={`category/edit/${row.original.id}`}>
 													  {row.original.title}
 												</Link>
 											</div>;
@@ -116,16 +141,14 @@ class CategoryList extends Component {
 										maxWidth: 600,
 										filterAll: true
 									},
-									
-									
 									{
 										Header: "Action",
 										filterable: false,
 										maxWidth: 250,
 										Cell: row => (
-										
-											<button type="button" className="btn btn-danger" onClick={ () => this.onDelete(row.original.id)}><i className="fa fa-trash"></i></button>
-										
+											<Button type="submit" className="btn btn-primary btn-cons-small" variant="fab" color="secondary" size="small"  onClick={ () => this.onDelete(row.original.id)}>
+											<i className="material-icons">delete</i>
+											</Button>
 										)
 									}
 								]
@@ -135,10 +158,10 @@ class CategoryList extends Component {
 						id: "row",
 						// desc: true
 					}]}
-					defaultPageSize={20}  
-					style={{
-						height: "800px" // This will force the table body to overflow and scroll, since there is not enough room
-					}}
+					defaultPageSize={5}  
+					// style={{
+					// 	height: "800px" // This will force the table body to overflow and scroll, since there is not enough room
+					// }}
 					className="-striped -highlight"
 				/>
 		}
