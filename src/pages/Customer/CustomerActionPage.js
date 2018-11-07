@@ -14,7 +14,7 @@ import DatePicker from 'react-datepicker';
 import moment from 'moment';
 import Swal from 'sweetalert2'
 import Radio from '@material-ui/core/Radio';
-// import socketIOClient from 'socket.io-client'
+import socketIOClient from 'socket.io-client'
 // import Cleave from 'cleave.js/react';
 
 class CustomerActionPage extends Component {
@@ -184,8 +184,8 @@ class CustomerActionPage extends Component {
 						Swal('Good job!','You clicked the button!','success')
 						this.onCloseModal();
 						this.getCustomerData(id);
-						// const socket = socketIOClient("127.0.0.1:4001");
-						// socket.emit('change color', 'quan test1') // change 'red' to this.state.color
+						const socket = socketIOClient("http://localhost:9999/");
+						socket.emit('change', 'quan test1') // change 'red' to this.state.color
 					});
 				}
 			})
@@ -200,7 +200,6 @@ class CustomerActionPage extends Component {
 		if(this.state.customer_data) {
 			var {customer_data, id} = this.state;
 		}
-	
 		return (
 			<CSSTransitionGroup transitionName={config.PAGETRANSITION} transitionAppear={true} transitionAppearTimeout={config.TRANSITIONSPEED} transitionEnter={false} transitionLeave={false}>
 				<div className="grid simple ">
@@ -215,7 +214,7 @@ class CustomerActionPage extends Component {
 						{this.state.id  && this.state.id > 0 && 
 							<Button className="btn btn-primary btn-cons" variant="contained" color="secondary" onClick={this.onOpenModal}>Add Service</Button>
 						}
-						
+						<div className="clearfix"></div> <br/>
 						<Modal open={this.state.open} onClose={this.onCloseModal} center>
 							<h2>Add service for customer: <strong>{this.state.firstname + " " + this.state.lastname + "(" + this.state.phone + ")"}</strong></h2>
 							<p>
@@ -258,7 +257,7 @@ class CustomerActionPage extends Component {
 						</Modal>
 						
 					</div>
-
+					<div className="col-lg-12 col-xs-12 col-md-12">
 					<form noValidate onSubmit={this.handleFormSubmit}>
 						<div className="col-md-6 col-lg-6">
 							
@@ -415,7 +414,7 @@ class CustomerActionPage extends Component {
 					</form>
 
 				
-					
+				</div>
 					</div>
 				</div>
 				<div className="grid simple ">

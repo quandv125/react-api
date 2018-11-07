@@ -263,6 +263,39 @@ export const actDeleteCustomer = (id) => {
     }
 }
 
+// Calling
+export const actFetchCallingRequest = () => {
+    return (dispatch) => {
+        return apiCaller('GET', config.CRMWORLDFONE_URL  , null).then( res => {     
+            if(res){     
+                dispatch(actFetchCalling(res.data));
+            }
+		});
+    }
+}
+
+export const actFetchCalling = (Calling) => {
+    return {
+        type: Types.FETCH_CALLING,
+        Calling
+    }
+}
+// Delete Calling    
+export const actDeleteCallingRequest = (id) => {
+    return (dispatch) => {
+        return apiCaller('DELETE', config.CRMWORLDFONE_URL + id , null).then( res => {
+			dispatch(actDeleteCalling(id));
+		}); 
+    }
+}
+
+export const actDeleteCalling = (id) => {
+    return {
+        type: Types.DELETE_CALLING,
+        id
+    }
+}
+
 // SMS
 export const actFetchSmsRequest = () => {
     return (dispatch) => {
@@ -307,7 +340,7 @@ export const actLoginRequest = (user) => {
     return dispatch => {
         return apiCaller('POST', config.LOGIN_URL, user).then(res => {
             // console.log(res);
-                dispatch(actLogin(res.data));
+            dispatch(actLogin(res.data));
         });
     }
 }

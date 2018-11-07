@@ -72,7 +72,7 @@ class App extends Component {
 								<Navbar/>
 								<div className="page-container row-fluid">
 									<Sidebar/>
-									<div className="page-content container">
+									<div className="page-content ">
 										<div className="content sm-gutter">
 										<div className="page-title"></div>
 										</div>

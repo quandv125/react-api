@@ -10,17 +10,20 @@ import Swal from 'sweetalert2'
 import ReactTable from "react-table";
 import "react-table/react-table.css";
 import matchSorter from 'match-sorter';
+import ModalCalling from './../../components/Customers/ModalCalling';
 
 class CustomersPage extends Component {
 	
 	constructor(props) {
 		super(props);
 		this.state = {
-			image: '',
+			note: '',
 			loggedOut: false,
+			open: false,
 			isLogin: config.TOKEN.length > 10 ? true : false
 		}
 		this.onDelete = this.onDelete.bind(this);
+		
 	}
 
 	componentWillMount(){
@@ -45,7 +48,6 @@ class CustomersPage extends Component {
 	};
 
 	onDelete (id) {
-		
 		Swal({
             title: 'Are you sure?',
             text: "Are you sure you wish to delete this item?",
@@ -61,16 +63,16 @@ class CustomersPage extends Component {
         })
 	}
 
-	renderAddButton(){
-		// if( this.state.isLogin === true){
-			return ( 
-						<Link to="/customers/add" className="float-right">
-							<Button type="submit" className="btn btn-primary btn-cons" variant="contained" color="primary"> Add </Button>
-						</Link>
-					);
-		// }
-		// return null;
-	 }
+	// renderAddButton(){
+	// 	// if( this.state.isLogin === true){
+	// 		return ( 
+	// 					<Link to="/customers/add" className="float-right">
+	// 						<Button type="submit" className="btn btn-primary btn-cons" variant="contained" color="primary"> Add </Button>
+	// 					</Link>
+	// 				);
+	// 	// }
+	// 	// return null;
+	//  }
 
 	render() {
 		
@@ -100,6 +102,7 @@ class CustomersPage extends Component {
 
 					</div>
 				</div>
+				<ModalCalling />
 				
 			</CSSTransitionGroup>
 		);

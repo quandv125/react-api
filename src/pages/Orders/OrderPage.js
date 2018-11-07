@@ -6,23 +6,29 @@ import { actFetchOrdersRequest, actDeleteOrderRequest } from '../../actions/inde
 import Swal from 'sweetalert2';
 import { Redirect } from 'react-router-dom';
 import OrderList from './../../components/Orders/OrderList'
-// import { connectIO } from '../../socketIO/client';
 import Modal from 'react-responsive-modal';
 import ModalOrder from './../../components/Orders/ModalOrder';
+import callApi from '../../utils/apiCaller';
+import { connectIO } from '../../socketIO/client';
+
 class OrderPage extends Component {
 
 	constructor(props) {
 		super(props);
 		this.state = {
 			orders : [],
+			order_by_date: [],
 			loggedOut: false,
 			open: false,
-			order_id: ''
+			order_id: '',
 		}
-		// connectIO(message => {
-		// 	this.props.getOrders();
-		// 	Swal('Good job!','You clicked the button!','success')
-		// });
+
+		connectIO(message => {
+			this.props.getOrders();
+			Swal('Good job!','You clicked the button!','success')
+		});
+
+		
 	}
 
 	componentWillReceiveProps(nextprops) {
@@ -60,8 +66,24 @@ class OrderPage extends Component {
 		this.setState({ open: false });
     };
 
-	onActionModal = (id) => {
-		alert('test ' + id)
+	onActionModal = (id, data) => {
+		callApi('PUT', config.ORDER_URL + id, data).then( res => {
+			if(res && res.data.status){
+				this.props.getOrders();
+				this.setState({ open: false });
+				Swal('Good job!','You clicked the button!','success')
+			}
+		});
+	}
+	
+	getToday = () => {
+		var tempDate = new Date();
+		// var date = tempDate.getFullYear() + '-' + (tempDate.getMonth()+1) + '-' + tempDate.getDate() +' '+ tempDate.getHours()+':'+ tempDate.getMinutes()+':'+ tempDate.getSeconds();
+		let day = tempDate.getDate() < 10 ? "0"+tempDate.getDate() : tempDate.getDate();
+		let month = (tempDate.getMonth()+1);
+		let year = tempDate.getFullYear();
+		var date = day + "/" + month + "/" + year ;
+		return date;
 	}
 
 	render() {
@@ -71,6 +93,8 @@ class OrderPage extends Component {
 		
 		if (this.props.orders !== null) {
 			var {orders} = this.props.orders;
+			var {order_by_date} = this.props.orders;
+
 		}
 		
 		return (
@@ -79,15 +103,27 @@ class OrderPage extends Component {
 				<div className="grid simple">
 					<div className="grid-body no-border">
 						
-						<div className="page-title"> 
-							<i className="material-icons">card_giftcard</i>
-							<h3> <span className="semi-bold">Orders</span></h3>
+						
+						<div className="col-md-6">
+							<div className="page-title"> 
+								<i className="material-icons">card_giftcard</i>
+								<h3> <span className="semi-bold">Orders: {this.getToday()}</span></h3>
+							</div>
+							<OrderList onDelete={this.onDelete} onCloseModal={this.onCloseModal} onOpenModal={this.onOpenModal}>
+								{order_by_date}
+							</OrderList>
 						</div>
-						
-						<OrderList onDelete={this.onDelete} onCloseModal={this.onCloseModal} onOpenModal={this.onOpenModal}>
-							{orders}
-						</OrderList>
-						
+						<div className="col-md-6">
+							<div className="page-title"> 
+								<i className="material-icons">card_giftcard</i>
+								<h3> <span className="semi-bold">Orders New</span></h3>
+							</div>
+							
+							<OrderList onDelete={this.onDelete} onCloseModal={this.onCloseModal} onOpenModal={this.onOpenModal}>
+								{orders}
+							</OrderList>
+						</div>
+												
 						<Modal open={this.state.open} onClose={this.onCloseModal} center>
 							<ModalOrder order_id={this.state.order_id} action={this.onActionModal}/>
 						</Modal>
@@ -103,6 +139,7 @@ class OrderPage extends Component {
 const mapStateToProps = (state) => {
 	return {
 		orders: state.orders,
+		order_by_date: state.order_by_date,
 		authentication: state.authentication
 	};
 }

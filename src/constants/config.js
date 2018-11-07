@@ -21,6 +21,9 @@ export const APP_URL = 'http://127.0.0.1:8000/api/auth/user';
 export const LOGIN_URL = 'http://127.0.0.1:8000/api/auth/login';
 export const LOGOUT_URL = 'http://127.0.0.1:8000/api/auth/logout';
 
+export const CRMWORLDFONE_URL = 'http://127.0.0.1:8000/api/auth/worldfone/';
+
+
 export const URL_IMAGES = 'http://127.0.0.1:8000/images/';
 
 export const GENDER_MALE = 0;

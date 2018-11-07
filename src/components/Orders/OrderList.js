@@ -59,7 +59,7 @@ class OrderList extends Component {
 										accessor: d => d.transaction_id,
 										filterMethod: (filter, rows) => matchSorter(rows, filter.value, { keys: ["transaction_id"] }),
 										filterAll: true,
-										maxWidth: 200,
+										// maxWidth: 200,
 										Cell: (row) => {
 											return <div>
 												<Link to={`orders/edit/${row.original.id}/${row.original.customer_id}`}>
@@ -73,7 +73,7 @@ class OrderList extends Component {
 										id: "customer_title",
 										accessor: d => d.customer_title,
 										filterMethod: (filter, rows) => matchSorter(rows, filter.value, { keys: ["customer_title"] }),
-										maxWidth: 250,
+										// maxWidth: 250,
 										filterAll: true
 									},
 									{
@@ -81,7 +81,7 @@ class OrderList extends Component {
 										id: "user_title",
 										accessor: d => d.user_title,
 										filterMethod: (filter, rows) => matchSorter(rows, filter.value, { keys: ["user_title"] }),
-										maxWidth: 300,
+										// maxWidth: 300,
 										filterAll: true
 									},
 									{
@@ -90,20 +90,20 @@ class OrderList extends Component {
 										accessor: d => d.category_title,
 										filterMethod: (filter, rows) => matchSorter(rows, filter.value, { keys: ["category_title"] }),
 										filterAll: true,
-										maxWidth: 300,
+										// maxWidth: 300,
 									},
 									{
-										Header: "status",
-										id: "status",
-										accessor: d => d.status,
-										filterMethod: (filter, rows) => matchSorter(rows, filter.value, { keys: ["status"] }),
+										Header: "time",
+										id: "time",
+										accessor: d => d.time,
+										filterMethod: (filter, rows) => matchSorter(rows, filter.value, { keys: ["time"] }),
 										filterAll: true,
-										maxWidth: 100,
+										// maxWidth: 200,
 									},
 									{
 										Header: "Action",
 										filterable: false,
-										maxWidth: 100,
+										// maxWidth: 100,
 										Cell: row => (
 											<div>
 												<Button type="submit" className=" btn btn-primary btn-cons-small" variant="fab" color="primary" size="small" onClick={ () => this.onOpenModal(row.original.id) }>
@@ -116,7 +116,7 @@ class OrderList extends Component {
                                     {
 										Header: "Action",
 										filterable: false,
-										maxWidth: 100,
+										// maxWidth: 100,
 										Cell: row => (
 											<div>
 												<Button type="submit" className="btn btn-primary btn-cons-small" variant="fab" color="secondary" size="small"  onClick={ () => this.handleDelete(row.original.id)}>
@@ -136,6 +136,9 @@ class OrderList extends Component {
 					  ]}
 					defaultPageSize={10}  
 					className="-striped -highlight"
+					style={{
+						height: "600px" // This will force the table body to overflow and scroll, since there is not enough room
+					}}
 				    />
                 ) : ( // else 
 					<div></div>

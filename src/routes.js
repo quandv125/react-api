@@ -16,6 +16,9 @@ import SmsActionPage from './pages/Sms/SmsActionPage';
 import SmsCategory from './pages/Sms/SmsCategory';
 import SmsCategoryActionPage from './pages/Sms/SmsCategoryActionPage';
 
+import CallingPage from './pages/Calling/CallingPage';
+import CallingActionPage from './pages/Calling/CallingActionPage';
+
 import ProductPage from './pages/Products/ProductPage';
 import ProductActionPage from './pages/Products/ProductActionPage';
 
@@ -175,6 +178,23 @@ const routes = [
 		path: '/sms/edit/:id',
 		exact: false,
 		main: ({match, location, history}) => <SmsActionPage match={match} history={history} location={location}/>
+	},
+	// calling
+	{
+		path: '/calling',
+		exact: true,
+		main: ({match, location, history}) => <CallingPage match={match} history={history} location={location}/>
+
+	},
+	{
+		path: '/calling/add',
+		exact: false,
+		main: ({location, history}) => <CallingActionPage history={history} location={location}/>
+	},
+	{
+		path: '/calling/edit/:id',
+		exact: false,
+		main: ({match, location, history}) => <CallingActionPage match={match} history={history} location={location}/>
 	},
 	// Sms Categories
 	{

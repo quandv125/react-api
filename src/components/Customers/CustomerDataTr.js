@@ -7,7 +7,7 @@ class CustomerDataTr extends Component {
            
             <tr>
                 <td>
-                    <Link to={"/orders/"+ customer.id + "/" + order_id + "/edit"}>
+                    <Link to={"/orders/edit/"+ customer.id + "/" + order_id}>
                         {customer.id}
                     </Link>
                 </td>
@@ -15,12 +15,12 @@ class CustomerDataTr extends Component {
                     
                 </td>
                 <td>
-                    <Link to={"/orders/"+ customer.id + "/" + order_id + "/edit"}>
-                        {customer.created_at}
+                    <Link to={"/orders/edit/"+ customer.id + "/" + order_id}>
+                        {customer.time}
                     </Link>
                 </td>	
                 <td>
-                    <Link to={"/orders/"+ customer.id + "/" + order_id + "/edit"}>
+                    <Link to={"/orders/edit/"+ customer.id + "/" + order_id}>
                         {customer.transaction_id}
                     </Link>
                 </td>

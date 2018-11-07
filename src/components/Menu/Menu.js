@@ -32,12 +32,18 @@ const menu = [
 		exact: false,
 		icon: 'supervisor_account'
 	},
-
+	
+	{
+		name: 'Calling',
+		to: '/calling',
+		exact: false,
+		icon: 'phone_in_talk'
+	},
 	{
 		name: 'SMS',
 		to: '/sms',
 		exact: false,
-		icon: 'phonelink_ring'
+		icon: 'question_answer'
 	},
 	{
 		name: 'Users',
@@ -45,7 +51,6 @@ const menu = [
 		exact: false,
 		icon: 'account_circle'
 	},
-
 ];
 
 const MenuLink = ({ label, to, activeOnlyWhenExact, icon}) => {

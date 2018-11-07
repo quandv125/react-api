@@ -1,11 +1,14 @@
 import openSocket from 'socket.io-client';
-const socket = openSocket('http://localhost:4001/');
+const socket = openSocket('http://localhost:9999/');
 
 function connectIO(cb) {
-  socket.on('change color', (message) => {
-    // console.log(message)
+  socket.on('change', (message) => {
     cb(message);
   })
 }
-
-export { connectIO }
+function CallingIO(cb) {
+  socket.on("Calling:App\\Events\\Calling", function(message){
+    cb(message);
+  });
+}
+export { connectIO, CallingIO }

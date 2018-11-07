@@ -64,7 +64,11 @@ class AddRemainder extends Component {
 												placeholderText="Ex: 25/10/2018"
                                                 name="date_remain" 
                                                 minDate={moment()}
-                                                // monthsShown={2}
+												// monthsShown={2}
+												// showTimeSelect
+												// timeFormat="HH:mm"
+												// timeIntervals={15}
+												// timeCaption="time"
                                                 withPortal
                                                 locale="en-gb"
 												selected={this.state.startDate}
