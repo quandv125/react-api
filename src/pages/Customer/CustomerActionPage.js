@@ -55,7 +55,7 @@ class CustomerActionPage extends Component {
 		var {match} = this.props;
 		if(match) {
 			var id = match.params.id;
-			callApi('GET', config.CUSTOMER_URL + id, null).then(res => {
+			callApi('GET', config.CUSTOMER_URL  + "/" + id, null).then(res => {
 				var data = res.data.data;
 				this.setState({
 					id: data.id ? data.id  : '',
@@ -78,7 +78,7 @@ class CustomerActionPage extends Component {
 	}
 
 	getCustomerData = (id) => {
-		callApi('GET', config.ORDER_URL +'customer/'+ id, null).then(res => {
+		callApi('GET', config.ORDER_URL +'/customer/'+ id, null).then(res => {
 			if(res && res.data.status){
 				this.setState({
 					customer_data: res.data.orders
@@ -141,7 +141,7 @@ class CustomerActionPage extends Component {
 		let { isFormValidationErrors } = this.state;
 		if ( !isFormValidationErrors ){
 			if(id) { //update
-				callApi('PUT', config.CUSTOMER_URL + id, data).then(res => {
+				callApi('PUT', config.CUSTOMER_URL + "/" + id, data).then(res => {
 					Swal( 'Good job!', 'You clicked the button!', 'success')
 					// history.goBack();
 				});

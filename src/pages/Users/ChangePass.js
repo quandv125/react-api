@@ -45,7 +45,7 @@ class ChangePass extends Component {
 		let { isFormValidationErrors } = this.state;
         if ( !isFormValidationErrors ){
            
-			callApi('POST', config.API_URL + "change-password", data).then( res => {
+			callApi('POST', config.API_URL + "/change-password", data).then( res => {
                 console.log(res);
                 if(res){
                     if( res.data.status ){

@@ -14,6 +14,9 @@
 .ReactTable .rt-tbody .rt-td:last-child {
   margin: 0 auto;
 }
+.cursor-pointer{
+  cursor: pointer;
+}
 .react-datepicker__input-container {
   display: inline !important;
 }

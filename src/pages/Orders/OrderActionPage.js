@@ -43,7 +43,7 @@ class OrderActionPage extends Component {
 		if(match) {
 			var {id, customer_id} = match.params;
 		
-			callApi('GET', config.ORDER_URL + id, null).then(res => {
+			callApi('GET', config.ORDER_URL  + "/" + id, null).then(res => {
 				if (res && res.data.data){
 					this.setState({
 						order: res.data.data,
@@ -51,19 +51,19 @@ class OrderActionPage extends Component {
 						category_title: res.data.category.title
 					});
 					var category_id = res.data.data.product_category_id;
-					callApi('GET', config.PRODUCT_URL+'category/'+category_id, null).then(res => {
+					callApi('GET', config.PRODUCT_URL+'/category/'+category_id, null).then(res => {
 						this.setState({
 							categories: res.data.data
 						});
 					});
-					callApi('GET', config.USERS_URL+'list-doctor', null).then(res => {
+					callApi('GET', config.USERS_URL+'/list-doctor', null).then(res => {
 						this.setState({
 							username: res.data.data
 						});
 					});
 				}
 			});	
-			callApi('GET', config.CUSTOMER_URL + customer_id, null).then(response => {
+			callApi('GET', config.CUSTOMER_URL  + "/" + customer_id, null).then(response => {
 				if (response ){
 					this.setState({
 						customer: response.data.data
@@ -72,7 +72,7 @@ class OrderActionPage extends Component {
 			});
 			if(id){
 				this.getOrderDetail(id);
-				callApi('GET', config.ORDER_URL + 'user/' + id, null).then(res => {
+				callApi('GET', config.ORDER_URL + '/user/' + id, null).then(res => {
 					if ( res.data.status ) {
 						this.setState({
 							doctor: res.data.data.user
@@ -98,7 +98,7 @@ class OrderActionPage extends Component {
 	}
 
 	getOrderDetail(id){
-		callApi('GET', config.ORDER_DETAIL_URL+ "order/" + id, null).then(res => {
+		callApi('GET', config.ORDER_DETAIL_URL+ "/order/" + id, null).then(res => {
 			if(res && res.data.status){
 				this.setState({
 					order_detail: res.data.data,
@@ -124,7 +124,7 @@ class OrderActionPage extends Component {
 		var {id, sku, title, price, quantity, unit, is_publish} = this.state;
 		var data = {sku: sku, title: title, price: price, quantity: quantity, unit: unit, is_publish: is_publish ? true : false };
 		if(id) { //update
-			callApi('PUT', config.ORDER_URL + id, data).then( res => {
+			callApi('PUT', config.ORDER_URL  + "/" + id, data).then( res => {
 				console.log(res);
 				history.push("/orders");
 			});
@@ -140,7 +140,7 @@ class OrderActionPage extends Component {
 	}
 
 	handleDeleteService = (id) => {
-		callApi('DELETE', config.ORDER_DETAIL_URL+id, null).then(response => {
+		callApi('DELETE', config.ORDER_DETAIL_URL + "/" +id, null).then(response => {
 			if(response && response.data.status){
 				this.getOrderDetail(this.state.order.id);
 			}
@@ -165,7 +165,7 @@ class OrderActionPage extends Component {
 		var time = data_props.date_remain;
 		var data = {time: time, is_send_sms: 0}
 		if( time !== ''){
-			callApi('PUT', config.ORDER_URL + this.state.order.id, data).then(res => {
+			callApi('PUT', config.ORDER_URL  + "/" + this.state.order.id, data).then(res => {
 				if(res && res.data.status){
 					this.setState({
 						date_remain: time
@@ -182,7 +182,7 @@ class OrderActionPage extends Component {
 		var { order } = this.state;
 		if( user_id !== null && user_id !== "0") {
             var data = {user_id: user_id};
-            callApi('PUT', config.ORDER_URL + 'user/' + order.id, data).then(res => {
+            callApi('PUT', config.ORDER_URL + '/user/' + order.id, data).then(res => {
                 if ( res.data.status ) {
                     this.setState({
                         doctor: res.data.data.user
@@ -198,7 +198,7 @@ class OrderActionPage extends Component {
 	handleSendSmsRemain = () => {
 		var { id } = this.state.order;
 		var data = { is_send_sms: 1, time: null};
-		callApi('GET', config.ORDERS_URL + "send-sms-order/" + id, data).then(res => {
+		callApi('GET', config.ORDERS_URL + "/send-sms-order/" + id, data).then(res => {
 			console.log(res);
 			if(res) {
 				if( res.data.status ){
@@ -215,7 +215,7 @@ class OrderActionPage extends Component {
 	handleDeleteRemain = () => {
 		var { id } = this.state.order;
 		var data = { is_send_sms: true, time: '0000-00-00 00:00:00'};
-		callApi('PUT', config.ORDER_URL + id, data).then(res => {
+		callApi('PUT', config.ORDER_URL  + "/" + id, data).then(res => {
 			if(res && res.data.status){
 				console.log(res);
 				this.setState({

@@ -31,7 +31,7 @@ class MyAccount extends Component {
     }
 
     componentDidMount(){
-        callApi('POST', config.API_URL + "me", null).then(res => {
+        callApi('POST', config.API_URL + "/me", null).then(res => {
             var data = res.data;
             console.log(data);
             this.setState({
@@ -100,7 +100,7 @@ class MyAccount extends Component {
         var data = { username: username, firstname: firstname, lastname: lastname, email: email, phone: phone, address: address, gender: gender, birthday: birthday };
 		let { isFormValidationErrors } = this.state;
         if ( !isFormValidationErrors ){
-			callApi('PUT', config.USER_URL + id, data).then( res => {
+			callApi('PUT', config.USER_URL  + "/" + id, data).then( res => {
                 if( res ){
                     if( res.data.status ){
                         Swal(' Good job!', 'The data have be saved.', 'success')

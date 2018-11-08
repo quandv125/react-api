@@ -26,7 +26,7 @@ class CategoryActionPage extends Component {
 		var {match} = this.props;
 		if(match) {
 			var id = match.params.id;
-			callApi('GET', config.CATEGORY_URL+id, null).then(res => {
+			callApi('GET', config.CATEGORY_URL + "/" + id, null).then(res => {
 				var data = res.data.data;
 				this.setState({
 					id: data.id,
@@ -59,7 +59,7 @@ class CategoryActionPage extends Component {
 			var {id, title, desc} = this.state;
 			var data = { title: title, desc: desc };
 			if( id ) { //update
-				callApi('PUT', config.CATEGORY_URL + id, data).then( res => {
+				callApi('PUT', config.CATEGORY_URL  + "/" + id, data).then( res => {
 					history.push("/category");
 				});
 			} else { //create

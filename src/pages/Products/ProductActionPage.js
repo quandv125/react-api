@@ -44,7 +44,7 @@ class ProductActionPage extends Component {
 		var {match} = this.props;
 		if(match) {
 			var id = match.params.id;
-			callApi('GET', config.PRODUCT_URL+id, null).then(res => {
+			callApi('GET', config.PRODUCT_URL + "/" +id, null).then(res => {
 				var data = res.data.data;
 				this.setState({
 					id: data.id ? data.id : '',
@@ -99,7 +99,7 @@ class ProductActionPage extends Component {
 			var {id, sku, title, price, quantity, unit, is_publish, category_id,currency, note, time} = this.state;
 			var data = {sku: sku, title: title, price: this.priceVal(price), quantity: quantity,  category_id: category_id, time: time,currency: currency, note: note, unit: unit, is_publish: is_publish ? true : false };
 			if(id) { //update
-				callApi('PUT', config.PRODUCT_URL + id, data).then( res => {
+				callApi('PUT', config.PRODUCT_URL  + "/" + id, data).then( res => {
 					history.push("/products");
 				});
 			} else { //create

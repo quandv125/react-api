@@ -27,7 +27,7 @@ class SmsCategoryActionPage extends Component {
 		if(match) {
 			var id = match.params.id;
 			console.log(id);
-			callApi('GET', config.SMS_CATEGORY_URL+id, null).then(res => {
+			callApi('GET', config.SMS_CATEGORY_URL + "/" +id, null).then(res => {
 				var data = res.data.data;
 
 				this.setState({
@@ -62,7 +62,7 @@ class SmsCategoryActionPage extends Component {
 			var {id, title, desc} = this.state;
 			var data = { title: title, desc: desc };
 			if( id ) { //update
-				callApi('PUT', config.SMS_CATEGORY_URL + id, data).then( res => {
+				callApi('PUT', config.SMS_CATEGORY_URL  + "/" + id, data).then( res => {
 					history.push("/sms-category");
 				});
 			} else { //create

@@ -44,22 +44,35 @@ class OrderList extends Component {
 							{
 								Header: 'Infomation',
 								columns: [
+									// {
+									// 	Header: "#",
+									// 	id: "row",
+									// 	filterable: false,
+									// 	maxWidth: 50,
+									// 	Cell: (row) => {
+									// 		return <div>{row.index+1}</div>;
+									// 	}
+									// },
 									{
-										Header: "#",
-										id: "row",
+										Header: "Action",
 										filterable: false,
-										maxWidth: 50,
-										Cell: (row) => {
-											return <div>{row.index+1}</div>;
-										}
-									},
+										maxWidth: 80,
+										Cell: row => (
+											<div>
+												<Button type="submit" className=" btn btn-primary btn-cons-small" variant="fab" color="secondary" size="small" onClick={ () => this.onOpenModal(row.original.id) }>
+													<i className="material-icons">border_color</i>
+												</Button>
+											</div>
+										
+										)
+                                    },
 									{
 										Header: "transaction_id",
 										id: "transaction_id",
 										accessor: d => d.transaction_id,
 										filterMethod: (filter, rows) => matchSorter(rows, filter.value, { keys: ["transaction_id"] }),
 										filterAll: true,
-										// maxWidth: 200,
+										maxWidth: 200,
 										Cell: (row) => {
 											return <div>
 												<Link to={`orders/edit/${row.original.id}/${row.original.customer_id}`}>
@@ -74,7 +87,14 @@ class OrderList extends Component {
 										accessor: d => d.customer_title,
 										filterMethod: (filter, rows) => matchSorter(rows, filter.value, { keys: ["customer_title"] }),
 										// maxWidth: 250,
-										filterAll: true
+										filterAll: true,
+										Cell: (row) => {
+											return <div>
+												<Link to={`customers/edit/${row.original.customer_id}`}>
+													  {row.original.customer_title}
+												</Link>
+											</div>;
+										}
 									},
 									{
 										Header: "user_title",
@@ -100,28 +120,18 @@ class OrderList extends Component {
 										filterAll: true,
 										// maxWidth: 200,
 									},
-									{
-										Header: "Action",
-										filterable: false,
-										// maxWidth: 100,
-										Cell: row => (
-											<div>
-												<Button type="submit" className=" btn btn-primary btn-cons-small" variant="fab" color="primary" size="small" onClick={ () => this.onOpenModal(row.original.id) }>
-													<i className="material-icons">border_color</i>
-												</Button>
-											</div>
-										
-										)
-                                    },
+									
                                     {
 										Header: "Action",
 										filterable: false,
-										// maxWidth: 100,
+										maxWidth: 80,
 										Cell: row => (
 											<div>
-												<Button type="submit" className="btn btn-primary btn-cons-small" variant="fab" color="secondary" size="small"  onClick={ () => this.handleDelete(row.original.id)}>
+												{/* <Button type="submit" className="btn btn-primary btn-cons-small" variant="fab" color="secondary" size="small"  onClick={ () => this.handleDelete(row.original.id)}> */}
+													<span className="cursor-pointer" onClick={ () => this.handleDelete(row.original.id)}>
 													<i className="material-icons">delete</i>
-												</Button>
+													</span>
+												{/* </Button> */}
 											</div>
 										)
 									}

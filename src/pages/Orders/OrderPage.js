@@ -67,7 +67,7 @@ class OrderPage extends Component {
     };
 
 	onActionModal = (id, data) => {
-		callApi('PUT', config.ORDER_URL + id, data).then( res => {
+		callApi('PUT', config.ORDER_URL  + "/" + id, data).then( res => {
 			if(res && res.data.status){
 				this.props.getOrders();
 				this.setState({ open: false });

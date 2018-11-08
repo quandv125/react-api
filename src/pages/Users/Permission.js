@@ -49,7 +49,7 @@ class Permission extends Component {
 				}
 			});
 
-			callApi('GET', config.ROLES_URL + 'role-permission/' + id, null).then( res => {
+			callApi('GET', config.ROLES_URL + '/role-permission/' + id, null).then( res => {
 				if( res && res.data.status){
 					this.setState({
 						name: res.data.data
@@ -84,7 +84,7 @@ class Permission extends Component {
 				role_id: role_id, 
 				role_permissions: array
 			};
-			callApi('POST', config.PERMISSIONS_URL + "role_permissions", data).then( res => {
+			callApi('POST', config.PERMISSIONS_URL + "/role_permissions", data).then( res => {
                 if(res && res.data.status){
 					Swal(' Good job!', '', 'success')
                 }

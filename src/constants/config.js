@@ -1,30 +1,32 @@
-export const USER_URL = 'http://127.0.0.1:8000/api/auth/user/';
-export const USERS_URL = 'http://127.0.0.1:8000/api/auth/users/';
+// var domain = 'http://183.91.11.132/pvm_api/public/api/auth/';
+var domain = 'http://127.0.0.1:8000/api/auth/';
+export const USER_URL = domain + 'user';
+export const USERS_URL = domain + 'users';
 
-export const PRODUCT_URL = 'http://127.0.0.1:8000/api/auth/product/';
-export const CUSTOMER_URL = 'http://127.0.0.1:8000/api/auth/customer/';
-export const SMS_URL = 'http://127.0.0.1:8000/api/auth/sms/';
+export const PRODUCT_URL = domain + 'product';
+export const CUSTOMER_URL = domain + 'customer';
+export const SMS_URL = domain + 'sms';
 
-export const ORDER_URL = 'http://127.0.0.1:8000/api/auth/order/';
-export const ORDERS_URL = 'http://127.0.0.1:8000/api/auth/orders/';
+export const ORDER_URL = domain + 'order';
+export const ORDERS_URL = domain + 'orders';
 
-export const ORDER_DETAIL_URL = 'http://127.0.0.1:8000/api/auth/order-detail/';
-export const CATEGORY_URL = 'http://127.0.0.1:8000/api/auth/product-category/';
-export const SMS_CATEGORY_URL = 'http://127.0.0.1:8000/api/auth/sms-categories/';
-export const PERMISSION_URL = 'http://127.0.0.1:8000/api/auth/permission/';
-export const PERMISSIONS_URL = 'http://127.0.0.1:8000/api/auth/permissions/';
-export const ROLE_URL = 'http://127.0.0.1:8000/api/auth/role/';
-export const ROLES_URL = 'http://127.0.0.1:8000/api/auth/roles/';
+export const ORDER_DETAIL_URL = domain + 'order-detail';
+export const CATEGORY_URL = domain + 'product-category';
+export const SMS_CATEGORY_URL = domain + 'sms-categories';
+export const PERMISSION_URL = domain + 'permission';
+export const PERMISSIONS_URL = domain + 'permissions';
+export const ROLE_URL = domain + 'role';
+export const ROLES_URL = domain + 'roles';
 
-export const APP_URL = 'http://127.0.0.1:8000/api/auth/user';
+export const APP_URL = domain + 'user';
 
-export const LOGIN_URL = 'http://127.0.0.1:8000/api/auth/login';
-export const LOGOUT_URL = 'http://127.0.0.1:8000/api/auth/logout';
+export const LOGIN_URL = domain + 'login';
+export const LOGOUT_URL = domain + 'logout';
 
-export const CRMWORLDFONE_URL = 'http://127.0.0.1:8000/api/auth/worldfone/';
+export const CRMWORLDFONE_URL = domain + 'worldfone';
 
 
-export const URL_IMAGES = 'http://127.0.0.1:8000/images/';
+// export const URL_IMAGES = 'http://127.0.0.1:8000/images';
 
 export const GENDER_MALE = 0;
 export const GENDER_FEMALE = 1;
@@ -44,7 +46,7 @@ export const ACTIVED = 1;
 export const IS_PUBLISH_YES = 1;
 export const IS_PUBLISH_NO = 0;
 
-export const API_URL = 'http://127.0.0.1:8000/api/auth/';
+export const API_URL = domain + '';
 
 export const PRODUCTS = 'products';
 export const PRODUCT = 'product';

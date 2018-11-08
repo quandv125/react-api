@@ -58,7 +58,6 @@ class CallingPage extends Component {
 		if (this.props.calling !== null) {
 			var {calling} = this.props;
 		}
-		console.log(this.props.calling);
 		
 		return (
 			<CSSTransitionGroup transitionName={config.PAGETRANSITION} transitionAppear={true} transitionAppearTimeout={config.TRANSITIONSPEED} transitionEnter={false} transitionLeave={false}>

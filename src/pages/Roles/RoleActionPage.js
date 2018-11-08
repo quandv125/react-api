@@ -27,7 +27,7 @@ class RoleActionPage extends Component {
 		var {match} = this.props;
 		if(match) {
 			var id = match.params.id;
-			callApi('GET', config.ROLE_URL+id, null).then(res => {
+			callApi('GET', config.ROLE_URL + "/" +id, null).then(res => {
 				var data = res.data.data;
 				this.setState({
 					id: data.id,
@@ -61,7 +61,7 @@ class RoleActionPage extends Component {
 			var {id, name, description, display_name} = this.state;
 			var data = { name: name, description: description, display_name };
 			if( id ) { //update
-				callApi('PUT', config.ROLE_URL + id, data).then( res => {
+				callApi('PUT', config.ROLE_URL  + "/" + id, data).then( res => {
 					history.push("/role");
 				});
 			} else { //create

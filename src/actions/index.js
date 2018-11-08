@@ -23,7 +23,7 @@ export const actFetchProducts = (products) => {
 // Delete Product    
 export const actDeleteProductRequest = (id) => {
     return (dispatch) => {
-        return apiCaller('DELETE', config.PRODUCT_URL + id , null).then( res => {
+        return apiCaller('DELETE', config.PRODUCT_URL  + "/" + id , null).then( res => {
             // console.log(res);
 			dispatch(actDeleteProduct(id));
 		}); 
@@ -58,7 +58,7 @@ export const actFetchCategory = (category) => {
 // Delete Category    
 export const actDeleteCategoryRequest = (id) => {
     return (dispatch) => {
-        return apiCaller('DELETE', config.CATEGORY_URL + id , null).then( res => {
+        return apiCaller('DELETE', config.CATEGORY_URL  + "/" + id , null).then( res => {
 			dispatch(actDeleteCategory(id));
 		}); 
     }
@@ -92,7 +92,7 @@ export const actFetchOrders = (orders) => {
 // Delete Order    
 export const actDeleteOrderRequest = (id) => {
     return (dispatch) => {
-        return apiCaller('DELETE', config.ORDER_URL + id , null).then( res => {
+        return apiCaller('DELETE', config.ORDER_URL  + "/" + id , null).then( res => {
             // console.log(res);
 			dispatch(actDeleteOrder(id));
 		}); 
@@ -127,7 +127,7 @@ export const actFetchRole = (role) => {
 // Delete Role    
 export const actDeleteRoleRequest = (id) => {
     return (dispatch) => {
-        return apiCaller('DELETE', config.ROLE_URL + id , null).then( res => {
+        return apiCaller('DELETE', config.ROLE_URL  + "/" + id , null).then( res => {
 			dispatch(actDeleteRole(id));
 		}); 
     }
@@ -160,7 +160,7 @@ export const actFetchUsers = (users) => {
 // Delete User    
 export const actDeleteUserRequest = (id) => {
     return (dispatch) => {
-        return apiCaller('DELETE', config.USER_URL + id , null).then( res => {
+        return apiCaller('DELETE', config.USER_URL  + "/" + id , null).then( res => {
 			dispatch(actDeleteUser(id));
 		}); 
     }
@@ -205,7 +205,7 @@ export const actEditUser = (user) => {
 
 export const actEditUserRequest = (user, id) => {
     return (dispatch) => { 
-        return apiCaller('PUT', config.USER_URL + id , user).then( res => {   
+        return apiCaller('PUT', config.USER_URL  + "/" + id , user).then( res => {   
             if (res.data.status) {
                 dispatch(actEditUser(res.data));
             }
@@ -215,7 +215,7 @@ export const actEditUserRequest = (user, id) => {
 // get infomation user
 export const actGetUserRequest = id => {
     return (dispatch) => {
-        return apiCaller('GET', config.USER_URL +id, null).then(res => {
+        return apiCaller('GET', config.USER_URL  + "/" + id, null).then(res => {
             dispatch(actGetUser(res.data));
         });
     }
@@ -250,7 +250,7 @@ export const actFetchCustomers = (customers) => {
 // Delete customer    
 export const actDeleteCustomerRequest = (id) => {
     return (dispatch) => {
-        return apiCaller('DELETE', config.CUSTOMER_URL + id , null).then( res => {
+        return apiCaller('DELETE', config.CUSTOMER_URL  + "/" + id , null).then( res => {
 			dispatch(actDeleteCustomer(id));
 		}); 
     }
@@ -283,7 +283,7 @@ export const actFetchCalling = (Calling) => {
 // Delete Calling    
 export const actDeleteCallingRequest = (id) => {
     return (dispatch) => {
-        return apiCaller('DELETE', config.CRMWORLDFONE_URL + id , null).then( res => {
+        return apiCaller('DELETE', config.CRMWORLDFONE_URL  + "/" + id , null).then( res => {
 			dispatch(actDeleteCalling(id));
 		}); 
     }
@@ -316,7 +316,7 @@ export const actFetchSms = (sms) => {
 // Delete SMS    
 export const actDeleteSmsRequest = (id) => {
     return (dispatch) => {
-        return apiCaller('DELETE', config.SMS_URL + id , null).then( res => {
+        return apiCaller('DELETE', config.SMS_URL  + "/" + id , null).then( res => {
 			dispatch(actDeleteSms(id));
 		}); 
     }
@@ -339,7 +339,7 @@ export const actLogin = (user) => {
 export const actLoginRequest = (user) => {
     return dispatch => {
         return apiCaller('POST', config.LOGIN_URL, user).then(res => {
-            // console.log(res);
+            console.log(res);
             dispatch(actLogin(res.data));
         });
     }

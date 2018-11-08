@@ -35,7 +35,7 @@ class App extends Component {
 			},300)
 		}
 
-		callApi('GET', config.ROLE_URL + this.state.role_id, null).then( res => {
+		callApi('GET', config.ROLE_URL  + "/" + this.state.role_id, null).then( res => {
 			if(res && res.data.status){
 				this.setState({
 					role_id: this.state.role_id,
@@ -51,7 +51,7 @@ class App extends Component {
 			isLogin: nextprops.authentication.loggedIn
 		});	
 		if(nextprops.authentication.role && typeof nextprops.authentication.role !== 'undefined'){
-			callApi('GET', config.ROLE_URL + nextprops.authentication.role, null).then( res => {
+			callApi('GET', config.ROLE_URL + "/" + nextprops.authentication.role, null).then( res => {
 				if(res.data.status){
 					this.setState({
 						role_id: nextprops.authentication.role,
