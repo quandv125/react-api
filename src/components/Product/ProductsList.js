@@ -68,7 +68,7 @@ class ProductList extends Component {
 							defaultFilterMethod={(filter, row) => String(row[filter.id]) === filter.value}
 							columns={[
 								{
-									Header: '',
+									Header: 'Thông tin sản phẩm',
 									columns: [
 										{
 											Header: "#",
@@ -79,23 +79,9 @@ class ProductList extends Component {
 												return <div>{row.index+1}</div>;
 											}
 										},
+									
 										{
-											Header: "sku",
-											id: "sku",
-											accessor: d => d.sku,
-											filterMethod: (filter, rows) => matchSorter(rows, filter.value, { keys: ["sku"] }),
-											filterAll: true,
-											maxWidth: 70,
-											Cell: (row) => {
-												return <div>
-													<Link to={`products/edit/${row.original.id}`}>
-														{row.original.sku}
-													</Link>
-												</div>;
-											}
-										},
-										{
-											Header: "Category",
+											Header: "Dịch vụ",
 											id: "category_title",
 											accessor: d => d.category_title,
 											filterMethod: (filter, rows) => matchSorter(rows, filter.value, { keys: ["category_title"] }),
@@ -107,14 +93,26 @@ class ProductList extends Component {
 												</div>)
 											}
 										},
-										
 										{
-											Header: "title",
+											Header: "Danh mục",
+											id: "service_title",
+											accessor: d => d.service_title,
+											filterMethod: (filter, rows) => matchSorter(rows, filter.value, { keys: ["service_title"] }),
+											filterAll: true,
+											maxWidth: 100,
+											Cell: (row) => {
+												return (<div className="text-left">
+														{row.original.service_title}
+												</div>)
+											}
+										},
+										{
+											Header: "Tên sản phẩm",
 											id: "title",
 											accessor: d => d.title,
 											filterMethod: (filter, rows) => matchSorter(rows, filter.value, { keys: ["title"] }),
 											filterAll: true,
-											maxWidth: 600,
+											maxWidth: 400,
 											Cell: (row) => {
 												return <div className="text-left">
 													<Link to={`products/edit/${row.original.id}`}>
@@ -124,7 +122,7 @@ class ProductList extends Component {
 											}
 										},
 										{
-											Header: "price",
+											Header: "Giá",
 											id: "price",
 											accessor: d => this.currency(d.price, ''),
 											filterMethod: (filter, rows) => matchSorter(rows, filter.value, { keys: ["price"] }),
@@ -132,7 +130,7 @@ class ProductList extends Component {
 											filterAll: true
 										},
 										{
-											Header: "currency",
+											Header: "Loại tiền",
 											id: "currency",
 											accessor: d => d.currency,
 											maxWidth: 100,
@@ -156,13 +154,13 @@ class ProductList extends Component {
 												style={{ width: "100%" }}
 												value={filter ? filter.value : "all"}
 												>
-												<option value="all">Show All</option>
+												<option value="all">Tất cả</option>
 												<option value="VND">VND</option>
 												<option value="USD">USD</option>
 												</select>
 										},
 										{
-											Header: "unit",
+											Header: "Đơn vị",
 											id: "unit",
 											accessor: d => d.unit,
 											filterMethod: (filter, rows) => matchSorter(rows, filter.value, { keys: ["unit"] }),
@@ -170,7 +168,7 @@ class ProductList extends Component {
 											filterAll: true
 										},
 										{
-											Header: "quantity",
+											Header: "Số lượng",
 											id: "quantity",
 											accessor: d => d.quantity,
 											filterMethod: (filter, rows) => matchSorter(rows, filter.value, { keys: ["quantity"] }),
@@ -178,11 +176,19 @@ class ProductList extends Component {
 											maxWidth: 100,
 										},
 										{
-											Header: "is_publish",
+											Header: "Thời gian",
+											id: "time",
+											accessor: d => d.time,
+											filterMethod: (filter, rows) => matchSorter(rows, filter.value, { keys: ["time"] }),
+											filterAll: true,
+											maxWidth: 100,
+										},
+										{
+											Header: "Kích hoạt",
 											id: "is_publish",
 											accessor: d => d.is_publish,
 											maxWidth: 70,
-											Cell: ({ value }) => (value === config.IS_PUBLISH_YES ? "Yes" : "No"),
+											Cell: ({ value }) => (value === config.IS_PUBLISH_YES ? "Có" : "Không"),
 											filterMethod: (filter, row) => {
 												if (filter.value === "all") {
 													return true;
@@ -202,13 +208,13 @@ class ProductList extends Component {
 												style={{ width: "100%" }}
 												value={filter ? filter.value : "all"}
 												>
-													<option value="all">Show All</option>
-													<option value="1">Yes</option>
-													<option value="0">No</option>
+													<option value="all">Tất cả</option>
+													<option value="1">Có</option>
+													<option value="0">Không</option>
 												</select>
 										},
 										{
-											Header: "Action",
+											Header: "",
 											filterable: false,
 											maxWidth: 70,
 											Cell: row => (
@@ -224,7 +230,7 @@ class ProductList extends Component {
 						]}
 						defaultSorted={[{
 							id: "row",
-							desc: true
+							// desc: true
 						}]}
 						defaultPageSize={10}  
 						style={{

@@ -35,13 +35,14 @@ class ProductList extends Component {
 	onDelete = (id) => {
 
 		Swal({
-            title: 'Are you sure?',
-            text: "Are you sure you wish to delete this item?",
+            title: 'Bạn có chắn chắn muốn xóa?',
+            text: "Bạn có chắn chắn muốn xóa sản phẩm này?",
             type: 'warning',
             showCancelButton: true,
             confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
-            confirmButtonText: 'Yes, Add it!'
+			cancelButtonColor: '#d33',
+			cancelButtonText: 'Hủy',
+            confirmButtonText: 'Đồng ý!'
           }).then((result) => {
             if (result.value) {
                 this.props.onDeleteProduct(id)
@@ -65,14 +66,21 @@ class ProductList extends Component {
 								</Button>	
 							</Link>
 								
-							<Link to="/category" className="margin-bottom20">
+							<Link to="/category" className="margin-bottom20 margin-right20">
 								<Button type="submit" className="btn btn-primary btn-cons" variant="contained" color="primary">
-									Category
+									Dịch vụ
 								</Button>
 							</Link>
+
+							<Link to="/service" className="margin-bottom20">
+								<Button type="submit" className="btn btn-primary btn-cons" variant="contained" color="primary">
+									Danh mục
+								</Button>
+							</Link>
+
 							<Link to="/products/add" className="float-right">
 								<Button type="submit" className="btn btn-primary btn-cons" variant="contained" color="primary">
-									Add
+									Thêm sản phẩm
 								</Button>
 							</Link>
 						<div className="clearfix"></div><br/>

@@ -5,19 +5,19 @@ class CustomerData extends Component {
         return (
            
             <div className="panel panel-default">
-                <div className="panel-heading">Panel heading</div>
+                <div className="panel-heading">Lịch sử thăm khám</div>
                     <div className="table-responsive">
                                             
                         <table className="table table-hover">
                             <thead>
                                 <tr>
                                     <th>#</th>
-                                    <th>Status</th>
-                                    <th>Date</th>
-                                    <th>Transation</th>
-                                    <th>Category</th>
-                                    <th>User</th>
-                                    <th>Note</th>
+                                    <th>Trạng thái</th>
+                                    <th>Ngày khám lại</th>
+                                    <th>Mã giao dịch</th>
+                                    <th>Danh mục</th>
+                                    <th>Bác sy</th>
+                                    <th>Chú thích</th>
                                 </tr>
                             </thead>
                             <tbody>

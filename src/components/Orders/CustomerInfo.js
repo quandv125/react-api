@@ -9,7 +9,7 @@ class CustomerInfo extends Component {
 							<div className="col-md-12 sortable ui-sortable">
 								<div className="grid simple vertical green">
 									<div className="grid-title no-border">
-										<h4>Infomation customer</h4>
+										<h4>Thông tin bệnh nhân</h4>
 									</div>
 									<div className="grid-body no-border">
 										
@@ -21,24 +21,24 @@ class CustomerInfo extends Component {
 																<tbody>
 																	
 																	<tr>
-																		<td>Name</td>
+																		<td>Tên bệnh nhân</td>
 																		<td> {customer.firstname + " " + customer.lastname }</td>
 																	</tr>
 																	<tr>
-																		<td>Phone</td>
+																		<td>Số điện thoại</td>
 																		<td>{customer.phone}</td>
 																	</tr>
 																	<tr>
-																		<td>Address</td>
+																		<td>Đỉa chỉ</td>
 																		<td>{customer.address}</td>
 																	</tr>
 																	<tr>
-																		<td>email</td>
+																		<td>Email</td>
 																		<td>{customer.email}</td>
 																	</tr>
 																	<tr>
-																		<td>gender</td>
-																		<td>{customer.gender === config.GENDER_MALE ? "MALE": "FEMALE"}</td>
+																		<td>Giới tính</td>
+																		<td>{customer.gender === config.GENDER_MALE ? "Nữ": "Nam"}</td>
 																	</tr>
 																	
 																</tbody>

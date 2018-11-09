@@ -75,7 +75,7 @@ class CategoryList extends Component {
 						</Link>
 						<Link to="/category/add" className="float-right">
 							<Button type="submit" className="btn btn-primary btn-cons" variant="contained" color="primary">
-								Add
+								Thêm mới
 							</Button>					
 						</Link>
 						<div className="clearfix"></div><br/>

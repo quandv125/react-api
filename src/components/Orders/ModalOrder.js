@@ -41,16 +41,16 @@ class ModalOrder extends Component {
         var { order_id }  = this.props;
         return (
             <div>
-                <h2>Service</h2>
+                <h2>Chọn thời gian khám lại</h2>
                 <p>
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam pulvinar risus non risus hendrerit venenatis. Pellentesque sit amet hendrerit risus, sed porttitor quam.
+                    Đặt lịch/ thời gian khám lại cho bệnh nhân. Bệnh nhân sẽ nhận được tin nhắn thông báo lịch khám lại trước 1 ngày
                 </p>
                     <div className="form-group">
-                        <label>note</label>
+                        <label>Ngày</label>
                         <DatePicker
                             className="form-control"
                             dateFormat="DD/MM/YYYY"
-                            placeholderText="Ex: 25/10/2018"
+                            placeholderText="VD: 25/10/2018"
                             name="time" 
                             minDate={moment()}
                           
@@ -61,7 +61,7 @@ class ModalOrder extends Component {
                         />
                     </div>
                     <div className="form-group">
-                        <label>note</label>
+                        <label>Ghi chú</label>
                         <input 
                             type="text" 
                             className="form-control" 
@@ -76,7 +76,7 @@ class ModalOrder extends Component {
                         variant="contained" 
                         color="secondary" 
                         onClick={ () => { this.onClick(order_id) } }
-                        >Set Time</Button>
+                        >Cài đặt thời gian</Button>
                 </p>
             </div>
         );

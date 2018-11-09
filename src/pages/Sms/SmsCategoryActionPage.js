@@ -104,22 +104,19 @@ class SmsCategoryActionPage extends Component {
 										isFormSubmitted={this.state.submitted} 
 										reference={{firstname : this.state.title}}
 										validationRules={{required:true, maxLength:50}} 
-										validationMessages={{ required: "This field is required", maxLength: "Not a valid Max length: 10 "}}/>
+										validationMessages={{ required: "Trường này không được để trống", maxLength: "Độ dài tối đa: 50 "}}/>
 								</div>
 								<div className="form-group">
 									<label>Content</label>
-									<input 
-										type="text" 
-										className="form-control" 
-										value={this.state.desc} 
-										onChange={this.onChangeFrom} 
-										name="desc"
-										placeholder="desc"/>
+									
+									<textarea name="desc" onChange={this.onChangeFrom} value={this.state.desc} className="form-control" rows="3" >  </textarea>
+									
+									
 									
 							
 								</div>
 							
-								<Button type="submit" variant="contained" color="primary">Save</Button>
+								<Button type="submit" variant="contained" color="primary">Lưu</Button>
 
 							</form>
 						</div>

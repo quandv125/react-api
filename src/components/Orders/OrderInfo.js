@@ -9,7 +9,7 @@ class OrderInfo extends Component {
                     <div className="col-md-12 sortable ui-sortable">
                         <div className="grid simple vertical green">
                             <div className="grid-title no-border">
-                                <h4>Infomation Order</h4>
+                                <h4>Thông tin</h4>
                             </div>
                             <div className="grid-body no-border">
                               
@@ -19,23 +19,23 @@ class OrderInfo extends Component {
                                             
                                             <tbody>
                                                 <tr>
-                                                    <td>ID</td>
+                                                    <td>STT</td>
                                                     <td>{order.id}</td>
                                                 </tr>
                                                 <tr>
-                                                    <td>Transaction</td>
+                                                    <td>Mã giao dịch</td>
                                                     <td>{order.transaction_id}</td>
                                                 </tr>
                                                 <tr>
-                                                    <td>Customer</td>
+                                                    <td>Bệnh nhân</td>
                                                     <td>{order.customer_id}</td>
                                                 </tr>
                                                 <tr>
-                                                    <td>Category</td>
+                                                    <td>Danh mục</td>
                                                     <td>{category_title}</td>
                                                 </tr>
                                                 <tr>
-                                                    <td>Note</td>
+                                                    <td>Chú thích</td>
                                                     <td>{order.note}</td>
                                                 </tr>
                                                 

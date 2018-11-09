@@ -1,5 +1,10 @@
-// var domain = 'http://183.91.11.132/pvm_api/public/api/auth/';
-var domain = 'http://127.0.0.1:8000/api/auth/';
+
+export const URL_SOCKET = 'http://183.91.11.132:100';
+var domain = 'http://183.91.11.132/pvm_api/public/api/auth/';  
+
+// export const URL_SOCKET = 'http://localhost:100/';
+// var domain = 'http://127.0.0.1:8000/api/auth/';
+
 export const USER_URL = domain + 'user';
 export const USERS_URL = domain + 'users';
 
@@ -12,6 +17,9 @@ export const ORDERS_URL = domain + 'orders';
 
 export const ORDER_DETAIL_URL = domain + 'order-detail';
 export const CATEGORY_URL = domain + 'product-category';
+export const SERVICE_URL = domain + 'product-service';
+export const SERVICES_URL = domain + 'product-services';
+
 export const SMS_CATEGORY_URL = domain + 'sms-categories';
 export const PERMISSION_URL = domain + 'permission';
 export const PERMISSIONS_URL = domain + 'permissions';
@@ -24,9 +32,6 @@ export const LOGIN_URL = domain + 'login';
 export const LOGOUT_URL = domain + 'logout';
 
 export const CRMWORLDFONE_URL = domain + 'worldfone';
-
-
-// export const URL_IMAGES = 'http://127.0.0.1:8000/images';
 
 export const GENDER_MALE = 0;
 export const GENDER_FEMALE = 1;
@@ -72,3 +77,5 @@ export const LOGINTRANSITION = 'aboutTransition';
 export const TRANSITIONSPEED = 300;
 
 export const MSG_LOGIN = 'Error! Incorrect username/ password please try again.';
+
+// export const URL_IMAGES = 'http://127.0.0.1:8000/images';

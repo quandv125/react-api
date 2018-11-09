@@ -23,10 +23,14 @@ import ProductPage from './pages/Products/ProductPage';
 import ProductActionPage from './pages/Products/ProductActionPage';
 
 import OrderPage from './pages/Orders/OrderPage';
+import OrderPageFilter from './pages/Orders/OrderPageFilter';
 import OrderActionPage from './pages/Orders/OrderActionPage';
 
 import CategoryPage from './pages/Category/CategoryPage';
 import CategoryActionPage from './pages/Category/CategoryActionPage';
+
+import ServicePage from './pages/Service/ServicePage';
+import ServiceActionPage from './pages/Service/ServiceActionPage';
 
 import RolePage from './pages/Roles/RolesPage';
 import RoleActionPage from './pages/Roles/RoleActionPage';
@@ -114,6 +118,22 @@ const routes = [
 		exact: false,
 		main: ({match, location, history}) => <CategoryActionPage match={match} history={history} location={location}/>
 	},
+	// Services
+	{
+		path: '/service',
+		exact: true, // required
+		main: ({match, location, history}) => <ServicePage match={match} location={location} history={history}/>
+	},
+	{
+		path: '/service/add',
+		exact: false,
+		main: ({location, history}) => <ServiceActionPage history={history} location={location}/>
+	},
+	{
+		path: '/service/edit/:id',
+		exact: false,
+		main: ({match, location, history}) => <ServiceActionPage match={match} history={history} location={location}/>
+	},
 	// role
 	{
 		path: '/role',
@@ -135,6 +155,11 @@ const routes = [
 		path: '/orders',
 		exact: true, // required
 		main: ({match, location, history}) => <OrderPage match={match} location={location} history={history}/>
+	},
+	{
+		path: '/orders/filter/:start/:end',
+		exact: false, // required
+		main: ({match, location, history}) => <OrderPageFilter match={match} location={location} history={history}/>
 	},
 	{
 		path: '/orders/add',

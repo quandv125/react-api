@@ -110,13 +110,13 @@ class UsersPage extends Component {
 						</Link>
 						<Link to="/role" className="margin-bottom20">
 							<Button type="submit" className="btn btn-primary btn-cons" variant="contained" color="primary">
-								Role
+								Phân quyền
 							</Button>
 						</Link>
 					
 						<Link to="/users/add" className="float-right margin-right20">
 							<Button type="submit" className="btn btn-primary btn-cons" variant="contained" color="primary">
-								Add
+								Thêm mới nhân viên
 							</Button>					
 						</Link>
 						<div className="clearfix"></div><br/>
@@ -151,7 +151,7 @@ class UsersPage extends Component {
 								String(row[filter.id]) === filter.value}
 							columns={[
 								{
-									Header: 'Infomation',
+									Header: 'Thông tin nhân viên',
 									columns: [
 										{
 											Header: "#",
@@ -164,7 +164,7 @@ class UsersPage extends Component {
 										},
 										
 										{
-											Header: "Firstname",
+											Header: "Họ",
 											id: "firstname",
 											accessor: d => d.firstname,
 											filterMethod: (filter, rows) => matchSorter(rows, filter.value, { keys: ["firstname"] }),
@@ -178,7 +178,7 @@ class UsersPage extends Component {
 											}
 										},
 										{
-											Header: "Lastname",
+											Header: "Tên",
 											id: "lastname",
 											accessor: d => d.lastname,
 											filterMethod: (filter, rows) => matchSorter(rows, filter.value, { keys: ["lastname"] }),
@@ -192,24 +192,24 @@ class UsersPage extends Component {
 											filterAll: true
 										},
 										{
-											Header: "Address",
+											Header: "Địa chỉ",
 											id: "address",
 											accessor: d => d.address,
 											filterMethod: (filter, rows) => matchSorter(rows, filter.value, { keys: ["address"] }),
 											filterAll: true
 										},
 										{
-											Header: "Phone",
+											Header: "Số điện thoại",
 											id: "phone",
 											accessor: d => d.phone,
 											filterMethod: (filter, rows) => matchSorter(rows, filter.value, { keys: ["phone"] }),
 											filterAll: true
 										},
 										{
-											Header: "Gender",
+											Header: "Giới tính",
 											id: "gender",
 											accessor: d => d.gender,
-											Cell: ({ value }) => (value === config.GENDER_MALE	 ? "Male" : "Female"),
+											Cell: ({ value }) => (value === config.GENDER_MALE	 ? "Nữ" : "Nam"),
 											filterMethod: (filter, row) => {
 												if (filter.value === "all") {
 												  	return true;
@@ -235,7 +235,7 @@ class UsersPage extends Component {
 												</select>
 										},
 										{
-											Header: "Role",
+											Header: "Vai trò",
 											id: "role_id",
 											accessor: d => d.role_id,
 											Cell: ({ value }) => {
@@ -282,7 +282,7 @@ class UsersPage extends Component {
 												</select>
 										},
 										{
-											Header: "Active",
+											Header: "Kích hoạt",
 											id: "is_active",
 											accessor: d => d.is_active,
 											Cell: ({ value }) => (value === config.ACTIVED ? "Active" : ""),
@@ -313,7 +313,7 @@ class UsersPage extends Component {
 												</select>
 										},
 										{
-											Header: "Action",
+											Header: "",
 											filterable: false,
 											Cell: row => (
 												<Button type="submit" className="btn btn-primary btn-cons-small" variant="fab" color="secondary" size="small"  onClick={ () => this.onDelete(row.original.id)}>

@@ -87,10 +87,10 @@ class SmsPage extends Component {
 	} // end render
 
 	success = () => {
-		return (<span className="label label-success">SUCCESS</span>);
+		return (<span className="label label-success">Thành công</span>);
 	}
 	error = () => {
-		return (<span className="label label-danger">ERROR</span>);
+		return (<span className="label label-danger">Lỗi</span>);
 	}
 
 	showSms (sms) {
@@ -125,7 +125,7 @@ class SmsPage extends Component {
 											}
 										},
 										{
-											Header: "message_id",
+											Header: "Mã tin nhắn",
 											id: "message_id",
 											width: 100,
 											accessor: d => d.message_id,
@@ -140,7 +140,7 @@ class SmsPage extends Component {
 											}
 										},
 										{
-											Header: "content",
+											Header: "Nội dung",
 											id: "content",
 											accessor: d => d.content,
 											filterMethod: (filter, rows) => matchSorter(rows, filter.value, { keys: ["content"] }),
@@ -154,7 +154,7 @@ class SmsPage extends Component {
 											}
 										},
 										{
-											Header: "status",
+											Header: "Trạng thái",
 											id: "status",
 											width: 150,
 											accessor: d => d.status,
@@ -185,7 +185,7 @@ class SmsPage extends Component {
 												</select>
 										},	
 										{
-											Header: "Phone",
+											Header: "Số điện thoại",
 											id: "phone",
 											width: 150,
 											accessor: d => this.phone_format( d.phone ),
@@ -193,7 +193,7 @@ class SmsPage extends Component {
 											filterAll: true
 										},
 										{
-											Header: "Customer",
+											Header: "Khách hàng",
 											id: "customer_name",
 											width: 150,
 											accessor: d => d.customer_name,
@@ -201,7 +201,7 @@ class SmsPage extends Component {
 											filterAll: true
 										},
 										{
-											Header: "categories",
+											Header: "Loại tin nhắn",
 											id: "category_title",
 											width: 150,
 											accessor: d => d.category_title,
@@ -209,7 +209,7 @@ class SmsPage extends Component {
 											filterAll: true
 										},
 										{
-											Header: "created_at",
+											Header: "Thời gian",
 											id: "created_at",
 											width: 200,
 											accessor: d => d.created_at,

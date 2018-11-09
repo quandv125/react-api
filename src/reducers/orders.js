@@ -21,7 +21,8 @@ const orders = (state = initialState, action) => {
             }
             state = {
                 status: false,
-                orders: state.orders
+                orders: state.orders,
+                order_by_date: state.order_by_date
             }
             return state;
         default: 

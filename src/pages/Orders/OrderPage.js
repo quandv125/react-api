@@ -8,8 +8,13 @@ import { Redirect } from 'react-router-dom';
 import OrderList from './../../components/Orders/OrderList'
 import Modal from 'react-responsive-modal';
 import ModalOrder from './../../components/Orders/ModalOrder';
+import ModalFilterOrder from './../../components/Orders/ModalFilterOrder';
 import callApi from '../../utils/apiCaller';
 import { connectIO } from '../../socketIO/client';
+import { ToastContainer, toast } from 'react-toastify';
+// Note: include <ToastContainer/>
+import 'react-toastify/dist/ReactToastify.css';
+import Button from '@material-ui/core/Button';
 
 class OrderPage extends Component {
 
@@ -18,16 +23,19 @@ class OrderPage extends Component {
 		this.state = {
 			orders : [],
 			order_by_date: [],
+			start: '',
+			end: '',
 			loggedOut: false,
 			open: false,
 			order_id: '',
+			openFilter: false,
+			filter: false
 		}
 
 		connectIO(message => {
 			this.props.getOrders();
-			Swal('Good job!','You clicked the button!','success')
+			toast.success("Bạn có bệnh nhân khám mới !", { position: "top-right", autoClose: false, hideProgressBar: true,	closeOnClick: true });
 		});
-
 		
 	}
 
@@ -43,17 +51,18 @@ class OrderPage extends Component {
 
 	onDelete = (id) => {
 		Swal({
-            title: 'Are you sure?',
-            text: "Are you sure you wish to delete this item?",
+            title: 'Bạn có chắc chắn?',
+            text: "Bạn có chắc chắn muốn xóa?",
             type: 'warning',
             showCancelButton: true,
             confirmButtonColor: '#3085d6',
             cancelButtonColor: '#d33',
-            confirmButtonText: 'Yes, Add it!'
-          }).then((result) => {
+			cancelButtonText: 'Hủy',
+			confirmButtonText: 'Đồng ý!'
+        }).then((result) => {
             if (result.value) {
 				this.props.onDeleteOrder(id)
-				Swal('Good job!','You clicked the button!','success')
+				Swal('Xóa thành công!','','success')
             }
         })
 	}
@@ -64,16 +73,47 @@ class OrderPage extends Component {
 	
 	onCloseModal = () => {
 		this.setState({ open: false });
+	};
+	
+	onOpenFilterModal = () => {
+		this.setState({ openFilter: true });
+	};
+
+	onCloseFilter = () => {
+		this.setState({ openFilter: false });
     };
 
 	onActionModal = (id, data) => {
-		callApi('PUT', config.ORDER_URL  + "/" + id, data).then( res => {
-			if(res && res.data.status){
-				this.props.getOrders();
-				this.setState({ open: false });
-				Swal('Good job!','You clicked the button!','success')
+		if(data && data.time && data.time !== ''){
+
+			callApi('PUT', config.ORDER_URL  + "/" + id, data).then( res => {
+				if(res && res.data.status){
+					this.props.getOrders();
+					this.setState({ open: false });
+					Swal('Đặt lịch khám lại thành công','','success')
+				}
+			});
+		} else {
+			Swal('Vui lòng chọn ngày khám lại	!','','error')
+		}
+	}
+
+	onActionFilterModal = (data) => {
+		var {start, end} = data;
+		if(!end) {
+			end = start
+		}
+		callApi('GET', config.ORDERS_URL  + "/by-date/" + start + "/" + end, null).then(response => {
+			if (response ){
+				console.log(response);
+				this.setState({
+					orders: response.data.data,
+					start: response.data.start,
+					end: response.data.end
+				});
 			}
 		});
+		this.setState({filter: true, openFilter: false});
 	}
 	
 	getToday = () => {
@@ -91,48 +131,72 @@ class OrderPage extends Component {
 			return <Redirect to={{ pathname: "/"}}/>;
 		}
 		
-		if (this.props.orders !== null) {
-			var {orders} = this.props.orders;
-			var {order_by_date} = this.props.orders;
-
+		if(!this.state.filter){
+			if (this.props.orders !== null) {
+				var {orders} = this.props.orders;
+				var {order_by_date} = this.props.orders;
+			}
+			return (
+				<CSSTransitionGroup transitionName={config.PAGETRANSITION} transitionAppear={true} transitionAppearTimeout={config.TRANSITIONSPEED} transitionEnter={false} transitionLeave={false}>
+					<div className="grid simple">
+						<div className="grid-body no-border">
+						<ToastContainer />
+							<div className="col-md-6">
+								<div className="page-title"> 
+									<i className="material-icons">card_giftcard</i>
+									<h3> <span className="semi-bold">Bệnh nhân khám lại: {this.getToday()} <Button  className="margin-left20" variant="contained"  color="secondary"  onClick={ this.onOpenFilterModal } >Lọc</Button></span></h3>
+								</div>
+								<OrderList onDelete={this.onDelete} onCloseModal={this.onCloseModal} onOpenModal={this.onOpenModal}>
+									{order_by_date}
+								</OrderList>
+							</div>
+							<div className="col-md-6">
+								<div className="page-title margin-bottom15"> 
+									<i className="material-icons">card_giftcard</i>
+									<h3> <span className="semi-bold">Bệnh nhân khám mới</span></h3>
+								</div>
+								<OrderList onDelete={this.onDelete} onCloseModal={this.onCloseModal} onOpenModal={this.onOpenModal}>
+									{orders}
+								</OrderList>
+							</div>
+							<Modal open={this.state.openFilter} onClose={this.onCloseFilter} center>
+								<ModalFilterOrder action={this.onActionFilterModal}/>
+							</Modal>					
+							<Modal open={this.state.open} onClose={this.onCloseModal} center>
+								<ModalOrder order_id={this.state.order_id} action={this.onActionModal}/>
+							</Modal>
+						</div>
+					</div>
+				</CSSTransitionGroup>
+			);
+		} else {
+			var {start, end} = this.state;
+			return (
+				<CSSTransitionGroup transitionName={config.PAGETRANSITION} transitionAppear={true} transitionAppearTimeout={config.TRANSITIONSPEED} transitionEnter={false} transitionLeave={false}>
+					<div className="grid simple">
+						<div className="grid-body no-border">
+						<ToastContainer />
+							<div className="col-md-12">
+								<div className="page-title margin-bottom15"> 
+									<i className="material-icons">card_giftcard</i>
+									<h3> <span className="semi-bold margin-right20">Bệnh nhân khám ngày: {start} - {end}</span><Button  className="margin-left20" variant="contained"  color="secondary"  onClick={ this.onOpenFilterModal } >Lọc</Button></h3>
+								</div>
+								<OrderList onDelete={this.onDelete} onCloseModal={this.onCloseModal} onOpenModal={this.onOpenModal}>
+									{this.state.orders}
+								</OrderList>
+							</div>
+							<Modal open={this.state.openFilter} onClose={this.onCloseFilter} center>
+								<ModalFilterOrder action={this.onActionFilterModal}/>
+							</Modal>					
+							<Modal open={this.state.open} onClose={this.onCloseModal} center>
+								<ModalOrder order_id={this.state.order_id} action={this.onActionModal}/>
+							</Modal>
+						</div>
+					</div>
+				</CSSTransitionGroup>
+			);
 		}
 		
-		return (
-			<CSSTransitionGroup transitionName={config.PAGETRANSITION} transitionAppear={true} transitionAppearTimeout={config.TRANSITIONSPEED} transitionEnter={false} transitionLeave={false}>
-				
-				<div className="grid simple">
-					<div className="grid-body no-border">
-						
-						
-						<div className="col-md-6">
-							<div className="page-title"> 
-								<i className="material-icons">card_giftcard</i>
-								<h3> <span className="semi-bold">Orders: {this.getToday()}</span></h3>
-							</div>
-							<OrderList onDelete={this.onDelete} onCloseModal={this.onCloseModal} onOpenModal={this.onOpenModal}>
-								{order_by_date}
-							</OrderList>
-						</div>
-						<div className="col-md-6">
-							<div className="page-title"> 
-								<i className="material-icons">card_giftcard</i>
-								<h3> <span className="semi-bold">Orders New</span></h3>
-							</div>
-							
-							<OrderList onDelete={this.onDelete} onCloseModal={this.onCloseModal} onOpenModal={this.onOpenModal}>
-								{orders}
-							</OrderList>
-						</div>
-												
-						<Modal open={this.state.open} onClose={this.onCloseModal} center>
-							<ModalOrder order_id={this.state.order_id} action={this.onActionModal}/>
-						</Modal>
-
-					</div>
-				</div>
-				
-			</CSSTransitionGroup>
-		);
 	} // end render
 }
 

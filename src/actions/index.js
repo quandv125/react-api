@@ -70,6 +70,41 @@ export const actDeleteCategory = (id) => {
         id
     }
 }
+///////
+
+// SERVICE
+export const actFetchServiceRequest = () => {
+    return (dispatch) => {
+        return apiCaller('GET',  config.SERVICE_URL  , null).then( res => {
+            if(res){
+                dispatch(actFetchService(res.data));
+            }
+        });
+    }
+}
+
+export const actFetchService = (service) => {
+    return {
+        type: Types.FETCH_SERVICE,
+        service
+    }
+}
+
+// Delete Category    
+export const actDeleteServiceRequest = (id) => {
+    return (dispatch) => {
+        return apiCaller('DELETE', config.SERVICE_URL  + "/" + id , null).then( res => {
+			dispatch(actDeleteService(id));
+		}); 
+    }
+}
+
+export const actDeleteService = (id) => {
+    return {
+        type: Types.DELETE_SERVICE,
+        id
+    }
+}
 //
 // Order
 export const actFetchOrdersRequest = () => {

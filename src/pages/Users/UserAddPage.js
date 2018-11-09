@@ -161,12 +161,12 @@ class UserAddPage extends Component {
 		return (
 			<CSSTransitionGroup transitionName={config.PAGETRANSITION} transitionAppear={true} transitionAppearTimeout={config.TRANSITIONSPEED} transitionEnter={false} transitionLeave={false}>
 				<div className="grid simple ">
-											<div className="grid-body no-border">
+					<div className="grid-body no-border">
 					<div className="col-lg-6 col-sm-6 col-xs-6 col-md-6">
 						{ this.state.isValidation === 'false' ? <ErrorMessage messages={this.props.users}/>: null}
 						<form noValidate  >
-							<legend>Form title</legend>
-							<div className="form-group">
+							<legend></legend>
+							{/* <div className="form-group">
 								<label>UserName</label>
 								<input 
 									type="text" 
@@ -180,26 +180,26 @@ class UserAddPage extends Component {
 									isFormSubmitted={this.state.submitted} 
 									reference={{username : this.state.username}}
 									validationRules={{required:true, minLength: 5,maxLength:10}} 
-									validationMessages={{ required: "This field is required", minLength: "Not a valid Min length: 5 ",maxLength: "Not a valid Max length: 10 "}}/>
-							</div>
+									validationMessages={{ required: "Trường này không được để trống", minLength: "Not a valid Min length: 5 ",maxLength: "Độ dài tối đa: 50 "}}/>
+							</div> */}
 							<div className="form-group">
-								<label>FirstName</label>
+								<label>Họ</label>
 								<input 
 									type="text" 
 									className="form-control" 
 									value={this.state.firstname} 
 									onChange={this.onChangeForm} 
 									name="firstname" 
-									placeholder="firstname"/>
+									placeholder="Họ"/>
 								<Validator 
 									isValidationError={this.isValidationError}
 									isFormSubmitted={this.state.submitted} 
 									reference={{firstname : this.state.firstname}}
 									validationRules={{required:true, maxLength:50}} 
-									validationMessages={{ required: "This field is required", maxLength: "Not a valid Max length: 10 "}}/>
+									validationMessages={{ required: "Trường này không được để trống", maxLength: "Độ dài tối đa: 50 "}}/>
 							</div>
 							<div className="form-group">
-								<label>LastName</label>
+								<label>Tên</label>
 								<input 
 									type="text" 
 									className="form-control" 
@@ -212,7 +212,7 @@ class UserAddPage extends Component {
 									isFormSubmitted={this.state.submitted} 
 									reference={{lastname : this.state.lastname}}
 									validationRules={{required:true, maxLength:50}} 
-									validationMessages={{ required: "This field is required", maxLength: "Not a valid Max length: 10 "}}/>
+									validationMessages={{ required: "Trường này không được để trống", maxLength: "Độ dài tối đa: 50 "}}/>
 								
 							</div>
 							<div className="form-group">
@@ -229,11 +229,11 @@ class UserAddPage extends Component {
 									isFormSubmitted={this.state.submitted} 
 									reference={{email : this.state.email}}
 									validationRules={{required:true, email:true}} 
-									validationMessages={{ required: "This field is required", email: "Not a valid email"}}/>
+									validationMessages={{ required: "Trường này không được để trống", email: "Email không đúng định dạng"}}/>
 								
 							</div>
 							<div className="form-group">
-								<label>Phone</label>
+								<label>Số điện thoại (VD: 987654321)</label>
 								<input 
 									type="text" 
 									className="form-control" 
@@ -245,12 +245,12 @@ class UserAddPage extends Component {
 									isValidationError={this.isValidationError}
 									isFormSubmitted={this.state.submitted} 
 									reference={{phone : this.state.phone}}
-									validationRules={{required:true, number:true, minLength: 10,maxLength:11}} 
-									validationMessages={{ required: "This field is required", number: "Not a valid number", maxLength: "Not a valid Max length: 11 character", minLength: "Not a vaild min length is 10 character"}}/>
+									validationRules={{required:true, number:true, minLength: 9,maxLength:11}} 
+									validationMessages={{ required: "Trường này không được để trống", number: "Số điện thoại là số", maxLength: "Độ dài tối đa: 11 kí tự", minLength: "Độ dài tối thiểu là 9 kí tự"}}/>
 								
 							</div>
 							<div className="form-group">
-								<label>Address</label>
+								<label>Địa chỉ</label>
 								<input 
 									type="text" 
 									className="form-control" 
@@ -263,10 +263,10 @@ class UserAddPage extends Component {
 									isFormSubmitted={this.state.submitted} 
 									reference={{address : this.state.address}}
 									validationRules={{required:true, maxLength:50}} 
-									validationMessages={{ required: "This field is required", maxLength: "Not a valid Max length: 10 "}}/>
+									validationMessages={{ required: "Trường này không được để trống", maxLength: "Độ dài tối đa: 10 "}}/>
 							</div>
 							<div className="form-group">
-								<label>Birthday</label>
+								<label>Ngày sinh</label>
 								<Cleave 
 									className="form-control" 
 									placeholder="birthday" 
@@ -279,11 +279,11 @@ class UserAddPage extends Component {
 									isFormSubmitted={this.state.submitted} 
 									reference={{birthday : this.state.birthday}}
 									validationRules={{required:true, maxLength:50}} 
-									validationMessages={{ required: "This field is required", maxLength: "Not a valid Max length: 10 "}}/>
+									validationMessages={{ required: "Trường này không được để trống", maxLength: "Độ dài tối đa: 10 "}}/>
 							</div>
 							<div className="form-group">
 								<div className="role_id">
-									<label>Role</label>
+									<label>Vai trò/ Chức vụ</label>
 									<select
 										className="form-control"
 										name="role_id"
@@ -291,10 +291,10 @@ class UserAddPage extends Component {
 										onChange={this.onChangeForm}
 									>
 										<option value='14'>Administrator</option>
-										<option value='15'>Manager</option>
-										<option value='16'>Doctor</option>
-										<option value='33'>Assistant</option>
-										<option value='34'>Receptionist</option>
+										<option value='15'>Quản lý</option>
+										<option value='16'>Bác sỹ</option>
+										<option value='33'>Trợ lý</option>
+										<option value='34'>Lễ tân</option>
 										
 									</select>
 									<Validator 
@@ -302,12 +302,12 @@ class UserAddPage extends Component {
 										isFormSubmitted={this.state.submitted} 
 										reference={{role_id : this.state.role_id}}
 										validationRules={{required:true}} 
-										validationMessages={{ required: "This field is required"}}/>
+										validationMessages={{ required: "Trường này không được để trống"}}/>
 									
 								</div>
 							</div>
 							<div className="form-group">
-								<label>Active </label>
+								<label>Kích hoạt </label>
 								<div className="checkbox1">
 									
 										<input 
@@ -342,14 +342,14 @@ class UserAddPage extends Component {
 							</div> */}
 							<div className="form-group">
 								<div className="gender">
-									<label>gender</label>
+									<label>Giới tính</label>
 									<select
 										className="form-control"
 										name="gender"
 										onChange={this.onChangeForm}
 									>
-										<option value={config.GENDER_MALE}>Male</option>
-										<option value={config.GENDER_FEMALE}>Female</option>
+										<option value={config.GENDER_MALE}>Nữ</option>
+										<option value={config.GENDER_FEMALE}>Nam</option>
 										
 									</select>
 									<Validator 
@@ -357,11 +357,11 @@ class UserAddPage extends Component {
 										isFormSubmitted={this.state.submitted} 
 										reference={{gender : this.state.gender}}
 										validationRules={{required:true}} 
-										validationMessages={{ required: "This field is required"}}/>
+										validationMessages={{ required: "Trường này không được để trống"}}/>
 									
 								</div>
 							</div>
-							<img id="output"  alt="" className="width100px"/> 
+							{/* <img id="output"  alt="" className="width100px"/> 
 							<div className="form-control">
 								<div className="file-upload">
 									<input 
@@ -372,14 +372,14 @@ class UserAddPage extends Component {
 										onChange={this.onChangeForm}
 									/> 
 								</div>	
-							</div>
+							</div> */}
 							
 							<br/><br/>
 							<div className="col-xs-12 col-sm-12 col-md-12 col-lg-12 text-center">
-								<button type="submit" className="btn btn-primary margin-right-10" onClick={this.onSave}>Save</button>
+								<button type="submit" className="btn btn-primary margin-right-10" onClick={this.onSave}>Lưu</button>
 
 								<Link to="/users" className="btn btn-success">
-									Back
+									Quay lại
 								</Link>
 							</div>
 							

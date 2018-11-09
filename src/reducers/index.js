@@ -6,6 +6,7 @@ import orders from './orders';
 import products from './products';
 import calling from './calling';
 import category from './category';
+import service from './service';
 import customers from './customers';
 import authentication from './authentication';
 const appReducers = combineReducers({
@@ -16,6 +17,7 @@ const appReducers = combineReducers({
     products,
     calling,
     category,
+    service,
     customers,
     authentication
 });

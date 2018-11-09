@@ -75,7 +75,7 @@ class SmsCategory extends Component {
 								String(row[filter.id]) === filter.value}
 							columns={[
 								{
-									Header: 'SMS Categories',
+									Header: 'Danh mục tin nhắn',
 									columns: [
 										{
 											Header: "#",
@@ -87,14 +87,14 @@ class SmsCategory extends Component {
 											}
 										},
 										{
-											Header: "title",
+											Header: "Tên",
 											id: "title",
 											accessor: d => d.title,
 											filterMethod: (filter, rows) => matchSorter(rows, filter.value, { keys: ["title"] }),
 											filterAll: true
 										},
 										{
-											Header: "Description",
+											Header: "Mô tả",
 											id: "desc",
 											accessor: d => d.desc,
 											filterMethod: (filter, rows) => matchSorter(rows, filter.value, { keys: ["desc"] }),
@@ -102,14 +102,14 @@ class SmsCategory extends Component {
 										},
 										
 										{
-											Header: "created_at",
+											Header: "Ngày tạo",
 											id: "created_at",
 											accessor: d => d.created_at,
 											filterMethod: (filter, rows) => matchSorter(rows, filter.value, { keys: ["created_at"] }),
 											filterAll: true
 										},						
 										{
-											Header: "Action",
+											Header: "",
 											filterable: false,
 											Cell: row => (
 												<div>

@@ -53,7 +53,7 @@ class AddRemainder extends Component {
 							<div className="col-md-12 sortable ui-sortable">
 								<div className="grid simple vertical green">
 									<div className="grid-title no-border">
-										<h4>Add Date for remain</h4>
+										<h4>Cài đặt lịch khám lại</h4>
 									</div>
 									<div className="grid-body no-border">
 										<div className="col-lg-6 col-md-6">
@@ -61,7 +61,7 @@ class AddRemainder extends Component {
 											<DatePicker
                                                 className="form-control"
 												dateFormat="DD/MM/YYYY"
-												placeholderText="Ex: 25/10/2018"
+												placeholderText="VD: 25/10/2018"
                                                 name="date_remain" 
                                                 minDate={moment()}
 												// monthsShown={2}
@@ -79,7 +79,7 @@ class AddRemainder extends Component {
 										</div>
 										<div className="col-lg-6 col-md-6">
 											<Button className="btn btn-primary btn-cons" variant="contained" color="primary" onClick={this.handleAddRemain}>
-												Add Remain &nbsp; <i className="material-icons">date_range</i>
+												Cài đặt &nbsp; <i className="material-icons">date_range</i>
 											</Button>
 										</div>
 									
@@ -94,21 +94,21 @@ class AddRemainder extends Component {
 							<div className="col-md-12 sortable ui-sortable">
 								<div className="grid simple vertical green">
 									<div className="grid-title no-border">
-										<h4>Remain of the day</h4>
+										<h4>Ngày khám lại</h4>
 									</div>
 									<div className="grid-body no-border">
 										{this.props.date_remain.length >= 10 && this.props.date_remain !== '0000-00-00 00:00:00' &&
 											<div>
 													<span className="margin-right20">
-														Remainder time is: {this.remainder(this.props.date_remain)}
+														Ngày khám lại: {this.remainder(this.props.date_remain)}
 													</span>
 													<span className="margin-right20">
 														<Button className="btn btn-primary btn-cons" variant="contained" color="primary" onClick={this.handleSendSmsRemain}>
-															Send Now &nbsp; <i className="material-icons">send</i>
+															Gửi tin nhắn ngay &nbsp; <i className="material-icons">send</i>
 														</Button>
 													</span>
 													<Button className="btn btn-primary btn-cons" variant="contained" color="secondary" onClick={this.handleDeleteRemain}>
-														Delete &nbsp; <i className="material-icons">delete</i>
+														Xóa &nbsp; <i className="material-icons">delete</i>
 													</Button>
 											</div>	
 										}		

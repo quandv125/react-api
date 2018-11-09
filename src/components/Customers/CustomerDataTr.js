@@ -3,6 +3,7 @@ import {Link} from 'react-router-dom'
 class CustomerDataTr extends Component {
     render() {
         var { customer, order_id } = this.props;
+        console.log(customer);
         return (
            
             <tr>
@@ -25,7 +26,7 @@ class CustomerDataTr extends Component {
                     </Link>
                 </td>
                 <td>{customer.category.title}</td>
-                <td>{customer.user_id}</td>
+                <td>{customer.user ? customer.user.firstname + " " + customer.user.lastname:''}</td>
                 <td>{customer.note}</td>
             </tr>
             

@@ -110,7 +110,7 @@ class CallingPage extends Component {
 											}
 										},
 										{
-											Header: "id",
+											Header: "STT",
 											id: "id",
 											width: 100,
 											accessor: d => d.id,
@@ -125,8 +125,9 @@ class CallingPage extends Component {
 											}
 										},
 										{
-											Header: "customer",
+											Header: "Khách hàng",
 											id: "customer",
+											width: 150,
 											accessor: d => d.customer,
 											filterMethod: (filter, rows) => matchSorter(rows, filter.value, { keys: ["customer"] }),
 											filterAll: true,
@@ -170,7 +171,7 @@ class CallingPage extends Component {
 										// 		</select>
 										// },	
 										{
-											Header: "customernumber",
+											Header: "Nhân viên",
 											id: "customernumber",
 											width: 150,
 											accessor: d => d.customernumber,
@@ -178,17 +179,25 @@ class CallingPage extends Component {
 											filterAll: true
 										},
 										{
-											Header: "note",
-											id: "note",
+											Header: "Số điện thoại",
+											id: "customernumber",
 											width: 150,
+											accessor: d => d.customernumber,
+											filterMethod: (filter, rows) => matchSorter(rows, filter.value, { keys: ["customernumber"] }),
+											filterAll: true
+										},
+										{
+											Header: "Chú thích",
+											id: "note",
+											width: 400,
 											accessor: d => d.note,
 											filterMethod: (filter, rows) => matchSorter(rows, filter.value, { keys: ["note"] }),
 											filterAll: true
 										},
 										{
-											Header: "created_at",
+											Header: "Ngày/ giờ",
 											id: "created_at",
-											width: 200,
+											// width: 200,
 											accessor: d => d.created_at,
 											filterMethod: (filter, rows) => matchSorter(rows, filter.value, { keys: ["created_at"] }),
 											filterAll: true

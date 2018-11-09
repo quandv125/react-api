@@ -71,7 +71,7 @@ class ModalCalling extends Component {
         return (
             <div>
                 <Modal open={this.state.open} onClose={this.onCloseModal} center>
-					<h2>Customer: <strong> {customer} {customernumber}</strong></h2>
+					<h2>Khách hàng: <strong> {customer} {customernumber}</strong></h2>
 						<div className="form-group">							
 							<textarea name="note" onChange={this.onChangeForm}  className="form-control" cols="80" rows="5" required="required"></textarea>
 						</div>

@@ -65,31 +65,29 @@ class AddServices extends Component {
 							<div className="col-md-12 sortable ui-sortable">
 								<div className="grid simple vertical green">
 									<div className="grid-title no-border">
-										<h4>Add service for customer</h4>
+										<h4>Thêm dịch vụ cho bệnh nhân</h4>
 									</div>
 									<div className="grid-body no-border">
                                         
-                                        <p>
+                                        {/* <p>
                                             Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam
-                                        
-                                        </p>
-                                        
+                                        </p> */}
                                         <div className="form-group">
                                             <div className="Product_Service">
-                                                <label>Product/Service</label>
+                                                <label>Sản phẩm/ Dịch vụ</label>
                                                 <select 
                                                     className="form-control" 
                                                     name="product_service_id" 
                                                     value={this.state.product_service_id} 
                                                     onChange={this.onChangeForm}
                                                 >
-                                                    <option value="">-- Choose One --</option>
+                                                    <option value="">-- Chọn sản phẩm/ dịch vụ --</option>
                                                     {this.showCategory()}
                                                 </select>
                                             </div>
                                         </div>
                                         <div className="form-group">
-                                            <label>product_quantity</label>
+                                            <label>Số lượng</label>
                                             <input 
                                                 type="text" 
                                                 className="form-control" 
@@ -101,7 +99,7 @@ class AddServices extends Component {
 
                                         <p>
                                             <Button className="btn btn-primary btn-cons" variant="contained" color="secondary" onClick={this.handleAddService}>
-                                                Add Service &nbsp; <i className="material-icons">add</i>
+                                                Thêm dịch vụ &nbsp; <i className="material-icons">add</i>
                                             </Button>
                                         </p>
 
@@ -116,7 +114,7 @@ class AddServices extends Component {
 							<div className="col-md-12 sortable ui-sortable">
 								<div className="grid simple vertical green">
 									<div className="grid-title no-border">
-                                        <h4>Product/Service </h4>
+                                        <h4>Sản phẩm/Dịch vụ </h4>
 									</div>
 									<div className="grid-body no-border">
 										

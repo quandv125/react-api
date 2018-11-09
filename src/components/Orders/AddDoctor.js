@@ -45,7 +45,7 @@ class AddDoctor extends Component {
                         <div className="col-md-12 sortable ui-sortable">
                             <div className="grid simple vertical green">
                                 <div className="grid-title no-border">
-                                    <h4>Add doctor for customer</h4>
+                                    <h4>Thêm bác sỹ thăm khám</h4>
                                 </div>
                                 <div className="grid-body no-border">
                                         
@@ -55,14 +55,14 @@ class AddDoctor extends Component {
                                                 name="user_id" 
                                                 onChange={this.onChangeForm}
                                             >
-                                                <option value="0">-- Choose One --</option>
+                                                <option value="0">-- Chọn bác sỹ --</option>
                                                 {this.showDoctor(username)}
                                             </select>
                                            
                                         </div>
                                         <p>
                                             <Button className="btn btn-primary btn-cons" variant="contained" color="secondary" onClick={ () => this.handleAddDoctor(order_id)}>
-                                                Add Doctor &nbsp; <i className="material-icons">person_add</i>
+                                                Thêm bác sỹ &nbsp; <i className="material-icons">person_add</i>
                                             </Button>
                                         </p>
                                 </div>
@@ -75,7 +75,7 @@ class AddDoctor extends Component {
 							<div className="col-md-12 sortable ui-sortable">
 								<div className="grid simple vertical green">
 									<div className="grid-title no-border">
-										<h4>Doctor</h4>
+										<h4>Thông tin bác sỹ thăm khám</h4>
 									</div>
 									<div className="grid-body no-border">
 										<div className="scroll-wrapper scroller scrollbar" >
@@ -84,7 +84,7 @@ class AddDoctor extends Component {
 												<div className="scroll-element_outer">
 
                                                     {doctor !== '' && doctor !== null &&
-                                                        <h4>Doctor is: <strong>{doctor.firstname} {doctor.lastname} ({doctor.username})</strong></h4>
+                                                        <h4>Bác sỹ: <strong>{doctor.firstname} {doctor.lastname} ({doctor.username})</strong></h4>
                                                     }
 
 												</div>

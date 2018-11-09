@@ -31,20 +31,22 @@ class MyAccount extends Component {
     }
 
     componentDidMount(){
-        callApi('POST', config.API_URL + "/me", null).then(res => {
-            var data = res.data;
-            console.log(data);
-            this.setState({
-                id: data.id ? data.id  : '',
-                username: data.username ? data.username : '',
-                firstname: data.firstname ? data.firstname : '',
-                lastname: data.lastname ? data.lastname : '',
-                email: data.email ? data.email : '',
-                address: data.address ? data.address : '',
-                phone: data.phone ? data.phone : '',
-                selectedValue: data.gender ? this.returnGender(data.gender) : 'male',
-                startDate: this.convertNumberToDate(data.birthday)
-            });
+        callApi('POST', config.API_URL + "me", null).then(res => {
+            
+            if(res){
+                var data = res.data;
+                this.setState({
+                    id: data.id ? data.id  : '',
+                    username: data.username ? data.username : '',
+                    firstname: data.firstname ? data.firstname : '',
+                    lastname: data.lastname ? data.lastname : '',
+                    email: data.email ? data.email : '',
+                    address: data.address ? data.address : '',
+                    phone: data.phone ? data.phone : '',
+                    selectedValue: data.gender ? this.returnGender(data.gender) : 'male',
+                    startDate: this.convertNumberToDate(data.birthday)
+                });
+            }
         });
 		
     }
@@ -103,14 +105,14 @@ class MyAccount extends Component {
 			callApi('PUT', config.USER_URL  + "/" + id, data).then( res => {
                 if( res ){
                     if( res.data.status ){
-                        Swal(' Good job!', 'The data have be saved.', 'success')
+                        Swal(' Cập nhật thông tin thành công!', '', 'success')
                     } else {
-                        Swal('Oops...', 'Something went wrong!', 'error')
+                        Swal('Lỗi...', '', 'error')
                     }
                 }
             });
         } else {
-            Swal('Oops...', 'Something went wrong!', 'error')
+            Swal('Lỗi...', 'Something went wrong!', 'error')
         }
     }
 

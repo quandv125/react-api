@@ -36,13 +36,20 @@ class OrderList extends Component {
                 {orders && typeof orders !== 'undefined' && orders.length > 0  ? (
                     <ReactTable
 						data={orders}
-						noDataText="Oh Not found!"
+						noDataText="Không tìm thấy kết quả!"
+						// previousText= 'Previous'
+						// nextText= 'Tiếp'
+						// loadingText= 'Loading...'
+						// noDataText= 'No rows found'
+						// pageText= 'Trang'
+						// ofText= 'trong	'
+						// rowsText= 'rows'
 						filterable
 						defaultFilterMethod={(filter, row) =>
 							String(row[filter.id]) === filter.value}
 						columns={[
 							{
-								Header: 'Infomation',
+								Header: 'Thông tin',
 								columns: [
 									// {
 									// 	Header: "#",
@@ -54,7 +61,7 @@ class OrderList extends Component {
 									// 	}
 									// },
 									{
-										Header: "Action",
+										Header: "",
 										filterable: false,
 										maxWidth: 80,
 										Cell: row => (
@@ -67,7 +74,7 @@ class OrderList extends Component {
 										)
                                     },
 									{
-										Header: "transaction_id",
+										Header: "Mã giao dịch",
 										id: "transaction_id",
 										accessor: d => d.transaction_id,
 										filterMethod: (filter, rows) => matchSorter(rows, filter.value, { keys: ["transaction_id"] }),
@@ -82,7 +89,7 @@ class OrderList extends Component {
 										}
 									},						
 									{
-										Header: "customer_title",
+										Header: "Khách hàng",
 										id: "customer_title",
 										accessor: d => d.customer_title,
 										filterMethod: (filter, rows) => matchSorter(rows, filter.value, { keys: ["customer_title"] }),
@@ -97,7 +104,7 @@ class OrderList extends Component {
 										}
 									},
 									{
-										Header: "user_title",
+										Header: "Bác sỹ",
 										id: "user_title",
 										accessor: d => d.user_title,
 										filterMethod: (filter, rows) => matchSorter(rows, filter.value, { keys: ["user_title"] }),
@@ -105,7 +112,7 @@ class OrderList extends Component {
 										filterAll: true
 									},
 									{
-										Header: "Category",
+										Header: "Danh mục",
 										id: "category_title",
 										accessor: d => d.category_title,
 										filterMethod: (filter, rows) => matchSorter(rows, filter.value, { keys: ["category_title"] }),
@@ -113,7 +120,7 @@ class OrderList extends Component {
 										// maxWidth: 300,
 									},
 									{
-										Header: "time",
+										Header: "Thời gian",
 										id: "time",
 										accessor: d => d.time,
 										filterMethod: (filter, rows) => matchSorter(rows, filter.value, { keys: ["time"] }),
@@ -122,7 +129,7 @@ class OrderList extends Component {
 									},
 									
                                     {
-										Header: "Action",
+										Header: "",
 										filterable: false,
 										maxWidth: 80,
 										Cell: row => (

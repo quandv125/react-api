@@ -80,6 +80,7 @@ class CustomerActionPage extends Component {
 	getCustomerData = (id) => {
 		callApi('GET', config.ORDER_URL +'/customer/'+ id, null).then(res => {
 			if(res && res.data.status){
+				console.log(res.data);
 				this.setState({
 					customer_data: res.data.orders
 				});	
@@ -151,7 +152,7 @@ class CustomerActionPage extends Component {
 				callApi('POST', config.CUSTOMER_URL, data).then(res => {
 					if(res.data.id) {
 						Swal( 'Good job!', 'You clicked the button!', 'success')
-						history.push("/customers/"+res.data.id+"/edit");
+						history.push("/customers/edit/"+res.data.id);
 					} else {
 						history.goBack();
 					}
@@ -171,20 +172,21 @@ class CustomerActionPage extends Component {
 		if (id && typeof id === "number"){
 
 			Swal({
-				title: 'Are you sure?',
-				text: "Are you sure you wish to add this item?",
+				title: 'Bạn có chắn chắn?',
+				text: "Bạn có chắn chắn muốn thêm dịch vụ này cho khách hang",
 				type: 'warning',
 				showCancelButton: true,
 				confirmButtonColor: '#3085d6',
 				cancelButtonColor: '#d33',
-				confirmButtonText: 'Yes, Add it!'
+				cancelButtonText: 'Hủy',
+				confirmButtonText: 'Đồng ý'
 			  }).then((result) => {
 				if (result.value) {
 					callApi('POST', config.ORDER_URL, data).then(res => {
 						Swal('Good job!','You clicked the button!','success')
 						this.onCloseModal();
 						this.getCustomerData(id);
-						const socket = socketIOClient("http://localhost:9999/");
+						const socket = socketIOClient(config.URL_SOCKET);
 						socket.emit('change', 'quan test1') // change 'red' to this.state.color
 					});
 				}
@@ -212,19 +214,22 @@ class CustomerActionPage extends Component {
 							</Button>	
 						</Link>
 						{this.state.id  && this.state.id > 0 && 
-							<Button className="btn btn-primary btn-cons" variant="contained" color="secondary" onClick={this.onOpenModal}>Add Service</Button>
+							<Button className="btn btn-primary btn-cons" variant="contained" color="secondary" onClick={this.onOpenModal}>Thêm dịch vụ</Button>
 						}
+						<Link to="/customers/add" className="float-right">
+							<Button type="submit" className="btn btn-primary btn-cons" variant="contained" color="primary">
+								Thêm mới khách hàng
+							</Button>					
+						</Link>
 						<div className="clearfix"></div> <br/>
 						<Modal open={this.state.open} onClose={this.onCloseModal} center>
-							<h2>Add service for customer: <strong>{this.state.firstname + " " + this.state.lastname + "(" + this.state.phone + ")"}</strong></h2>
+							<h2>Thêm dịch vụ cho khách hàng: <strong>{this.state.firstname + " " + this.state.lastname + "(" + this.state.phone + ")"}</strong></h2>
 							<p>
-								Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam
-								pulvinar risus non risus hendrerit venenatis. Pellentesque sit amet
-								hendrerit risus, sed porttitor quam.
+								Thêm dịch vụ cho khách hàng. Sau khi thêm dịch vụ thông báo sẽ được chuyển đến phòng tương ứng
 							</p>
 								<div className="form-group">
 									<div className="Service">
-										<label>Service</label>
+										<label>Dịch vụ</label>
 										<select
 											className="form-control"
 											name="service"
@@ -238,21 +243,21 @@ class CustomerActionPage extends Component {
 									</div>
 								</div>
 								<div className="form-group">
-									<label>note</label>
+									<label>Chú tích</label>
 									<input 
 										type="text" 
 										className="form-control" 
 										value={this.state.note} 
 										onChange={this.onChangeForm} 
 										name="note" 
-										placeholder="note"/>
+										placeholder="Chú thích"/>
 								</div>
 							<p>
 								<Button 
 									className="btn btn-primary btn-cons" 
 									variant="contained" 
 									color="secondary" 
-									onClick={this.handleAddService}>Add Service</Button>
+									onClick={this.handleAddService}>Thêm dịch vụ</Button>
 							</p>
 						</Modal>
 						
@@ -262,14 +267,14 @@ class CustomerActionPage extends Component {
 						<div className="col-md-6 col-lg-6">
 							
 							<div className="form-group">
-								<label>FirstName</label>
+								<label>Họ</label>
 								<input 
 									type="text" 
 									className="form-control" 
 									value={this.state.firstname} 
 									onChange={this.onChangeForm} 
 									name="firstname" 
-									placeholder="firstname"/>
+									placeholder="Họ"/>
 								<Validator 
 									isValidationError={this.isValidationError}
 									isFormSubmitted={this.state.submitted} 
@@ -295,7 +300,7 @@ class CustomerActionPage extends Component {
 								
 							</div>
 							<div className="form-group">
-									<label>Birthday</label>
+									<label>Ngày sinh</label>
 									<DatePicker
 										className="form-control"
 										dateFormat="DD-MM-YYYY"
@@ -313,7 +318,7 @@ class CustomerActionPage extends Component {
 									
 							</div>
 							<div className="form-group">
-								<span>Male</span>
+								<span>Nữ</span>
 								<Radio
 									checked={this.state.selectedValue === 'male'}
 									onChange={this.handleChange('selectedValue')}
@@ -321,7 +326,7 @@ class CustomerActionPage extends Component {
 									name="gender"
 									aria-label="male"
 								/>
-								<span>Female</span>
+								<span>Nam</span>
 								<Radio
 									checked={this.state.selectedValue === 'female'}
 									onChange={this.handleChange('selectedValue')}
@@ -335,14 +340,14 @@ class CustomerActionPage extends Component {
 						</div>
 						<div className="col-md-6 col-lg-6">
 							<div className="form-group">
-								<label>LastName</label>
+								<label>Tên</label>
 								<input 
 									type="text" 
 									className="form-control" 
 									value={this.state.lastname} 
 									onChange={this.onChangeForm} 
 									name="lastname" 
-									placeholder="lastname"/>
+									placeholder="Tên"/>
 								<Validator 
 									isValidationError={this.isValidationError}
 									isFormSubmitted={this.state.submitted} 
@@ -352,7 +357,7 @@ class CustomerActionPage extends Component {
 								
 							</div>
 							<div className="form-group">
-								<label>Phone (Ex: +84 987654321)</label>
+								<label>Số điện thoại (VD: +84 987654321)</label>
 								{/* <Cleave className="input-numeral form-control" 
 											placeholder="PHONE" 
 											name="phone"
@@ -375,7 +380,7 @@ class CustomerActionPage extends Component {
 										value={this.state.phone} 
 										onChange={this.onChangeForm} 
 										name="phone" 
-										placeholder="phone"/>
+										placeholder="Số điện thoại"/>
 								</div>
 								
 								<Validator 
@@ -388,14 +393,14 @@ class CustomerActionPage extends Component {
 							</div>
 							
 							<div className="form-group">
-								<label>Address</label>
+								<label>Địa chỉ</label>
 								<input 
 									type="text" 
 									className="form-control" 
 									value={this.state.address} 
 									onChange={this.onChangeForm} 
 									name="address" 
-									placeholder="address"/>
+									placeholder="Địa chỉ"/>
 								<Validator 
 									isValidationError={this.isValidationError}
 									isFormSubmitted={this.state.submitted} 
@@ -408,7 +413,7 @@ class CustomerActionPage extends Component {
 						</div> 
 						<div className="col-xs-12 col-sm-12 col-md-12 col-lg-12 text-center">
 							<Button type="submit" className="btn btn-primary btn-cons"  variant="contained" color="primary">
-								Save <i className="material-icons">done_all</i>
+								Lưu <i className="material-icons">done_all</i>
 							</Button>	
 						</div>   
 					</form>

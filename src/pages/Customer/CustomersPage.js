@@ -93,7 +93,7 @@ class CustomersPage extends Component {
 						</Link>
 						<Link to="/customers/add" className="float-right">
 							<Button type="submit" className="btn btn-primary btn-cons" variant="contained" color="primary">
-								Add
+								Thêm mới khách hàng
 							</Button>					
 						</Link>
 						<div className="clearfix"></div><br/>
@@ -128,7 +128,7 @@ class CustomersPage extends Component {
 								String(row[filter.id]) === filter.value}
 							columns={[
 								{
-									Header: 'Infomation',
+									Header: 'Thông tin khách hàng',
 									columns: [
 										{
 											Header: "#",
@@ -140,7 +140,7 @@ class CustomersPage extends Component {
 											}
 										},
 										{
-											Header: "Phone",
+											Header: "Số điện thoại",
 											id: "phone",
 											accessor: d => d.phone,
 											filterMethod: (filter, rows) => matchSorter(rows, filter.value, { keys: ["phone"] }),
@@ -155,7 +155,7 @@ class CustomersPage extends Component {
 										},
 										
 										{
-											Header: "Name",
+											Header: "Tên khách hàng",
 											id: "firstname",
 											width: 250,
 											accessor: d => d.firstname + d.lastname,
@@ -179,7 +179,7 @@ class CustomersPage extends Component {
 											filterAll: true
 										},
 										{
-											Header: "Address",
+											Header: "Địa chỉ",
 											id: "address",
 											accessor: d => d.address,
 											filterMethod: (filter, rows) => matchSorter(rows, filter.value, { keys: ["address"] }),
@@ -187,11 +187,11 @@ class CustomersPage extends Component {
 										},
 										
 										{
-											Header: "Gender",
+											Header: "Giới tính",
 											id: "gender",
 											width: 100,
 											accessor: d => d.gender,
-											Cell: ({ value }) => (value === config.GENDER_MALE	 ? (<span className="label label-warning">Male</span>) : (<span className="label label-primary">Female</span>)),
+											Cell: ({ value }) => (value === config.GENDER_MALE	 ? (<span className="label label-warning">Nữ</span>) : (<span className="label label-primary">Nam</span>)),
 											filterMethod: (filter, row) => {
 												if (filter.value === "all") {
 												  	return true;
@@ -211,15 +211,15 @@ class CustomersPage extends Component {
 												  style={{ width: "100%" }}
 												  value={filter ? filter.value : "all"}
 												>
-												  <option value="all">Show All</option>
-												  <option value="0">Male</option>
-												  <option value="1">Female</option>
+												  <option value="all">Tất cả</option>
+												  <option value="0">Nữ</option>
+												  <option value="1">Nham</option>
 												</select>
 										},
 									
 										
 										{
-											Header: "Action",
+											Header: "",
 											filterable: false,
 											Cell: row => (
 												

@@ -12,9 +12,9 @@ class OrderData extends Component {
                             <thead>
                                 <tr>
                                     <th>#</th>
-                                    <th>OrderID</th>
-                                    <th>Product/Service</th>
-                                    <th>Qty</th>
+                                    <th>Mã sản phẩm</th>
+                                    <th>Sản phẩm/Dịch vụ</th>
+                                    <th>Số lượng</th>
                                     <th></th>
                                 </tr>
                             </thead>

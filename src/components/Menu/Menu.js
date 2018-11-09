@@ -3,19 +3,19 @@ import { Route, Link } from 'react-router-dom';
 
 const menu = [
 	{
-		name: 'Home',
+		name: 'Trang chủ',
 		to: '/',
 		exact: true,
 		icon: 'home'
 	},
 	{
-		name: 'Products',
+		name: 'Sản phẩm',
 		to: '/products',
 		exact: false,
 		icon: 'layers'
 	},
 	{
-		name: 'Orders',
+		name: 'Lịch sử dụng dịch vụ',
 		to: '/orders',
 		exact: false,
 		icon: 'card_giftcard'
@@ -27,26 +27,26 @@ const menu = [
 	// 	icon: 'apps'
 	// },
 	{
-		name: 'Customers',
+		name: 'Khách hàng',
 		to: '/customers',
 		exact: false,
 		icon: 'supervisor_account'
 	},
 	
 	{
-		name: 'Calling',
+		name: 'Lịch sử cuộc gọi',
 		to: '/calling',
 		exact: false,
 		icon: 'phone_in_talk'
 	},
 	{
-		name: 'SMS',
+		name: 'Tin nhắn/ SMS',
 		to: '/sms',
 		exact: false,
 		icon: 'question_answer'
 	},
 	{
-		name: 'Users',
+		name: 'Nhân viên',
 		to: '/users',
 		exact: false,
 		icon: 'account_circle'

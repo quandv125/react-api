@@ -74,14 +74,14 @@ class ChangePass extends Component {
 							<div className="col-lg-6 col-md-6">
 									
 									<div className="form-group">
-										<label>Old Password</label>
+										<label>Mật khẩu cũ</label>
 										<input 
 											type="password" 
 											className="form-control" 
 											value={this.state.old_password} 
 											onChange={this.onChangeForm} 
 											name="old_password" 
-											placeholder="old_password"/>
+											placeholder="Mật khẩu cũ"/>
 											<Validator 
 												isValidationError={this.isValidationError}
 												isFormSubmitted={this.state.submitted} 
@@ -91,14 +91,14 @@ class ChangePass extends Component {
 									</div>
 									
                                     <div className="form-group">
-										<label>New Password</label>
+										<label>Mật khẩu mới</label>
 										<input 
 											type="password" 
 											className="form-control" 
 											value={this.state.new_password} 
 											onChange={this.onChangeForm} 
 											name="new_password" 
-											placeholder="new_password"/>
+											placeholder="Mật khẩu mới"/>
 											<Validator 
 												isValidationError={this.isValidationError}
 												isFormSubmitted={this.state.submitted} 
@@ -108,14 +108,14 @@ class ChangePass extends Component {
 									</div>
 
                                     <div className="form-group">
-										<label>Confirm Password</label>
+										<label>Xác nhận mật khẩu</label>
 										<input 
 											type="password" 
 											className="form-control" 
 											value={this.state.confirm_password} 
 											onChange={this.onChangeForm} 
 											name="confirm_password" 
-											placeholder="confirm_password"/>
+											placeholder="Xác nhận mật khẩu"/>
 											<Validator 
 												isValidationError={this.isValidationError}
 												isFormSubmitted={this.state.submitted} 
@@ -127,7 +127,7 @@ class ChangePass extends Component {
 
 							</div>
 							<div className="col-lg-12 col-md-12">
-								<Button type="submit" variant="contained" color="primary">Save</Button>
+								<Button type="submit" variant="contained" color="primary">Lưu</Button>
 							</div>
 						</form>
 
