@@ -357,7 +357,7 @@ class CustomerActionPage extends Component {
 								
 							</div>
 							<div className="form-group">
-								<label>Số điện thoại (VD: +84 987654321)</label>
+								<label>Số điện thoại (VD:  0987654321)</label>
 								{/* <Cleave className="input-numeral form-control" 
 											placeholder="PHONE" 
 											name="phone"
@@ -387,7 +387,7 @@ class CustomerActionPage extends Component {
 									isValidationError={this.isValidationError}
 									isFormSubmitted={this.state.submitted} 
 									reference={{phone : this.state.phone}}
-									validationRules={{required:true, minLength: 9, maxLength:9 }} 
+									validationRules={{required:true, minLength: 10, maxLength:10 }} 
 									validationMessages={{ required: "This field is required", number: "Not a valid number", maxLength: "Not a valid Max length: 10 character", minLength: "Not a vaild min length is 9 character"}}/>
 								
 							</div>

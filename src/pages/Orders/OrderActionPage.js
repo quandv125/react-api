@@ -199,7 +199,6 @@ class OrderActionPage extends Component {
 		var { id } = this.state.order;
 		var data = { is_send_sms: 1, time: null};
 		callApi('GET', config.ORDERS_URL + "/send-sms-order/" + id, data).then(res => {
-			console.log(res);
 			if(res) {
 				if( res.data.status ){
 					Swal('Good job!', res.data.msg ? res.data.msg : 'Send message successfully!','success')

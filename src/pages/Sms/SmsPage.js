@@ -49,7 +49,7 @@ class SmsPage extends Component {
 			});
 		}
 	};
-
+	
 	render() {
 		var {loggedOut} = this.state;
 		if(loggedOut){
@@ -58,22 +58,37 @@ class SmsPage extends Component {
 		if (this.props.sms !== null) {
 			var {sms} = this.props.sms;
 		}
-		
+		// var balance = null;
+		// if (this.props.info !== null) {
+		// 	balance = 'Tài khoản: ' + this.props.info.data.balance + ' đ';
+		// }
 		return (
 			<CSSTransitionGroup transitionName={config.PAGETRANSITION} transitionAppear={true} transitionAppearTimeout={config.TRANSITIONSPEED} transitionEnter={false} transitionLeave={false}>
 				<div className="grid simple">
 					<div className="grid-body no-border">
-						<Link to="/" className="margin-right20">
-							<Button type="submit" className="btn btn-primary btn-cons" variant="contained" color="primary">
-							<i className="material-icons">arrow_back</i>
-							</Button>	
-						</Link>
+						<div className="col-lg-4 col-md-4 col-xs-2 col-sm-2">
+							<Link to="/" className="margin-right20">
+								<Button type="submit" className="btn btn-primary btn-cons" variant="contained" color="primary">
+								<i className="material-icons">arrow_back</i>
+								</Button>	
+							</Link>
+						</div>
+						<div className="col-lg-4 col-md-4 col-xs-8 col-sm-8 text-center">
+							
+							{/* <div className="balance-sms">
+								{balance}
+							</div> */}
+							
+						</div>
+						<div className="col-lg-4 col-md-4 col-xs-2 col-sm-2">
+							<Link to="/sms-category" className="float-right">
+								<Button type="submit" className="btn btn-primary btn-cons" variant="contained" color="primary">
+									<i className="material-icons">settings</i>
+								</Button>
+							</Link>
+						</div>
+						
 
-						<Link to="/sms-category" className="float-right">
-							<Button type="submit" className="btn btn-primary btn-cons" variant="contained" color="primary">
-								<i className="material-icons">settings</i>
-							</Button>
-						</Link>
 						
 						<div className="clearfix"></div><br/>
 								
@@ -97,6 +112,7 @@ class SmsPage extends Component {
 		var result = null;
 		if( sms ){
 			if ( sms && typeof sms !== 'undefined' && sms.length > 0) {
+				console.log(sms);
 				return <ReactTable
 							// getTdProps={( column ) => ({
 							// 	onClick: e => {
@@ -179,9 +195,9 @@ class SmsPage extends Component {
 												  style={{ width: "100%" }}
 												  value={filter ? filter.value : "all"}
 												>
-												  <option value="all">Show All</option>
-												  <option value={config.SMS_STATUS_SUCCESS}>SUCCESS</option>
-												  <option value={config.SMS_STATUS_ERROR}>ERROR</option>
+												  <option value="all">Tất cả</option>
+												  <option value={config.SMS_STATUS_SUCCESS}>Thành công</option>
+												  <option value={config.SMS_STATUS_ERROR}>Lỗi</option>
 												</select>
 										},	
 										{
@@ -206,6 +222,14 @@ class SmsPage extends Component {
 											width: 150,
 											accessor: d => d.category_title,
 											filterMethod: (filter, rows) => matchSorter(rows, filter.value, { keys: ["category_title"] }),
+											filterAll: true
+										},
+										{
+											Header: "Gía",
+											id: "price",
+											width: 80,
+											accessor: d => d.price,
+											filterMethod: (filter, rows) => matchSorter(rows, filter.value, { keys: ["price"] }),
 											filterAll: true
 										},
 										{
@@ -248,9 +272,10 @@ class SmsPage extends Component {
 }
 
 const mapStateToProps = state => {
-	return {
+		return {
 		authentication: state.authentication,
-		sms: state.sms
+		sms: state.sms,
+		info: state.sms.info
 	}
 }
 

@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { CSSTransitionGroup } from 'react-transition-group'
 import ProductsList from '../../components/Product/ProductsList';
-// import ProductItem from '../../components/Product/ProductItem';
 import * as config from '../../constants/config';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';

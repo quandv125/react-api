@@ -1,8 +1,5 @@
 import React, { Component } from 'react';
 import { CSSTransitionGroup } from 'react-transition-group'
-
-// import UsersList from './../../components/Users/UsersList';
-// import UserSpec from './../../components/Users/UserSpec';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { actFetchUsersRequest, actDeleteUserRequest } from './../../actions/index';
@@ -14,18 +11,43 @@ import Swal from 'sweetalert2'
 import ReactTable from "react-table";
 import "react-table/react-table.css";
 import matchSorter from 'match-sorter';
+// import callApi from './../../utils/apiCaller';
 
 class UsersPage extends Component {
 	
 	constructor(props) {
 		super(props);
 		this.state = {
-			image: '',
+			product_categories: [],
 			loggedOut: false,
 			isLogin: config.TOKEN.length > 10 ? true : false
 		}
 		this.onDelete = this.onDelete.bind(this);
 	}
+
+	// componentDidMount(){
+	// 	callApi('GET', config.CATEGORY_URL, null).then(res => {
+	// 		this.setState({
+	// 			product_categories: res.data.data
+	// 		});
+	// 	});
+	// 	// var {match} = this.props;
+	// 	// if(match) {
+	// 	// 	var id = match.params.id;
+			
+	// 	// 	// callApi('GET', config.SERVICE_URL + "/" + id, null).then(res => {
+	// 	// 	// 	var data = res.data.data;
+	// 	// 	// 	this.setState({
+	// 	// 	// 		id: data.id,
+	// 	// 	// 		product_category_id: data.product_category_id ? data.product_category_id : '',
+	// 	// 	// 		title: data.title ? data.title : '',
+	// 	// 	// 		desc: data.desc ? data.desc : ''
+	// 	// 	// 	});
+	// 	// 	// });
+			
+	// 	// }
+		
+	// }
 
 	shouldComponentUpdate(nextprops){
 		return true;
@@ -68,16 +90,16 @@ class UsersPage extends Component {
 				jobs = 'Administrator';
 				break;
 			case 15:
-				jobs = 'Manager';
+				jobs = 'Quản lý';
 				break;
 			case 16:
-				jobs = 'Doctor';
+				jobs = 'Bác sỹ';
 				break;
 			case 33:
-				jobs = 'Assistant';
+				jobs = 'Trợ lý';
 				break;
 			default:
-				jobs = 'Receptionist';
+				jobs = 'Lễ tân';
 				break;
 		}
 		return jobs;
@@ -98,7 +120,6 @@ class UsersPage extends Component {
 		if (this.props.users !== null) {
 			var {users} = this.props.users;
 		}
-		
 		return (
 			<CSSTransitionGroup transitionName={config.PAGETRANSITION} transitionAppear={true} transitionAppearTimeout={config.TRANSITIONSPEED} transitionEnter={false} transitionLeave={false}>
 				<div className="grid simple">
@@ -229,9 +250,9 @@ class UsersPage extends Component {
 												  style={{ width: "100%" }}
 												  value={filter ? filter.value : "all"}
 												>
-												  <option value="all">Show All</option>
-												  <option value="0">Male</option>
-												  <option value="1">Female</option>
+												  <option value="all">Tất cả</option>
+												  <option value="0">Nữ</option>
+												  <option value="1">Nam</option>
 												</select>
 										},
 										{
@@ -273,19 +294,19 @@ class UsersPage extends Component {
 												  style={{ width: "100%" }}
 												  value={filter ? filter.value : "all"}
 												>
-												  <option value="all">Show All</option>
+												  <option value="all">Tất cả</option>
 												  <option value="14">Administrator</option>
-												  <option value="15">Manager</option>
-												  <option value="16">Doctor</option>
-												  <option value="33">Assistant</option>
-												  <option value="34">Receptionist</option>
+												  <option value="15">Quản lý</option>
+												  <option value="16">Bác sỹ</option>
+												  <option value="33">Trợ lý</option>
+												  <option value="34">Lễ tân</option>
 												</select>
 										},
 										{
 											Header: "Kích hoạt",
 											id: "is_active",
 											accessor: d => d.is_active,
-											Cell: ({ value }) => (value === config.ACTIVED ? "Active" : ""),
+											Cell: ({ value }) => (value === config.ACTIVED ? "Có" : ""),
 											filterMethod: (filter, row) => {
 												if (filter.value === "all") {
 												  	return true;
@@ -305,9 +326,9 @@ class UsersPage extends Component {
 												  style={{ width: "100%" }}
 												  value={filter ? filter.value : "all"}
 												>
-												  <option value="all">Show All</option>
-												  <option value="1">ACTIVE</option>
-												  <option value="0">NO ACTIVE</option>
+												  <option value="all">Tất cả</option>
+												  <option value="1">Có</option>
+												  <option value="0">Không</option>
 												
 
 												</select>

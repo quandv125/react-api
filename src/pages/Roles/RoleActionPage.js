@@ -27,8 +27,10 @@ class RoleActionPage extends Component {
 		var {match} = this.props;
 		if(match) {
 			var id = match.params.id;
+			console.log(config.ROLE_URL + "/" +id);
 			callApi('GET', config.ROLE_URL + "/" +id, null).then(res => {
 				var data = res.data.data;
+				console.log(data);
 				this.setState({
 					id: data.id,
 					name: data.name ? data.name : '',
@@ -91,14 +93,14 @@ class RoleActionPage extends Component {
 							<form noValidate onSubmit={this.handleFormSubmit}>
 							
 								<div className="form-group">
-									<label>name</label>
+									<label>Chức danh</label>
 									<input 
 										type="text" 
 										className="form-control" 
 										value={this.state.name} 
 										onChange={this.onChangeFrom} 
 										name="name" 
-										placeholder="name"/>
+										placeholder="Chức danh"/>
 									<Validator 
 										isValidationError={this.isValidationError}
 										isFormSubmitted={this.state.submitted} 
@@ -108,14 +110,14 @@ class RoleActionPage extends Component {
 							
 								</div>
 								<div className="form-group">
-									<label>display_name</label>
+									<label>Tên hiển thị</label>
 									<input 
 										type="text" 
 										className="form-control" 
 										value={this.state.display_name} 
 										onChange={this.onChangeFrom} 
 										name="display_name" 
-										placeholder="display_name"/>
+										placeholder="Tên hiện thị"/>
 									<Validator 
 										isValidationError={this.isValidationError}
 										isFormSubmitted={this.state.submitted} 
@@ -125,14 +127,14 @@ class RoleActionPage extends Component {
 							
 								</div>
 								<div className="form-group">
-									<label>description</label>
+									<label>Mô tả</label>
 									<input 
 										type="text" 
 										className="form-control" 
 										value={this.state.description} 
 										onChange={this.onChangeFrom} 
 										name="description" 
-										placeholder="description"/>
+										placeholder="Mô tả"/>
 									<Validator 
 										isValidationError={this.isValidationError}
 										isFormSubmitted={this.state.submitted} 

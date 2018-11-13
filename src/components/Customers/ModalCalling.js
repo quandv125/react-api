@@ -14,8 +14,8 @@ class ModalCalling extends Component {
             open: false,
             customer_id: null,
             customer: '',
-            customernumber: ''
-            
+            customernumber: '',
+            user: sessionStorage.getItem('authentication') ? JSON.parse(sessionStorage.getItem('authentication')).name : ''
 		}
 		CallingIO(message => {
             
@@ -55,16 +55,16 @@ class ModalCalling extends Component {
 	};
 
 	handleEventCustomerCalling = () => {
-        var {customer, customer_id, customernumber, note} = this.state;
-        var data = {customer_id: customer_id, customer: customer, customernumber: customernumber, note: note}
+        var {customer, customer_id, user, customernumber, note} = this.state;
+        var data = {customer_id: customer_id, user: user, customer: customer, customernumber: customernumber, note: note}
 		callApi('POST', config.CRMWORLDFONE_URL, data).then(res => {
             if(res.data.status) {
                 Swal( 'Good job!', 'You clicked the button!', 'success')
-                this.onCloseModal();
+                this.onCloseModal()
             } else {
                 Swal( 'Oops...', 'Your phone not incorrect format!', 'error')
             }
-        });
+        })
 	}
     render() {
         var {customer, customernumber} = this.state;

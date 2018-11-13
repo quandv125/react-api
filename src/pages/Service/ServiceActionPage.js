@@ -113,14 +113,14 @@ class ServiceActionPage extends Component {
 							<form noValidate onSubmit={this.handleFormSubmit}>
 							
 								<div className="form-group">
-									<label>title</label>
+									<label>Tên danh mục</label>
 									<input 
 										type="text" 
 										className="form-control" 
 										value={this.state.title} 
 										onChange={this.onChangeForm} 
 										name="title" 
-										placeholder="title"/>
+										placeholder="Tên danh mục"/>
 									<Validator 
 										isValidationError={this.isValidationError}
 										isFormSubmitted={this.state.submitted} 
@@ -143,14 +143,14 @@ class ServiceActionPage extends Component {
 										</div>
 									</div>
 								<div className="form-group">
-									<label>desc</label>
+									<label>Mô tả</label>
 									<input 
 										type="text" 
 										className="form-control" 
 										value={this.state.desc} 
 										onChange={this.onChangeForm} 
 										name="desc" 
-										placeholder="desc"/>
+										placeholder="Mô tả"/>
 									
 								</div>
 							

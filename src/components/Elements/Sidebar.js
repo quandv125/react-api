@@ -6,14 +6,16 @@ class Sidebar extends Component {
     constructor (props) {
         super(props)
         this.state = {
-            name: sessionStorage.getItem('authentication') ? JSON.parse(sessionStorage.getItem('authentication')).name : ''
+            name: sessionStorage.getItem('authentication') ? JSON.parse(sessionStorage.getItem('authentication')).name : '',
+            display_name: sessionStorage.getItem('authentication') ? JSON.parse(sessionStorage.getItem('authentication')).display_name : ''
         }
     }
 
     render() {
+        var {name, display_name} = this.state;
         return (
             <div>
-                <div className="page-sidebar " id="main-menu">
+                <div className="page-sidebar" id="main-menu">
 
                     <div className="page-sidebar-wrapper scrollbar-dynamic" id="main-menu-wrapper">
                         <div className="user-info-wrapper sm">
@@ -22,8 +24,8 @@ class Sidebar extends Component {
                                 <div className="availability-bubble online"></div>
                             </div>
                             <div className="user-info sm">
-                                <div className="username">{this.state.name}</div>
-                                <div className="status">...........................</div>
+                                <div className="username">{name}</div>
+                                <div className="status">{display_name}</div>
                             </div>
                         </div>
                             <p className="menu-title sm"> BROWSE <span className="pull-right"><a href="/"><i className="material-icons">refresh</i></a></span></p>
@@ -34,7 +36,6 @@ class Sidebar extends Component {
 
                     </div>
                 </div>
-                       
             </div>
         );
     }

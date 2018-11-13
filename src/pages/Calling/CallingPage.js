@@ -172,10 +172,10 @@ class CallingPage extends Component {
 										// },	
 										{
 											Header: "Nhân viên",
-											id: "customernumber",
+											id: "user",
 											width: 150,
-											accessor: d => d.customernumber,
-											filterMethod: (filter, rows) => matchSorter(rows, filter.value, { keys: ["customernumber"] }),
+											accessor: d => d.user,
+											filterMethod: (filter, rows) => matchSorter(rows, filter.value, { keys: ["user"] }),
 											filterAll: true
 										},
 										{

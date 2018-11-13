@@ -107,13 +107,24 @@ export const actDeleteService = (id) => {
 }
 //
 // Order
-export const actFetchOrdersRequest = () => {
+export const actFetchOrdersRequest = (user_id) => {
     return (dispatch) => {
-        return apiCaller('GET',  config.ORDER_URL  , null).then( res => {
-            if(res){
-                dispatch(actFetchOrders(res.data));
-            }
-        });
+        console.log(user_id);
+        if (user_id === null) {
+            console.log('user_id => NULL');
+            return apiCaller('GET',  config.ORDER_URL  , null).then( res => {
+                if( res ){
+                    dispatch(actFetchOrders(res.data));
+                }
+            });
+        } else {console.log('user_id');
+            return apiCaller('GET',  config.ORDER_URL + '/product_category_id/' + user_id  , null).then( res => {
+                if( res ){
+                    dispatch(actFetchOrders(res.data));
+                }
+            });
+        }
+        
     }
 }
 

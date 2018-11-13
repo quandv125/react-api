@@ -101,12 +101,12 @@ class RoleList extends Component {
 							}
 						})}
 						data={role}
-						noDataText="Oh Not found!"
+						noDataText="Không tìm thấy kết quả!"
 						filterable
 						defaultFilterMethod={(filter, row) => String(row[filter.id]) === filter.value}
 						columns={[
 							{
-								Header: 'Infomation',
+								Header: '',
 								columns: [
 									{
 										Header: "#",
@@ -119,7 +119,7 @@ class RoleList extends Component {
 									},
 								
 									{
-										Header: "title",
+										Header: "Chức danh",
 										id: "name",
 										accessor: d => d.name,
 										filterMethod: (filter, rows) => matchSorter(rows, filter.value, { keys: ["name"] }),
@@ -134,7 +134,7 @@ class RoleList extends Component {
 										}
 									},
 									{
-										Header: "display_name",
+										Header: "Tên hiển thị",
 										id: "display_name",
 										accessor: d => d.display_name,
 										filterMethod: (filter, rows) => matchSorter(rows, filter.value, { keys: ["display_name"] }),
@@ -142,7 +142,7 @@ class RoleList extends Component {
 										filterAll: true
 									},
 									{
-										Header: "description",
+										Header: "Mô tả",
 										id: "description",
 										accessor: d => d.description,
 										filterMethod: (filter, rows) => matchSorter(rows, filter.value, { keys: ["description"] }),
@@ -151,7 +151,7 @@ class RoleList extends Component {
 									},
 									
 									{
-										Header: "Action",
+										Header: "",
 										filterable: false,
 										maxWidth: 250,
 										Cell: row => (

@@ -41,7 +41,7 @@ class CustomersPage extends Component {
 
 	phone_format = (n) => {
 		if(n && n !== ''){
-			return "(+84) " + n.replace(/./g, function(c, i, a) {
+			return  n.replace(/./g, function(c, i, a) {
 				return i > 0 && c !== " " && (a.length - i) % 3 === 0 ? " " + c : c;
 			});
 		}
@@ -213,7 +213,7 @@ class CustomersPage extends Component {
 												>
 												  <option value="all">Tất cả</option>
 												  <option value="0">Nữ</option>
-												  <option value="1">Nham</option>
+												  <option value="1">Nam</option>
 												</select>
 										},
 									

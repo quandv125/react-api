@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { CSSTransitionGroup } from 'react-transition-group'
-
+import callApi from './../../utils/apiCaller';
 import { Link } from 'react-router-dom';
 import * as config from './../../constants/config';
 import Validator from 'react-forms-validator';
@@ -38,11 +38,13 @@ class UserAddPage extends Component {
 			phone: '',
 			role_id: '14',
 			birthday: '2018-07-22',
+			product_category_id: null,
 			gender: config.GENDER_FEMALE,
 			is_active: config.DEACTIVED,
 			isFormValidationErrors : true,
 			submitted: false,
-			isValidation: ''
+			isValidation: '',
+			product_categories: []
 		};
 		this.onSave = this.onSave.bind(this);
 		this.onChangeForm = this.onChangeForm.bind(this);
@@ -60,6 +62,11 @@ class UserAddPage extends Component {
 			var id = match.params.id;
 			this.props.getUserId(id);
 		}
+		callApi('GET', config.CATEGORY_URL, null).then(res => {
+			this.setState({
+				product_categories: res.data.data
+			});
+		});
 	}
 
 	componentWillReceiveProps(nextprops){
@@ -74,6 +81,7 @@ class UserAddPage extends Component {
 				address: userEdit.address,
 				phone: userEdit.phone,
 				role_id: userEdit.role_id,
+				product_category_id: userEdit.product_category_id,
 				gender: userEdit.gender,
 				is_active: userEdit.is_active
 			});
@@ -88,7 +96,7 @@ class UserAddPage extends Component {
 				if(nextprops.users && nextprops.users.preUser){
 					var preUser = nextprops.users.preUser;
 					this.setState({
-						id: preUser.id,	username: preUser.username,	firstname: preUser.firstname, lastname: preUser.lastname, email: preUser.email,	address: preUser.address, phone: preUser.phone,	role_id: preUser.role_id, gender: preUser.gender, is_active: preUser.is_active
+						id: preUser.id,	username: preUser.username,	firstname: preUser.firstname, lastname: preUser.lastname, email: preUser.email,	address: preUser.address, phone: preUser.phone,	role_id: preUser.role_id, product_category_id: preUser.product_category_id, gender: preUser.gender, is_active: preUser.is_active
 					});
 				}
 			}
@@ -107,7 +115,6 @@ class UserAddPage extends Component {
 		this.setState({
 			[name]: value
 		});
-		console.log(this.state);
 		if(target.type === 'file'){
 			let files = event.target.files || event.dataTransfer.files;
 			if (!files.length)
@@ -134,13 +141,14 @@ class UserAddPage extends Component {
 		this.setState({
 			submitted:true
 		});
-		var {id, username, firstname, lastname, email, role_id, phone, address, is_active, gender, avatar} = this.state;
+		var {id, username, firstname, lastname, email, role_id, product_category_id, phone, address, is_active, gender, avatar} = this.state;
 		var data = { 
 			username: username,
 			firstname: firstname,
 			lastname: lastname,
 			email: email,
 			role_id: role_id,
+			product_category_id: product_category_id,
 			phone: phone,
 			address: address,
 			gender: gender,
@@ -307,6 +315,21 @@ class UserAddPage extends Component {
 								</div>
 							</div>
 							<div className="form-group">
+								<div className="product_category_id">
+									<label>Dịch vụ</label>
+									<select 
+										className="form-control" 
+										name="product_category_id" 
+										value={this.state.product_category_id} 
+										onChange={this.onChangeForm}
+									>
+										<option value={null}>-- Choose One --</option>
+										{this.showCategory()}
+									</select>
+								</div>
+							</div>
+
+							<div className="form-group">
 								<label>Kích hoạt </label>
 								<div className="checkbox1">
 									
@@ -390,7 +413,14 @@ class UserAddPage extends Component {
 			</CSSTransitionGroup>
 		);
 	} // end render
-	
+	showCategory = () => {
+		const options = [];
+		const {product_categories} = this.state;
+		product_categories.map(data => options.push(
+			<option key={data.id} value={data.id}>{data.title}</option>
+		));
+		return options;
+	}
 }
 
 const mapStateToProps = state => {

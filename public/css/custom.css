@@ -8,6 +8,9 @@
   display: flex;
   align-items: center;
 }
+.balance-sms{
+  padding: 15px 15px 0px 15px;
+}
 .width500px{
   width: 500px;
 }

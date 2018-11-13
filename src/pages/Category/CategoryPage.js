@@ -101,12 +101,12 @@ class CategoryList extends Component {
 							}
 						})}
 						data={category}
-						noDataText="Oh Not found!"
+						noDataText="Không tìm thấy dữ liệu!"
 						filterable
 						defaultFilterMethod={(filter, row) => String(row[filter.id]) === filter.value}
 						columns={[
 							{
-								Header: 'Infomation',
+								Header: 'Dịch vụ',
 								columns: [
 									{
 										Header: "#",
@@ -119,7 +119,7 @@ class CategoryList extends Component {
 									},
 								
 									{
-										Header: "title",
+										Header: "Tên dịch vụ",
 										id: "title",
 										accessor: d => d.title,
 										filterMethod: (filter, rows) => matchSorter(rows, filter.value, { keys: ["title"] }),
@@ -134,7 +134,7 @@ class CategoryList extends Component {
 										}
 									},
 									{
-										Header: "desc",
+										Header: "Mô tả",
 										id: "desc",
 										accessor: d => d.desc,
 										filterMethod: (filter, rows) => matchSorter(rows, filter.value, { keys: ["desc"] }),
@@ -142,7 +142,7 @@ class CategoryList extends Component {
 										filterAll: true
 									},
 									{
-										Header: "Action",
+										Header: "",
 										filterable: false,
 										maxWidth: 250,
 										Cell: row => (

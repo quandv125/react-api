@@ -69,6 +69,7 @@ export const RECRPTIONIST = 34;
 
 export const TOKEN = sessionStorage.getItem('authentication') ? JSON.parse(sessionStorage.getItem('authentication')).access_token : '';
 export const ROLE = sessionStorage.getItem('authentication') ? JSON.parse(sessionStorage.getItem('authentication')).role_id : '';
+export const USER_ID = sessionStorage.getItem('authentication') ? JSON.parse(sessionStorage.getItem('authentication')).id : '';
 export const ISLOGIN = sessionStorage.getItem('authentication') ? true : false;
 
 // Transition  

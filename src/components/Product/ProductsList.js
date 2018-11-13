@@ -50,6 +50,7 @@ class ProductList extends Component {
 
 	render() {
 		var products = this.props.children;
+		// console.log(products);
 		return (
 			<div>
 				{products && typeof products !== 'undefined' && products.length > 0  ? (
@@ -79,27 +80,61 @@ class ProductList extends Component {
 												return <div>{row.index+1}</div>;
 											}
 										},
-									
 										{
 											Header: "Dịch vụ",
-											id: "category_title",
-											accessor: d => d.category_title,
-											filterMethod: (filter, rows) => matchSorter(rows, filter.value, { keys: ["category_title"] }),
-											filterAll: true,
-											maxWidth: 100,
-											Cell: (row) => {
-												return (<div className="text-left">
-														{row.original.category_title}
-												</div>)
-											}
+											id: "category_id",
+											accessor: d => d.category_id,
+											maxWidth: 80,
+											Cell: ({ value }) => {
+												return this.showCategoryTitle(value)
+											},
+											filterMethod: (filter, row) => {
+												if (filter.value === "all") {
+													return true;
+												}
+												if (filter.value === '25') {
+													return row[filter.id] === 25;
+												}
+												if (filter.value === '26') {
+													return row[filter.id] === 26;
+												}
+												if (filter.value === '27') {
+													return row[filter.id] === 27;
+												}
+											},
+											Filter: ({ filter, onChange }) =>
+												<select
+												className="sel-role"
+												onChange={event => onChange(event.target.value)}
+												style={{ width: "100%" }}
+												value={filter ? filter.value : "all"}
+												>
+												<option value="all">Tất cả</option>
+												<option value="25">Nha Khoa</option>
+												<option value="26">Laser</option>
+												<option value="27">Spa</option>
+												</select>
 										},
+										// {
+										// 	Header: "Dịch vụ",
+										// 	id: "category_title",
+										// 	accessor: d => d.category_title,
+										// 	filterMethod: (filter, rows) => matchSorter(rows, filter.value, { keys: ["category_title"] }),
+										// 	filterAll: true,
+										// 	maxWidth: 100,
+										// 	Cell: (row) => {
+										// 		return (<div className="text-left">
+										// 				{row.original.category_title}
+										// 		</div>)
+										// 	}
+										// },
 										{
 											Header: "Danh mục",
 											id: "service_title",
 											accessor: d => d.service_title,
 											filterMethod: (filter, rows) => matchSorter(rows, filter.value, { keys: ["service_title"] }),
 											filterAll: true,
-											maxWidth: 100,
+											maxWidth: 200,
 											Cell: (row) => {
 												return (<div className="text-left">
 														{row.original.service_title}
@@ -133,7 +168,7 @@ class ProductList extends Component {
 											Header: "Loại tiền",
 											id: "currency",
 											accessor: d => d.currency,
-											maxWidth: 100,
+											maxWidth: 80,
 											Cell: ({ value }) => (value === 'VND' ? "VND" : "USD"),
 											filterMethod: (filter, row) => {
 												if (filter.value === "all") {
@@ -164,7 +199,7 @@ class ProductList extends Component {
 											id: "unit",
 											accessor: d => d.unit,
 											filterMethod: (filter, rows) => matchSorter(rows, filter.value, { keys: ["unit"] }),
-											maxWidth: 100,
+											maxWidth: 80,
 											filterAll: true
 										},
 										{
@@ -173,7 +208,7 @@ class ProductList extends Component {
 											accessor: d => d.quantity,
 											filterMethod: (filter, rows) => matchSorter(rows, filter.value, { keys: ["quantity"] }),
 											filterAll: true,
-											maxWidth: 100,
+											maxWidth: 80,
 										},
 										{
 											Header: "Thời gian",
@@ -181,13 +216,13 @@ class ProductList extends Component {
 											accessor: d => d.time,
 											filterMethod: (filter, rows) => matchSorter(rows, filter.value, { keys: ["time"] }),
 											filterAll: true,
-											maxWidth: 100,
+											maxWidth: 80,
 										},
 										{
 											Header: "Kích hoạt",
 											id: "is_publish",
 											accessor: d => d.is_publish,
-											maxWidth: 70,
+											maxWidth: 80,
 											Cell: ({ value }) => (value === config.IS_PUBLISH_YES ? "Có" : "Không"),
 											filterMethod: (filter, row) => {
 												if (filter.value === "all") {
@@ -245,6 +280,24 @@ class ProductList extends Component {
 			
 		);
 	}
+
+	showCategoryTitle = ( key ) => {
+		var d = null;
+		// console.log(key);
+		switch (key) {
+			case 25:
+				d = 'Nha Khoa';
+				break;
+			case 26:
+				d = 'Laser';
+				break;
+			default:
+				d = 'Spa';
+				break;
+		}
+		return d;
+	}
+	
 }
 
 export default ProductList;

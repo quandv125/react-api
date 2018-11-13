@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import './App.css';
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+// import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import { HashRouter as Router, Route, Switch } from 'react-router-dom'; // => /#
 import Navbar from './components/Elements/Navbar';
 import Sidebar from './components/Elements/Sidebar';
 import Login from './pages/Login/Login';
@@ -34,8 +35,7 @@ class App extends Component {
 				ele.outerHTML = ''
 			},300)
 		}
-
-		callApi('GET', config.ROLE_URL  + "/" + this.state.role_id, null).then( res => {
+		callApi('GET', config.ROLES_URL  + "/permission/" + this.state.role_id, null).then( res => {
 			if(res && res.data.status){
 				this.setState({
 					role_id: this.state.role_id,
@@ -112,6 +112,7 @@ class App extends Component {
 			// 	{ 'page': 'customers/205' },
 			// ];
 			var {pages} = this.state;
+			
 			var path = null;
 			var arr = split(location.pathname,'/', 3);
 			if(arr[2]) {
@@ -119,6 +120,7 @@ class App extends Component {
 			} else{
 				path = arr[1];
 			}
+			
 			if( findIndex(pages, { 'page': path }) === -1 ) {
 				return true;
 			}

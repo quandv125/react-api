@@ -38,46 +38,65 @@ class ProductActionPage extends Component {
 	}
 
 	componentWillMount(){
-		callApi('GET', config.CATEGORY_URL, null).then(res => {
-			this.setState({
-				category_id: res.data.data[0].id,
-				categories: res.data.data
+		var {match} = this.props;
+		if(!match) {
+			callApi('GET', config.CATEGORY_URL, null).then(res => {
+				if(res && res.data.status){
+					this.setState({
+						category_id: res.data.data[0].id,
+						categories: res.data.data
+					});
+					this.getServiceByCategoryID(res.data.data[0].id);
+				}
 			});
-		});
-		callApi('GET', config.SERVICE_URL, null).then(res => {
-			this.setState({
-				service_id: res.data.data[0].id,
-				services: res.data.data
+		} else {
+			callApi('GET', config.CATEGORY_URL, null).then(res => {
+				if(res && res.data.status){
+					this.setState({
+						categories: res.data.data
+					});
+				}
 			});
-		});
+		}
 	}
-
 
 	componentDidMount(){
 		var {match} = this.props;
 		if(match) {
 			var id = match.params.id;
-			callApi('GET', config.PRODUCT_URL + "/" +id, null).then(res => {
-				var data = res.data.data;
-				console.log(data.service_id);
-				this.setState({
-					id: data.id ? data.id : '',
-					sku: data.sku ? data.sku : '',
-					title: data.title ? data.title : '',
-					price: data.price ? data.price : '',
-					price_max: data.price_max ? data.price_max : '',
-					quantity: data.quantity ? data.quantity : '',
-					unit: data.unit ? data.unit : '',
-					currency: data.currency ? data.currency : '',
-					category_id: data.category_id ? data.category_id : '',
-					service_id: data.service_id ? data.service_id : '',
-					note: data.note ? data.note : '',
-					is_publish: data.is_publish? true : false,
-					time: data.time? data.time : ''
-
+			if(id) {
+				callApi('GET', config.PRODUCT_URL + "/" +id, null).then(res => {
+					var data = res.data.data;
+					this.setState({
+						id: data.id ? data.id : '',
+						sku: data.sku ? data.sku : '',
+						title: data.title ? data.title : '',
+						price: data.price ? data.price : '',
+						price_max: data.price_max ? data.price_max : '',
+						quantity: data.quantity ? data.quantity : '',
+						unit: data.unit ? data.unit : '',
+						currency: data.currency ? data.currency : '',
+						category_id: data.category_id ? data.category_id : '',
+						service_id: data.service_id ? data.service_id : '',
+						note: data.note ? data.note : '',
+						is_publish: data.is_publish? true : false,
+						time: data.time? data.time : ''
+					});
+					console.log(data.category_id, data.service_id);
+					this.getServiceByCategoryID( data.category_id );
 				});
-			});
+			}
 		}
+	}
+
+	getServiceByCategoryID = (id) => {
+		callApi('GET', config.SERVICE_URL + "/get-service-by-category/"+ id, null).then(res => {
+			if(res && res.data.status){
+				this.setState({
+					services: res.data.data
+				});
+			}
+		});
 	}
 
 	onChangeForm = (event) => {
@@ -89,15 +108,9 @@ class ProductActionPage extends Component {
 		});
 
 		if(name === 'category_id'){
-			callApi('GET', config.SERVICE_URL + "/get-service-by-category/"+ value, null).then(res => {
-				console.log(res);
-				this.setState({
-					services: res.data.data
-				});
-			});
+			this.getServiceByCategoryID(value);
 		}
 	}
-
 
 	handleChange = name => event => {
 		var value = event.target.type === 'checkbox'? event.target.checked : event.target.value;
@@ -105,7 +118,6 @@ class ProductActionPage extends Component {
 			[name]: value
 		});
 	};
-
 
 	priceVal = (price) => {
 		return parseFloat(price.replace(/[^0-9-.]/g, ''));
@@ -144,7 +156,7 @@ class ProductActionPage extends Component {
 	}
 
 	render() {
-		
+		console.log(this.state.category_id, this.state.service_id);
 		return (
 			<CSSTransitionGroup transitionName={config.PAGETRANSITION} transitionAppear={true} transitionAppearTimeout={config.TRANSITIONSPEED} transitionEnter={false} transitionLeave={false}>
 
@@ -163,7 +175,7 @@ class ProductActionPage extends Component {
 						<ToastContainer />
 						<form noValidate onSubmit={this.handleFormSubmit}>
 							<legend>Sản phẩm</legend>
-							<div className="col-lg-6 col-sm-6 col-xs-6 col-md-6">
+							<div className="col-lg-6 col-sm-12 col-xs-12 col-md-6">
 									
 									<div className="form-group">
 										<label>Tên sản phẩm*</label>
@@ -241,9 +253,7 @@ class ProductActionPage extends Component {
 							
 									</div>
 							</div>
-							<div className="col-lg-6 col-sm-6 col-xs-6 col-md-6">
-													
-									
+							<div className="col-lg-6 col-sm-12 col-xs-12 col-md-6">
 									<div className="form-group">
 										<label>Thời gian (Dành cho sản phẩm yêu cầu thời gian hoàn thành)</label>
 										<input 
@@ -268,7 +278,6 @@ class ProductActionPage extends Component {
 											</select>
 										</div>
 									</div>
-
 									<div className="form-group">
 										<div className="category_id">
 											<label>Dịch vụ</label>
@@ -327,9 +336,9 @@ class ProductActionPage extends Component {
 									</div> */}
 
 							</div>
-							<div className="col-lg-12 col-md-12">
+						
 									<Button type="submit" variant="contained" color="primary">Lưu</Button>
-							</div>
+							
 							</form>
 					</div>
 				</div>

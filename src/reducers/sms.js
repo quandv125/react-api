@@ -1,6 +1,6 @@
 import * as Types from '../constants/ActionType';
 import {findIndex} from 'lodash';
-var initialState = { status: null, sms: null };
+var initialState = { status: null, sms: null, info: null };
 
 const sms = (state = initialState, action) => {
    
@@ -9,7 +9,8 @@ const sms = (state = initialState, action) => {
             if (action.sms.status){
                 state = {
                     status: action.sms.status, 
-                    sms: action.sms.data
+                    sms: action.sms.data,
+                    info: action.sms.info
                 }
             }
             return state;

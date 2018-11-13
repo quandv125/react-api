@@ -15,7 +15,7 @@ import { ToastContainer, toast } from 'react-toastify';
 // Note: include <ToastContainer/>
 import 'react-toastify/dist/ReactToastify.css';
 import Button from '@material-ui/core/Button';
-
+import {USER_ID} from './../../constants/config';
 class OrderPage extends Component {
 
 	constructor(props) {
@@ -29,11 +29,12 @@ class OrderPage extends Component {
 			open: false,
 			order_id: '',
 			openFilter: false,
+			user_id: USER_ID,
 			filter: false
 		}
 
 		connectIO(message => {
-			this.props.getOrders();
+			this.props.getOrders(this.state.user_id);
 			toast.success("Bạn có bệnh nhân khám mới !", { position: "top-right", autoClose: false, hideProgressBar: true,	closeOnClick: true });
 		});
 		
@@ -46,7 +47,7 @@ class OrderPage extends Component {
 	}
 	
 	componentWillMount(){
-		this.props.getOrders();
+		this.props.getOrders(this.state.user_id);
 	}
 
 	onDelete = (id) => {
@@ -88,7 +89,7 @@ class OrderPage extends Component {
 
 			callApi('PUT', config.ORDER_URL  + "/" + id, data).then( res => {
 				if(res && res.data.status){
-					this.props.getOrders();
+					this.props.getOrders(this.state.user_id);
 					this.setState({ open: false });
 					Swal('Đặt lịch khám lại thành công','','success')
 				}
@@ -103,9 +104,8 @@ class OrderPage extends Component {
 		if(!end) {
 			end = start
 		}
-		callApi('GET', config.ORDERS_URL  + "/by-date/" + start + "/" + end, null).then(response => {
+		callApi('GET', config.ORDERS_URL  + "/by-date/"+ this.state.user_id + "/" + start + "/" + end, null).then(response => {
 			if (response ){
-				console.log(response);
 				this.setState({
 					orders: response.data.data,
 					start: response.data.start,
@@ -209,8 +209,8 @@ const mapStateToProps = (state) => {
 }
 const mapDispatchToProps = (dispatch, props) => {
 	return {
-		getOrders : () => {
-			dispatch(actFetchOrdersRequest());
+		getOrders : (user_id) => {
+			dispatch(actFetchOrdersRequest(user_id));
 		},
 		onDeleteOrder : (id) => {
 			dispatch(actDeleteOrderRequest(id));

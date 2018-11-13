@@ -88,7 +88,7 @@ class CategoryActionPage extends Component {
 							<form noValidate onSubmit={this.handleFormSubmit}>
 							
 								<div className="form-group">
-									<label>title</label>
+									<label>Tên dịch vụ</label>
 									<input 
 										type="text" 
 										className="form-control" 
@@ -101,11 +101,11 @@ class CategoryActionPage extends Component {
 										isFormSubmitted={this.state.submitted} 
 										reference={{firstname : this.state.title}}
 										validationRules={{required:true, maxLength:50}} 
-										validationMessages={{ required: "This field is required", maxLength: "Not a valid Max length: 10 "}}/>
+										validationMessages={{ required: "Trường này không được để trống", maxLength: "Độ dài tối đa là: 50 "}}/>
 							
 								</div>
 								<div className="form-group">
-									<label>desc</label>
+									<label>Mô tả</label>
 									<input 
 										type="text" 
 										className="form-control" 
@@ -113,12 +113,7 @@ class CategoryActionPage extends Component {
 										onChange={this.onChangeFrom} 
 										name="desc" 
 										placeholder="desc"/>
-									<Validator 
-										isValidationError={this.isValidationError}
-										isFormSubmitted={this.state.submitted} 
-										reference={{firstname : this.state.desc}}
-										validationRules={{required:true }} 
-										validationMessages={{ required: "This field is required"}}/>
+									
 							
 								</div>
 							

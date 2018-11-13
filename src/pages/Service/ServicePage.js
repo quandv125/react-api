@@ -106,7 +106,7 @@ class ServiceList extends Component {
 						defaultFilterMethod={(filter, row) => String(row[filter.id]) === filter.value}
 						columns={[
 							{
-								Header: 'Infomation',
+								Header: 'Danh mục',
 								columns: [
 									{
 										Header: "#",
@@ -118,7 +118,7 @@ class ServiceList extends Component {
 										}
 									},
 									{
-										Header: "title",
+										Header: "Tên danh mục",
 										id: "title",
 										accessor: d => d.title,
 										filterMethod: (filter, rows) => matchSorter(rows, filter.value, { keys: ["title"] }),
@@ -148,7 +148,7 @@ class ServiceList extends Component {
 										}
 									},
 									{
-										Header: "desc",
+										Header: "Mô tả",
 										id: "desc",
 										accessor: d => d.desc,
 										filterMethod: (filter, rows) => matchSorter(rows, filter.value, { keys: ["desc"] }),
@@ -156,7 +156,7 @@ class ServiceList extends Component {
 										filterAll: true
 									},
 									{
-										Header: "Action",
+										Header: "",
 										filterable: false,
 										maxWidth: 250,
 										Cell: row => (
@@ -170,7 +170,7 @@ class ServiceList extends Component {
 					]}
 					defaultSorted={[{
 						id: "row",
-						desc: true
+						// desc: true
 					}]}
 					defaultPageSize={10}  
 					// style={{
