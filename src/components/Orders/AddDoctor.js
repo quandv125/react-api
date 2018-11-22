@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import Button from '@material-ui/core/Button';
-
+import Modal from 'react-responsive-modal';
 
 class AddDoctor extends Component {
 
@@ -8,8 +8,16 @@ class AddDoctor extends Component {
 		super(props);
 		this.state = {
             user_id: null,
-            user: ''
+            user: '',
+            openNoteDoctor: false,
+            note: ' '
         };
+    }
+
+    componentWillReceiveProps(nextProps){
+       if(nextProps && nextProps.note_user){
+        this.setState({ note: nextProps.note_user });
+       }
     }
 
     onChangeForm = (event) => {
@@ -18,12 +26,26 @@ class AddDoctor extends Component {
 		var value = target.type === 'checkbox'? target.checked:target.value;
 		this.setState({
 			[name]: value
-		});
-	}
+        });
+      
+    }
+    
+	onCloseModalNoteDoctor = () => {
+		this.setState({ openNoteDoctor: false });
+    };
+    
+    onhandleNodeDoctor(){
+        this.setState({ openNoteDoctor: true });
+    }
 
-    handleAddDoctor (id) {
+    handleAddDoctor () {
         var {user_id} = this.state;
         this.props.handleAddDoctor(user_id);
+    }
+    
+    handleSetNoteDoctor () {
+        var {note} = this.state;
+        this.props.handleSetNoteDoctor(note);
     }
     
     showDoctor = (username) => {
@@ -37,7 +59,8 @@ class AddDoctor extends Component {
 	}
 
     render() {
-        var {doctor, order_id, username} = this.props;
+        var {doctor, username} = this.props;
+        
         return (
             <div>
                 <div className="col-lg-6 col-md-6">
@@ -61,7 +84,7 @@ class AddDoctor extends Component {
                                            
                                         </div>
                                         <p>
-                                            <Button className="btn btn-primary btn-cons" variant="contained" color="secondary" onClick={ () => this.handleAddDoctor(order_id)}>
+                                            <Button className="btn btn-primary btn-cons" variant="contained" color="secondary" onClick={ () => this.handleAddDoctor()}>
                                                 Thêm bác sỹ &nbsp; <i className="material-icons">person_add</i>
                                             </Button>
                                         </p>
@@ -84,9 +107,13 @@ class AddDoctor extends Component {
 												<div className="scroll-element_outer">
 
                                                     {doctor !== '' && doctor !== null &&
-                                                        <h4>Bác sỹ: <strong>{doctor.firstname} {doctor.lastname} ({doctor.username})</strong></h4>
+                                                        <h4>Bác sỹ: <strong style={{marginRight: 30}}>{doctor.firstname ? doctor.firstname : ''} {doctor.lastname ? doctor.lastname : ''}</strong>
+                                                             <Button type="submit" className="btn btn-primary btn-cons-small" variant="fab" color="secondary" size="small"  onClick={ () => this.onhandleNodeDoctor()}>
+                                                                <i className="material-icons">create</i>
+                                                            </Button>
+                                                        </h4>
                                                     }
-
+                                                   
 												</div>
 											</div>
 
@@ -96,6 +123,24 @@ class AddDoctor extends Component {
 							</div>
 						</div>
 					</div>
+
+                    <Modal open={this.state.openNoteDoctor} onClose={this.onCloseModalNoteDoctor} center>
+						<div style={{width:400}}>
+							
+							<div className="form-group">
+								<label>Ghi chú: <strong></strong></label>
+								<input 
+									className="form-control"
+									name="note"
+									onChange={this.onChangeForm}
+									value={this.state.note}
+								/>
+							</div>
+							<Button onClick={ () => this.handleSetNoteDoctor() } type="submit" className="btn btn-primary btn-cons" variant="contained" color="secondary" >
+								Lưu
+							</Button>	
+						</div>
+					</Modal>			
             </div>
 
         );

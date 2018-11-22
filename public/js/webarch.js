@@ -200,6 +200,10 @@
             e.preventDefault();
             $this.toggleRightSideBar();
         });
+        var sidebar = $('.page-sidebar');
+        sidebar.find('li > a').on('click', function (e) {
+            $this.toggleLeftSideBar();
+        });
     }
     // Left Side Bar / Chat view
     Webarch.prototype.toggleLeftSideBar = function(){
@@ -208,7 +212,7 @@
             $('body').removeClass('open-menu-left');
             timer= setTimeout(function(){
                 $('.page-sidebar').removeClass('visible');
-            }, 300);
+            }, 1000);
             
         }
         else{

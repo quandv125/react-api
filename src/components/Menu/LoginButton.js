@@ -24,9 +24,9 @@ class LoginButton extends Component {
         var result = null;
         var { isLogin } = this.state;
         if (isLogin) {// isLogin = true => token has data => logout is display and login is hidden 
-            result = <li className="class-default"> <span onClick={() => this.onLogout()} >Logout</span>	</li>;
+            result = <li className="class-default"> <span onClick={() => this.onLogout()} >Đăng xuất</span>	</li>;
         } else { // isLogin = false => token is null => logout is hidden and login is display 
-            result = <li> <Link to="/login" className="my-link"> Login	</Link>	</li>;
+            result = <li> <Link to="/login" className="my-link"> Đăng nhập	</Link>	</li>;
         }
         return result;
     }

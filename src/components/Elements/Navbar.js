@@ -22,7 +22,7 @@ class Navbar extends Component {
                                 </li>
                             </ul>
                             <Link to="/">
-                                <img src={logo} className="logo" alt="" data-src="images/logo.png" data-src-retina="assets/img/logo2x.png" width="106" height="21" />
+                                <img src={logo} className="logo" alt="" data-src="images/logo.png" data-src-retina="assets/img/logo2x.png" width="106" height="50" />
                             </Link>
                             <ul className="nav pull-right notifcation-center">
                                 <li className="dropdown hidden-xs hidden-sm">
@@ -84,12 +84,12 @@ class Navbar extends Component {
                                         <ul className="dropdown-menu  pull-right" role="menu" aria-labelledby="user-options">
                                             <li>
                                                 <Link to="/my-account">
-                                                     My account
+                                                     Tài khoản
                                                 </Link>
                                             </li>
                                             <li>
                                                 <Link to="/change-password">
-                                                     Change Password
+                                                     Đổi mật khẩu
                                                 </Link>
                                             </li>
                                             {/* <li>

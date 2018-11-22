@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 import * as config from './../../constants/config';
 import callApi from './../../utils/apiCaller';
 import Button from '@material-ui/core/Button';
+import ModalCalling from './../../components/Customers/ModalCalling';
 
 class CategoryActionPage extends Component {
 
@@ -82,20 +83,21 @@ class CategoryActionPage extends Component {
 							<i className="material-icons">arrow_back</i>
 							</Button>	
 						</Link>
+						<ModalCalling />
 						<div className="clearfix"></div>
 						<div className="col-lg-3 col-sm-3 col-xs-3 col-md-3"></div>
 						<div className="col-lg-6 col-sm-6 col-xs-6 col-md-6">
 							<form noValidate onSubmit={this.handleFormSubmit}>
 							
 								<div className="form-group">
-									<label>Tên dịch vụ</label>
+									<label>Tên loại dịch vụ*</label>
 									<input 
 										type="text" 
 										className="form-control" 
 										value={this.state.title} 
 										onChange={this.onChangeFrom} 
 										name="title" 
-										placeholder="title"/>
+										placeholder="Tên loại dịch vụ"/>
 									<Validator 
 										isValidationError={this.isValidationError}
 										isFormSubmitted={this.state.submitted} 
@@ -112,12 +114,12 @@ class CategoryActionPage extends Component {
 										value={this.state.desc} 
 										onChange={this.onChangeFrom} 
 										name="desc" 
-										placeholder="desc"/>
+										placeholder="Mô tả"/>
 									
 							
 								</div>
 							
-								<Button type="submit" variant="contained" color="primary">Save</Button>
+								<Button type="submit" variant="contained" color="primary">Lưu</Button>
 
 							</form>
 						</div>

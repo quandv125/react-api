@@ -86,11 +86,11 @@ class Permission extends Component {
 			};
 			callApi('POST', config.PERMISSIONS_URL + "/role_permissions", data).then( res => {
                 if(res && res.data.status){
-					Swal(' Good job!', '', 'success')
+					Swal(' Cập nhật thành công!', '', 'success')
                 }
             });
         } else {
-            Swal('Oops...', 'Something went wrong! ', 'error')
+            Swal('Lỗi...', ' ', 'error')
         }
 	}
 	
@@ -147,7 +147,7 @@ class Permission extends Component {
 											</Select>
 											
 											<div className="clearfix"></div><br/>
-											<Button type="submit" variant="contained" color="primary">Save</Button>
+											<Button type="submit" variant="contained" color="primary">Lưu</Button>
 										</div>
 									</form>
 								</div>

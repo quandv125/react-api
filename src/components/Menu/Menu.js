@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Route, Link } from 'react-router-dom';
+import { ASSISTANT, RECRPTIONIST} from './../../constants/config';
 
 const menu = [
 	{
@@ -9,7 +10,7 @@ const menu = [
 		icon: 'home'
 	},
 	{
-		name: 'Sản phẩm',
+		name: 'Dịch vụ',
 		to: '/products',
 		exact: false,
 		icon: 'layers'
@@ -20,19 +21,12 @@ const menu = [
 		exact: false,
 		icon: 'card_giftcard'
 	},
-	// {
-	// 	name: 'Categories',
-	// 	to: '/category',
-	// 	exact: false,
-	// 	icon: 'apps'
-	// },
 	{
 		name: 'Khách hàng',
 		to: '/customers',
 		exact: false,
 		icon: 'supervisor_account'
 	},
-	
 	{
 		name: 'Lịch sử cuộc gọi',
 		to: '/calling',
@@ -53,6 +47,66 @@ const menu = [
 	},
 ];
 
+const menuReceptionist = [
+	{
+		name: 'Trang chủ',
+		to: '/',
+		exact: true,
+		icon: 'home'
+	},
+	{
+		name: 'Dịch vụ',
+		to: '/products',
+		exact: false,
+		icon: 'layers'
+	},
+	{
+		name: 'Khách hàng',
+		to: '/customers',
+		exact: false,
+		icon: 'supervisor_account'
+	},
+	{
+		name: 'Lịch sử cuộc gọi',
+		to: '/calling',
+		exact: false,
+		icon: 'phone_in_talk'
+	},
+	{
+		name: 'Tin nhắn/ SMS',
+		to: '/sms',
+		exact: false,
+		icon: 'question_answer'
+	},
+];
+
+const menuAssistant = [
+	{
+		name: 'Trang chủ',
+		to: '/',
+		exact: true,
+		icon: 'home'
+	},
+	{
+		name: 'Dịch vụ',
+		to: '/products',
+		exact: false,
+		icon: 'layers'
+	},
+	{
+		name: 'Lịch sử dụng dịch vụ',
+		to: '/orders',
+		exact: false,
+		icon: 'card_giftcard'
+	},
+	{
+		name: 'Khách hàng',
+		to: '/customers',
+		exact: false,
+		icon: 'supervisor_account'
+	},
+	
+];
 const MenuLink = ({ label, to, activeOnlyWhenExact, icon}) => {
 
 	return (
@@ -78,23 +132,49 @@ class Menu extends Component {
 
 	constructor(props) {
 		super(props);
+		this.state = ({
+			
+			role_id: sessionStorage.getItem('authentication') ? JSON.parse(sessionStorage.getItem('authentication')).role_id : ''
+		
+		});
 		this.showMenu = this.showMenu.bind(this);
 	}
-	showMenu(menus) {
+
+	showMenu() {
 		var result = null;
-		if (menus.length > 0) {
-			result = menus.map((menu, index) => {
-				return (<MenuLink label={menu.name} to={menu.to} activeOnlyWhenExact={menu.exact} key={index} icon={menu.icon}/>)
-			});
+		var menus = menu;
+		if(this.state.role_id){
+			if( this.state.role_id === RECRPTIONIST){
+				menus = menuReceptionist;
+			} else if(this.state.role_id === ASSISTANT){
+				menus = menuAssistant;
+			} else{
+				menus = menu;
+			}
+				
+			if (menus.length > 0) {
+				result = menus.map((m, index) => {
+					return (<MenuLink label={m.name} to={m.to} activeOnlyWhenExact={m.exact} key={index} icon={m.icon}/>)
+				});
+			}
 		}
 		return result;
 	}
+
+	onLogout() {
+        this.props.onActLogout();
+    }
 
 	render() {
 		return (
 				<ul>
 					
 					{this.showMenu(menu)}
+					<li className="class-default logout-action" onClick={() => this.onLogout()}>
+						<span className="my-link-logout">
+							<i className="material-icons">input</i><span className="title">Đăng xuất</span>
+						</span>
+					</li>
 					 
 				</ul>
 		);

@@ -38,25 +38,26 @@ class ChangePass extends Component {
 		this.setState({ submitted:true });
 		var {old_password, new_password, confirm_password} = this.state;
 		var data = { 
+			id: config.USER_ID,
 			old_password: old_password,
 			new_password: new_password,
 			confirm_password: confirm_password
 		};
 		let { isFormValidationErrors } = this.state;
         if ( !isFormValidationErrors ){
-           
-			callApi('POST', config.API_URL + "/change-password", data).then( res => {
-                console.log(res);
+         
+			callApi('POST', config.API_URL + "change-password", data).then( res => {
+             
                 if(res){
                     if( res.data.status ){
-                        Swal(' Good job!', res.data.message, 'success')
+                        Swal(' Đổi mật khẩu thành công!', res.data.message, 'success')
                     } else {
-                        Swal('Oops...', res.data.message, 'error')
+                        Swal('', res.data.message, 'error')
                     }
                 }
             });
         } else {
-            Swal('Oops...', 'Something went wrong!', 'error')
+            Swal('Vui lòng nhập tất cả các ô...', '', 'error')
 
         }
     }
@@ -87,7 +88,7 @@ class ChangePass extends Component {
 												isFormSubmitted={this.state.submitted} 
 												reference={{old_password : this.state.old_password}}
 												validationRules={{required:true, maxLength:20}} 
-												validationMessages={{ required: "This field is required", maxLength: "Not a valid Max length: 20 "}}/>
+												validationMessages={{ required: "Trường này không được để trống", maxLength: "Độ dài tối đa là: 20 kí tự "}}/>
 									</div>
 									
                                     <div className="form-group">
@@ -104,7 +105,7 @@ class ChangePass extends Component {
 												isFormSubmitted={this.state.submitted} 
 												reference={{new_password : this.state.new_password}}
 												validationRules={{required:true, maxLength:20}} 
-												validationMessages={{ required: "This field is required", maxLength: "Not a valid Max length: 20 "}}/>
+												validationMessages={{ required: "Trường này không được để trống", maxLength: "Độ dài tối đa là: 20 kí tự "}}/>
 									</div>
 
                                     <div className="form-group">
@@ -121,7 +122,7 @@ class ChangePass extends Component {
 												isFormSubmitted={this.state.submitted} 
 												reference={{confirm_password : this.state.confirm_password}}
 												validationRules={{required:true, maxLength:20, equalTo:this.state.new_password}} 
-												validationMessages={{ required: "This field is required", maxLength: "Not a valid Max length: 20 ", equalTo: "equal To password"}}/>
+												validationMessages={{ required: "Trường này không được để trống", maxLength: "Độ dài tối đa là: 20 kí tự ", equalTo: "Không khớp với mật khẩu"}}/>
 									</div>
 									
 

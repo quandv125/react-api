@@ -11,12 +11,10 @@ class CustomerData extends Component {
                         <table className="table table-hover">
                             <thead>
                                 <tr>
-                                    <th>#</th>
-                                    <th>Trạng thái</th>
-                                    <th>Ngày khám lại</th>
                                     <th>Mã giao dịch</th>
+                                    <th>Ngày khám lại</th>
                                     <th>Danh mục</th>
-                                    <th>Bác sy</th>
+                                    <th>Bác sỹ</th>
                                     <th>Chú thích</th>
                                 </tr>
                             </thead>

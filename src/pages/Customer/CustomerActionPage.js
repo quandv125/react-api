@@ -80,7 +80,6 @@ class CustomerActionPage extends Component {
 	getCustomerData = (id) => {
 		callApi('GET', config.ORDER_URL +'/customer/'+ id, null).then(res => {
 			if(res && res.data.status){
-				console.log(res.data);
 				this.setState({
 					customer_data: res.data.orders
 				});	
@@ -138,20 +137,19 @@ class CustomerActionPage extends Component {
 		var {history} = this.props;
 		var {id, username, firstname, lastname, email, phone, address, gender, birthday} = this.state;
 		var data = { username: username, firstname: firstname, lastname: lastname, email: email, phone: phone, address: address, gender: gender, birthday: birthday };
-		// console.log(data); return;
 		let { isFormValidationErrors } = this.state;
-		if ( !isFormValidationErrors ){
+		if ( !isFormValidationErrors && phone !== '' ){
 			if(id) { //update
 				callApi('PUT', config.CUSTOMER_URL + "/" + id, data).then(res => {
-					Swal( 'Good job!', 'You clicked the button!', 'success')
+					Swal( 'Cập nhật thành công!', '', 'success')
 					// history.goBack();
 				});
 			} else if(phone === '' && phone === '+84 ' && phone.length !== 15){
-				Swal( 'Oops...', 'Your phone not incorrect format!', 'error')
+				Swal( 'Lỗi...', 'Số điẹn thoại không đúng định dạng!', 'error')
 			} else { //create
 				callApi('POST', config.CUSTOMER_URL, data).then(res => {
 					if(res.data.id) {
-						Swal( 'Good job!', 'You clicked the button!', 'success')
+						Swal( 'Thêm khách hàng thành công!', '', 'success')
 						history.push("/customers/edit/"+res.data.id);
 					} else {
 						history.goBack();
@@ -159,36 +157,35 @@ class CustomerActionPage extends Component {
 				});
 			}
 		} else {
-			Swal( 'Oops...', 'Something went wrong!', 'error')
-		}
-
-		
+			Swal( 'Lỗi! Vui lòng kiểm tra lại...', '', 'error')
+		}		
 	}
 
 	handleAddService = (event) => {
 		event.preventDefault();
 		var {service, id, note}  = this.state;
 		var data = {customer_id: id, product_category_id : service, note: note}
+		
 		if (id && typeof id === "number"){
 
 			Swal({
-				title: 'Bạn có chắn chắn?',
-				text: "Bạn có chắn chắn muốn thêm dịch vụ này cho khách hang",
+				title: '',
+				text: "Bạn có chắn chắn muốn thêm dịch vụ này",
 				type: 'warning',
 				showCancelButton: true,
 				confirmButtonColor: '#3085d6',
 				cancelButtonColor: '#d33',
 				cancelButtonText: 'Hủy',
-				confirmButtonText: 'Đồng ý'
+				confirmButtonText: 'Đồng ý' 
 			  }).then((result) => {
 				if (result.value) {
 					callApi('POST', config.ORDER_URL, data).then(res => {
-						Swal('Good job!','You clicked the button!','success')
+						Swal('Thêm dịch vụ thành công','','success')
 						this.onCloseModal();
 						this.getCustomerData(id);
 						const socket = socketIOClient(config.URL_SOCKET);
-						socket.emit('change', 'quan test1') // change 'red' to this.state.color
-					});
+						socket.emit('change', service) 
+					 });
 				}
 			})
 			  			
@@ -267,7 +264,7 @@ class CustomerActionPage extends Component {
 						<div className="col-md-6 col-lg-6">
 							
 							<div className="form-group">
-								<label>Họ</label>
+								<label>Họ*( Không được để trống )</label>
 								<input 
 									type="text" 
 									className="form-control" 
@@ -280,7 +277,7 @@ class CustomerActionPage extends Component {
 									isFormSubmitted={this.state.submitted} 
 									reference={{firstname : this.state.firstname}}
 									validationRules={{required:true, maxLength:50}} 
-									validationMessages={{ required: "This field is required", maxLength: "Not a valid Max length: 10 "}}/>
+									validationMessages={{ required: "Trường này không được để trống", maxLength: "Độ dài tối đa là : 10 "}}/>
 							</div>
 							<div className="form-group">
 								<label>Email</label>
@@ -290,14 +287,14 @@ class CustomerActionPage extends Component {
 									value={this.state.email} 
 									onChange={this.onChangeForm} 
 									name="email" 
-									placeholder="email"/>
-								<Validator 
+									placeholder="Email"/>
+								{/* <Validator 
 									isValidationError={this.isValidationError}
 									isFormSubmitted={this.state.submitted} 
 									reference={{email : this.state.email}}
 									validationRules={{required:true, email:true}} 
-									validationMessages={{ required: "This field is required", email: "Not a valid email"}}/>
-								
+									validationMessages={{ required: "Trường này không được để trống", email: "Email không đúng định dạnh"}}/>
+								 */}
 							</div>
 							<div className="form-group">
 									<label>Ngày sinh</label>
@@ -340,7 +337,7 @@ class CustomerActionPage extends Component {
 						</div>
 						<div className="col-md-6 col-lg-6">
 							<div className="form-group">
-								<label>Tên</label>
+								<label>Tên*( Không được để trống )</label>
 								<input 
 									type="text" 
 									className="form-control" 
@@ -353,11 +350,11 @@ class CustomerActionPage extends Component {
 									isFormSubmitted={this.state.submitted} 
 									reference={{lastname : this.state.lastname}}
 									validationRules={{required:true, maxLength:50}} 
-									validationMessages={{ required: "This field is required", maxLength: "Not a valid Max length: 10 "}}/>
+									validationMessages={{ required: "Trường này không được để trống", maxLength: "Độ dài tối đa là : 10 "}}/>
 								
 							</div>
 							<div className="form-group">
-								<label>Số điện thoại (VD:  0987654321)</label>
+								<label>Số điện thoại (VD:  0987654321)*( Không được để trống )</label>
 								{/* <Cleave className="input-numeral form-control" 
 											placeholder="PHONE" 
 											name="phone"
@@ -388,7 +385,7 @@ class CustomerActionPage extends Component {
 									isFormSubmitted={this.state.submitted} 
 									reference={{phone : this.state.phone}}
 									validationRules={{required:true, minLength: 10, maxLength:10 }} 
-									validationMessages={{ required: "This field is required", number: "Not a valid number", maxLength: "Not a valid Max length: 10 character", minLength: "Not a vaild min length is 9 character"}}/>
+									validationMessages={{ required: "Trường này không được để trống", number: "Số diện thoại là chữ số", maxLength: "Độ dài tối đa là : 10 kí tự", minLength: "Độ dài tối thiểu là 10 kí tự"}}/>
 								
 							</div>
 							
@@ -401,12 +398,12 @@ class CustomerActionPage extends Component {
 									onChange={this.onChangeForm} 
 									name="address" 
 									placeholder="Địa chỉ"/>
-								<Validator 
+								{/* <Validator 
 									isValidationError={this.isValidationError}
 									isFormSubmitted={this.state.submitted} 
 									reference={{address : this.state.address}}
 									validationRules={{required:true, maxLength:50}} 
-									validationMessages={{ required: "This field is required", maxLength: "Not a valid Max length: 10 "}}/>
+									validationMessages={{ required: "Trường này không được để trống", maxLength: "Độ dài tối đa là : 10 "}}/> */}
 							</div>
 							
 						

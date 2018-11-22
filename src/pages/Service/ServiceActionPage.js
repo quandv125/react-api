@@ -113,25 +113,25 @@ class ServiceActionPage extends Component {
 							<form noValidate onSubmit={this.handleFormSubmit}>
 							
 								<div className="form-group">
-									<label>Tên danh mục</label>
+									<label>Tên danh mục dịch vụ*</label>
 									<input 
 										type="text" 
 										className="form-control" 
 										value={this.state.title} 
 										onChange={this.onChangeForm} 
 										name="title" 
-										placeholder="Tên danh mục"/>
+										placeholder="Tên danh mục dịch vụ"/>
 									<Validator 
 										isValidationError={this.isValidationError}
 										isFormSubmitted={this.state.submitted} 
 										reference={{firstname : this.state.title}}
 										validationRules={{required:true, maxLength:50}} 
-										validationMessages={{ required: "This field is required", maxLength: "Not a valid Max length: 10 "}}/>
+										validationMessages={{ required: "Trường này không được để trống", maxLength: "Độ dài tối đa là 50 kí tự"}}/>
 							
 								</div>
 								<div className="form-group">
 										<div className="product_category_id">
-											<label>Dịch vụ</label>
+											<label>Loại dịch vụ</label>
 											<select 
 												className="form-control" 
 												name="product_category_id" 
@@ -154,7 +154,7 @@ class ServiceActionPage extends Component {
 									
 								</div>
 							
-								<Button type="submit" variant="contained" color="primary">Save</Button>
+								<Button type="submit" variant="contained" color="primary">Lưu</Button>
 
 							</form>
 						</div>

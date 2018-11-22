@@ -37,6 +37,11 @@ class ModalOrder extends Component {
         this.props.action(id, data)
     }
 
+    onhandleFinish (id) {
+       
+        this.props.onhandleFinish(id)
+    }
+
     render() {
         var { order_id }  = this.props;
         return (
@@ -77,7 +82,14 @@ class ModalOrder extends Component {
                         color="secondary" 
                         onClick={ () => { this.onClick(order_id) } }
                         >Cài đặt thời gian</Button>
+                      <Button 
+                        className="btn btn-primary float-right" 
+                        variant="contained" 
+                        color="primary" 
+                        onClick={ () => { this.onhandleFinish(order_id) } }
+                        >Không khám lại</Button>
                 </p>
+              
             </div>
         );
     }

@@ -7,7 +7,11 @@ import Validator from 'react-forms-validator';
 import { connect } from 'react-redux';
 import {actAddUserRequest, actEditUserRequest, actGetUserRequest} from './../../actions/index';
 import ErrorMessage from './../../components/Users/ErrorMessage';
-import Cleave from 'cleave.js/react';
+// import Cleave from 'cleave.js/react';
+import DatePicker from 'react-datepicker';
+// import moment from 'moment';
+import Radio from '@material-ui/core/Radio';
+import Button from '@material-ui/core/Button';
 
 class UserAddPage extends Component {
     constructor(props){
@@ -34,16 +38,19 @@ class UserAddPage extends Component {
 			firstname: '',
 			lastname: '',
 			email: '',
+			password: '',
 			address: '',
 			phone: '',
-			role_id: '14',
+			role_id: '34',
 			birthday: '2018-07-22',
-			product_category_id: null,
+			startDate: null,
+			product_category_id: 0,
 			gender: config.GENDER_FEMALE,
 			is_active: config.DEACTIVED,
 			isFormValidationErrors : true,
 			submitted: false,
 			isValidation: '',
+			selectedValue: 'male',
 			product_categories: []
 		};
 		this.onSave = this.onSave.bind(this);
@@ -77,12 +84,13 @@ class UserAddPage extends Component {
 				username: userEdit.username,
 				firstname: userEdit.firstname,
 				lastname: userEdit.lastname,
-				email: userEdit.email,
-				address: userEdit.address,
-				phone: userEdit.phone,
+				email: userEdit.email ? userEdit.email : '',
+				address: userEdit.address ? userEdit.address : '',
+				phone: userEdit.phone ? userEdit.phone : '',
 				role_id: userEdit.role_id,
 				product_category_id: userEdit.product_category_id,
 				gender: userEdit.gender,
+				selectedValue: userEdit.gender ? this.returnGender(userEdit.gender) : 'male',
 				is_active: userEdit.is_active
 			});
 		}
@@ -107,6 +115,26 @@ class UserAddPage extends Component {
 	isValidationError(flag){
 		this.setState({isFormValidationErrors:flag});
    	}
+ 	returnGender = (gender) => {
+		return gender === config.GENDER_MALE ? 'male' : 'female';
+	}
+
+	handleChangeDate = (date) => {
+		const valueOfInput = date ? date.format('YYYY-MM-DD H:mm:ss') : null;
+		this.setState({
+			birthday: valueOfInput,
+		  	startDate: date
+		});
+	}
+
+	handleChange = name => event => {
+		// Input, checkbox, Radio, Select
+		var value = event.target.type === 'checkbox'? event.target.checked : event.target.value;
+		this.setState({
+			gender: value === 'male' ? config.GENDER_MALE : config.GENDER_FEMALE,
+			[name]: value
+		});
+	};
 
 	onChangeForm (event) {
 		var target = event.target;
@@ -141,20 +169,22 @@ class UserAddPage extends Component {
 		this.setState({
 			submitted:true
 		});
-		var {id, username, firstname, lastname, email, role_id, product_category_id, phone, address, is_active, gender, avatar} = this.state;
+		var {id, username, firstname, lastname, password, email, role_id, product_category_id, phone, address, is_active, gender, avatar} = this.state;
 		var data = { 
 			username: username,
 			firstname: firstname,
 			lastname: lastname,
+			password: password,
 			email: email,
 			role_id: role_id,
-			product_category_id: product_category_id,
+			product_category_id: product_category_id === "0" ? null : product_category_id,
 			phone: phone,
 			address: address,
 			gender: gender,
 			is_active: is_active ? config.ACTIVED : config.DEACTIVED,
 			avatar: avatar 
 		};
+
 		let { isFormValidationErrors } = this.state;
         if ( !isFormValidationErrors ){
 			if(id) { //update
@@ -165,171 +195,229 @@ class UserAddPage extends Component {
         }
 	}
 
+	showPassInput = () => {
+		var result = null;
+		if( !this.props.match ){
+			result = (
+				<div className="form-group">
+					<label>Mật khẩu *</label>
+					<input 
+						type="password" 
+						className="form-control" 
+						value={this.state.password} 
+						onChange={this.onChangeForm} 
+						name="password" 
+						placeholder="Mật khẩu"/>
+					<Validator 
+						isValidationError={this.isValidationError}
+						isFormSubmitted={this.state.submitted} 
+						reference={{password : this.state.password}}
+						validationRules={{ required:true, maxLength:50}} 
+						validationMessages={{ required: "Trường này không được để trống",maxLength: "Độ dài tối đa: 50 "}}/>
+				</div>
+			);
+		}
+		return result;
+	}
+
 	render() {
 		return (
 			<CSSTransitionGroup transitionName={config.PAGETRANSITION} transitionAppear={true} transitionAppearTimeout={config.TRANSITIONSPEED} transitionEnter={false} transitionLeave={false}>
+
 				<div className="grid simple ">
 					<div className="grid-body no-border">
-					<div className="col-lg-6 col-sm-6 col-xs-6 col-md-6">
+					<Link to="/users" className="float-left">
+						<Button type="submit" className="btn btn-primary btn-cons" variant="contained" color="primary">
+						<i className="material-icons">arrow_back</i>
+						</Button>	
+					</Link>
+
+				
+					<Link to={"/change-pass-users/"+ this.state.id} className="float-right">
+						<Button type="submit" className="btn btn-primary btn-cons " variant="contained" color="primary">
+							Đổi mật khẩu {this.state.firstname} {this.state.lastname} 
+						</Button>	
+					</Link>
+					<div className="clearfix"></div>
+					<div className="col-lg-12 col-sm-12 col-xs-12 col-md-12 col-sm-offset-2s">
 						{ this.state.isValidation === 'false' ? <ErrorMessage messages={this.props.users}/>: null}
 						<form noValidate  >
-							<legend></legend>
-							{/* <div className="form-group">
-								<label>UserName</label>
-								<input 
-									type="text" 
-									className="form-control" 
-									value={this.state.username} 
-									onChange={this.onChangeForm} 
-									name="username" 
-									placeholder="username"/>
-								<Validator 
-									isValidationError={this.isValidationError}
-									isFormSubmitted={this.state.submitted} 
-									reference={{username : this.state.username}}
-									validationRules={{required:true, minLength: 5,maxLength:10}} 
-									validationMessages={{ required: "Trường này không được để trống", minLength: "Not a valid Min length: 5 ",maxLength: "Độ dài tối đa: 50 "}}/>
-							</div> */}
-							<div className="form-group">
-								<label>Họ</label>
-								<input 
-									type="text" 
-									className="form-control" 
-									value={this.state.firstname} 
-									onChange={this.onChangeForm} 
-									name="firstname" 
-									placeholder="Họ"/>
-								<Validator 
-									isValidationError={this.isValidationError}
-									isFormSubmitted={this.state.submitted} 
-									reference={{firstname : this.state.firstname}}
-									validationRules={{required:true, maxLength:50}} 
-									validationMessages={{ required: "Trường này không được để trống", maxLength: "Độ dài tối đa: 50 "}}/>
-							</div>
-							<div className="form-group">
-								<label>Tên</label>
-								<input 
-									type="text" 
-									className="form-control" 
-									value={this.state.lastname} 
-									onChange={this.onChangeForm} 
-									name="lastname" 
-									placeholder="lastname"/>
-								<Validator 
-									isValidationError={this.isValidationError}
-									isFormSubmitted={this.state.submitted} 
-									reference={{lastname : this.state.lastname}}
-									validationRules={{required:true, maxLength:50}} 
-									validationMessages={{ required: "Trường này không được để trống", maxLength: "Độ dài tối đa: 50 "}}/>
-								
-							</div>
-							<div className="form-group">
-								<label>Email</label>
-								<input 
-									type="text" 
-									className="form-control" 
-									value={this.state.email} 
-									onChange={this.onChangeForm} 
-									name="email" 
-									placeholder="email"/>
-								<Validator 
-									isValidationError={this.isValidationError}
-									isFormSubmitted={this.state.submitted} 
-									reference={{email : this.state.email}}
-									validationRules={{required:true, email:true}} 
-									validationMessages={{ required: "Trường này không được để trống", email: "Email không đúng định dạng"}}/>
-								
-							</div>
-							<div className="form-group">
-								<label>Số điện thoại (VD: 987654321)</label>
-								<input 
-									type="text" 
-									className="form-control" 
-									value={this.state.phone} 
-									onChange={this.onChangeForm} 
-									name="phone" 
-									placeholder="phone"/>
-								<Validator 
-									isValidationError={this.isValidationError}
-									isFormSubmitted={this.state.submitted} 
-									reference={{phone : this.state.phone}}
-									validationRules={{required:true, number:true, minLength: 9,maxLength:11}} 
-									validationMessages={{ required: "Trường này không được để trống", number: "Số điện thoại là số", maxLength: "Độ dài tối đa: 11 kí tự", minLength: "Độ dài tối thiểu là 9 kí tự"}}/>
-								
-							</div>
-							<div className="form-group">
-								<label>Địa chỉ</label>
-								<input 
-									type="text" 
-									className="form-control" 
-									value={this.state.address} 
-									onChange={this.onChangeForm} 
-									name="address" 
-									placeholder="address"/>
-								<Validator 
-									isValidationError={this.isValidationError}
-									isFormSubmitted={this.state.submitted} 
-									reference={{address : this.state.address}}
-									validationRules={{required:true, maxLength:50}} 
-									validationMessages={{ required: "Trường này không được để trống", maxLength: "Độ dài tối đa: 10 "}}/>
-							</div>
-							<div className="form-group">
-								<label>Ngày sinh</label>
-								<Cleave 
-									className="form-control" 
-									placeholder="birthday" 
-									name="birthday" 
-									value={this.state.birthday} 
-									options={{date: true, datePattern: ['Y', 'm', 'd']}}
-									onChange={this.onDateChange}/>
-								<Validator 
-									isValidationError={this.isValidationError}
-									isFormSubmitted={this.state.submitted} 
-									reference={{birthday : this.state.birthday}}
-									validationRules={{required:true, maxLength:50}} 
-									validationMessages={{ required: "Trường này không được để trống", maxLength: "Độ dài tối đa: 10 "}}/>
-							</div>
-							<div className="form-group">
-								<div className="role_id">
-									<label>Vai trò/ Chức vụ</label>
-									<select
-										className="form-control"
-										name="role_id"
-										value={this.state.role_id}
-										onChange={this.onChangeForm}
-									>
-										<option value='14'>Administrator</option>
-										<option value='15'>Quản lý</option>
-										<option value='16'>Bác sỹ</option>
-										<option value='33'>Trợ lý</option>
-										<option value='34'>Lễ tân</option>
-										
-									</select>
+							<legend>Thêm mới nhân viên</legend>
+							<div className="col-md-6 col-lg-6">
+								<div className="form-group">
+									<label>Họ*</label>
+									<input 
+										type="text" 
+										className="form-control" 
+										value={this.state.firstname} 
+										onChange={this.onChangeForm} 
+										name="firstname" 
+										placeholder="Họ"/>
 									<Validator 
 										isValidationError={this.isValidationError}
 										isFormSubmitted={this.state.submitted} 
-										reference={{role_id : this.state.role_id}}
-										validationRules={{required:true}} 
-										validationMessages={{ required: "Trường này không được để trống"}}/>
+										reference={{firstname : this.state.firstname}}
+										validationRules={{required:true, maxLength:50}} 
+										validationMessages={{ required: "Trường này không được để trống", maxLength: "Độ dài tối đa: 50 "}}/>
+								</div>
+								<div className="form-group">
+									<label>Email</label>
+									<input 
+										type="text" 
+										className="form-control" 
+										value={this.state.email} 
+										onChange={this.onChangeForm} 
+										name="email" 
+										placeholder="Email"/>
+									<Validator 
+										isValidationError={this.isValidationError}
+										isFormSubmitted={this.state.submitted} 
+										reference={{email : this.state.email}}
+										validationRules={{ email:true}} 
+										validationMessages={{ email: "Email không đúng định dạng"}}/>
 									
 								</div>
-							</div>
-							<div className="form-group">
-								<div className="product_category_id">
-									<label>Dịch vụ</label>
-									<select 
+								<div className="form-group">
+									<label>Địa chỉ</label>
+									<input 
+										type="text" 
 										className="form-control" 
-										name="product_category_id" 
-										value={this.state.product_category_id} 
-										onChange={this.onChangeForm}
-									>
-										<option value={null}>-- Choose One --</option>
-										{this.showCategory()}
-									</select>
+										value={this.state.address} 
+										onChange={this.onChangeForm} 
+										name="address" 
+										placeholder="Địa chỉ"/>
+									<Validator 
+										isValidationError={this.isValidationError}
+										isFormSubmitted={this.state.submitted} 
+										reference={{address : this.state.address}}
+										validationRules={{ maxLength:100 }} 
+										validationMessages={{ required: "Trường này không được để trống", maxLength: "Độ dài tối đa: 100 "}}/>
+								</div>
+								<div className="form-group">
+									<div className="role_id">
+										<label>Vai trò/ Chức vụ</label>
+										<select
+											className="form-control"
+											name="role_id"
+											value={this.state.role_id}
+											onChange={this.onChangeForm}
+										>
+											<option value='34'>Lễ tân</option>
+											<option value='33'>Trợ lý</option>
+											<option value='16'>Bác sỹ</option>
+											<option value='15'>Quản lý</option>
+											<option value='14'>Administrator</option>
+										</select>
+										<Validator 
+											isValidationError={this.isValidationError}
+											isFormSubmitted={this.state.submitted} 
+											reference={{role_id : this.state.role_id}}
+											validationRules={{required:true}} 
+											validationMessages={{ required: "Trường này không được để trống"}}/>
+										
+									</div>
+								</div>
+								<div className="form-group">
+									<label>Giới tính</label>
+										<span>Nữ</span>
+										<Radio
+											checked={this.state.selectedValue === 'male'}
+											onChange={this.handleChange('selectedValue')}
+											value='male'
+											name="gender"
+											aria-label="male"
+										/>
+										<span>Nam</span>
+										<Radio
+											checked={this.state.selectedValue === 'female'}
+											onChange={this.handleChange('selectedValue')}
+											value='female'
+											name="gender"
+											aria-label="female"
+										/>
 								</div>
 							</div>
+							<div className="col-md-6 col-lg-6">
+								<div className="form-group">
+									<label>Tên*</label>
+									<input 
+										type="text" 
+										className="form-control" 
+										value={this.state.lastname} 
+										onChange={this.onChangeForm} 
+										name="lastname" 
+										placeholder="Tên"/>
+									<Validator 
+										isValidationError={this.isValidationError}
+										isFormSubmitted={this.state.submitted} 
+										reference={{lastname : this.state.lastname}}
+										validationRules={{required:true, maxLength:50}} 
+										validationMessages={{ required: "Trường này không được để trống", maxLength: "Độ dài tối đa: 50 "}}/>
+								</div>
+								
+								{this.showPassInput()}
 
-							<div className="form-group">
+								
+								<div className="form-group">
+									<label>Số điện thoại (VD: 0987654321)*</label>
+									<input 
+										type="text" 
+										className="form-control" 
+										value={this.state.phone} 
+										onChange={this.onChangeForm} 
+										name="phone" 
+										placeholder="Số điện thoại"/>
+									<Validator 
+										isValidationError={this.isValidationError}
+										isFormSubmitted={this.state.submitted} 
+										reference={{phone : this.state.phone}}
+										validationRules={{required:true, number:true, minLength: 9,maxLength:11}} 
+										validationMessages={{ required: "Trường này không được để trống", number: "Số điện thoại là số", maxLength: "Độ dài tối đa: 11 kí tự", minLength: "Độ dài tối thiểu là 9 kí tự"}}/>
+									
+								</div>
+								<div className="form-group">
+									<label>Ngày sinh</label>
+									<DatePicker
+										className="form-control"
+										dateFormat="DD-MM-YYYY"
+										placeholderText=" 25-10-2018"
+										name="birthday" 
+										todayButton="Today"
+										withPortal
+										// peekNextMonth
+										// showMonthDropdown
+										showYearDropdown
+										dropdownMode="select"
+										selected={this.state.startDate}
+										onChange={this.handleChangeDate} 
+									/>
+								</div>
+								<div className="form-group">
+									<div className="product_category_id">
+										<label>Dịch vụ phụ trách</label>
+										<select 
+											className="form-control" 
+											name="product_category_id" 
+											value={this.state.product_category_id} 
+											onChange={this.onChangeForm}
+										>
+											<option value="0">-- Chọn loại dịch vụ --</option>
+											{this.showCategory()}
+										</select>
+									</div>
+								</div>
+								
+							</div>
+							
+							
+							
+							
+							
+							
+							
+							
+
+							{/* <div className="form-group">
 								<label>Kích hoạt </label>
 								<div className="checkbox1">
 									
@@ -342,7 +430,7 @@ class UserAddPage extends Component {
 										
 									
 								</div>
-							</div>
+							</div> */}
 							{/* <div className="form-group">
 								<div className="Radio">
 									<label>	Gender </label>
@@ -363,27 +451,8 @@ class UserAddPage extends Component {
 									</span>
 								</div>
 							</div> */}
-							<div className="form-group">
-								<div className="gender">
-									<label>Giới tính</label>
-									<select
-										className="form-control"
-										name="gender"
-										onChange={this.onChangeForm}
-									>
-										<option value={config.GENDER_MALE}>Nữ</option>
-										<option value={config.GENDER_FEMALE}>Nam</option>
-										
-									</select>
-									<Validator 
-										isValidationError={this.isValidationError}
-										isFormSubmitted={this.state.submitted} 
-										reference={{gender : this.state.gender}}
-										validationRules={{required:true}} 
-										validationMessages={{ required: "Trường này không được để trống"}}/>
-									
-								</div>
-							</div>
+							
+							
 							{/* <img id="output"  alt="" className="width100px"/> 
 							<div className="form-control">
 								<div className="file-upload">

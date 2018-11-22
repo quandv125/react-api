@@ -37,13 +37,12 @@ class OrderList extends Component {
                     <ReactTable
 						data={orders}
 						noDataText="Không tìm thấy kết quả!"
-						// previousText= 'Previous'
-						// nextText= 'Tiếp'
-						// loadingText= 'Loading...'
-						// noDataText= 'No rows found'
-						// pageText= 'Trang'
-						// ofText= 'trong	'
-						// rowsText= 'rows'
+						previousText= 'Trang trước'
+						nextText= 'Trang tiếp'
+						loadingText= 'Loading...'
+						pageText= 'Trang'
+						ofText= 'trong	'
+						rowsText= 'Khách'
 						filterable
 						defaultFilterMethod={(filter, row) =>
 							String(row[filter.id]) === filter.value}
@@ -67,7 +66,7 @@ class OrderList extends Component {
 										Cell: row => (
 											<div>
 												<Button type="submit" className=" btn btn-primary btn-cons-small" variant="fab" color="secondary" size="small" onClick={ () => this.onOpenModal(row.original.id) }>
-													<i className="material-icons">border_color</i>
+													<i className="material-icons">check</i>
 												</Button>
 											</div>
 										
@@ -79,7 +78,7 @@ class OrderList extends Component {
 										accessor: d => d.transaction_id,
 										filterMethod: (filter, rows) => matchSorter(rows, filter.value, { keys: ["transaction_id"] }),
 										filterAll: true,
-										maxWidth: 200,
+										// maxWidth: 200,
 										Cell: (row) => {
 											return <div>
 												<Link to={`orders/edit/${row.original.id}/${row.original.customer_id}`}>
@@ -97,7 +96,7 @@ class OrderList extends Component {
 										filterAll: true,
 										Cell: (row) => {
 											return <div>
-												<Link to={`customers/edit/${row.original.customer_id}`}>
+												<Link to={`customers/info/${row.original.customer_id}`}>
 													  {row.original.customer_title}
 												</Link>
 											</div>;
@@ -128,20 +127,20 @@ class OrderList extends Component {
 										// maxWidth: 200,
 									},
 									
-                                    {
-										Header: "",
-										filterable: false,
-										maxWidth: 80,
-										Cell: row => (
-											<div>
-												{/* <Button type="submit" className="btn btn-primary btn-cons-small" variant="fab" color="secondary" size="small"  onClick={ () => this.handleDelete(row.original.id)}> */}
-													<span className="cursor-pointer" onClick={ () => this.handleDelete(row.original.id)}>
-													<i className="material-icons">delete</i>
-													</span>
-												{/* </Button> */}
-											</div>
-										)
-									}
+                                    // {
+									// 	Header: "",
+									// 	filterable: false,
+									// 	maxWidth: 80,
+									// 	Cell: row => (
+									// 		<div>
+									// 			{/* <Button type="submit" className="btn btn-primary btn-cons-small" variant="fab" color="secondary" size="small"  onClick={ () => this.handleDelete(row.original.id)}> */}
+									// 				<span className="cursor-pointer" onClick={ () => this.handleDelete(row.original.id)}>
+									// 				<i className="material-icons">delete</i>
+									// 				</span>
+									// 			{/* </Button> */}
+									// 		</div>
+									// 	)
+									// }
 								]
 							}
 					]}

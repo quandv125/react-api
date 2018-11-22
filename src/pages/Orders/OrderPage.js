@@ -15,7 +15,6 @@ import { ToastContainer, toast } from 'react-toastify';
 // Note: include <ToastContainer/>
 import 'react-toastify/dist/ReactToastify.css';
 import Button from '@material-ui/core/Button';
-import {USER_ID} from './../../constants/config';
 class OrderPage extends Component {
 
 	constructor(props) {
@@ -29,14 +28,22 @@ class OrderPage extends Component {
 			open: false,
 			order_id: '',
 			openFilter: false,
-			user_id: USER_ID,
+			user_id: sessionStorage.getItem('authentication') ? JSON.parse(sessionStorage.getItem('authentication')).id : '',
+			role_id: sessionStorage.getItem('authentication') ? JSON.parse(sessionStorage.getItem('authentication')).role_id : '',
+			service_id: sessionStorage.getItem('authentication') ? JSON.parse(sessionStorage.getItem('authentication')).service_id : '',
 			filter: false
 		}
-
-		connectIO(message => {
-			this.props.getOrders(this.state.user_id);
-			toast.success("Bạn có bệnh nhân khám mới !", { position: "top-right", autoClose: false, hideProgressBar: true,	closeOnClick: true });
-		});
+		
+		if(this.state.role_id && this.state.role_id === config.ASSISTANT){
+			connectIO(message => {
+				console.log(message, this.state.service_id);
+				if(String(this.state.service_id) === String(message)) {
+					this.props.getOrders(this.state.user_id);
+					toast.success("Bạn có bệnh nhân khám mới !", { position: "top-right", autoClose: false, hideProgressBar: true,	closeOnClick: true });
+				}
+			});
+		}
+		
 		
 	}
 
@@ -52,8 +59,8 @@ class OrderPage extends Component {
 
 	onDelete = (id) => {
 		Swal({
-            title: 'Bạn có chắc chắn?',
-            text: "Bạn có chắc chắn muốn xóa?",
+            title: 'Bạn có chắc chắn muốn xóa?',
+            text: "",
             type: 'warning',
             showCancelButton: true,
             confirmButtonColor: '#3085d6',
@@ -86,7 +93,6 @@ class OrderPage extends Component {
 
 	onActionModal = (id, data) => {
 		if(data && data.time && data.time !== ''){
-
 			callApi('PUT', config.ORDER_URL  + "/" + id, data).then( res => {
 				if(res && res.data.status){
 					this.props.getOrders(this.state.user_id);
@@ -114,6 +120,17 @@ class OrderPage extends Component {
 			}
 		});
 		this.setState({filter: true, openFilter: false});
+	}
+
+	onhandleFinish = (id) => {
+		var data = {status: 1};
+		callApi('PUT', config.ORDER_URL  + "/" + id, data).then( res => {
+			if(res && res.data.status){
+				this.props.getOrders(this.state.user_id);
+				this.setState({ open: false });
+				Swal('Kết thúc khám bệnh thành công','','success')
+			}
+		});
 	}
 	
 	getToday = () => {
@@ -144,7 +161,7 @@ class OrderPage extends Component {
 							<div className="col-md-6">
 								<div className="page-title"> 
 									<i className="material-icons">card_giftcard</i>
-									<h3> <span className="semi-bold">Bệnh nhân khám lại: {this.getToday()} <Button  className="margin-left20" variant="contained"  color="secondary"  onClick={ this.onOpenFilterModal } >Lọc</Button></span></h3>
+									<h3> <span className="semi-bold">Bệnh nhân khám lại: {this.getToday()} <Button  className="margin-left20" variant="contained"  color="secondary"  onClick={ this.onOpenFilterModal } >Chọn ngày</Button></span></h3>
 								</div>
 								<OrderList onDelete={this.onDelete} onCloseModal={this.onCloseModal} onOpenModal={this.onOpenModal}>
 									{order_by_date}
@@ -163,7 +180,7 @@ class OrderPage extends Component {
 								<ModalFilterOrder action={this.onActionFilterModal}/>
 							</Modal>					
 							<Modal open={this.state.open} onClose={this.onCloseModal} center>
-								<ModalOrder order_id={this.state.order_id} action={this.onActionModal}/>
+								<ModalOrder order_id={this.state.order_id} action={this.onActionModal} onhandleFinish={this.onhandleFinish}/>
 							</Modal>
 						</div>
 					</div>

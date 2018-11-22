@@ -13,6 +13,7 @@ import * as config from './constants/config';
 import Forbidden from './pages/NotFound/403_Forbidden'; // 403
 import {findIndex, split} from 'lodash';
 import callApi from './utils/apiCaller';
+import { actLogoutRequest } from './actions/index';
 
 class App extends Component {
 
@@ -35,23 +36,26 @@ class App extends Component {
 				ele.outerHTML = ''
 			},300)
 		}
-		callApi('GET', config.ROLES_URL  + "/permission/" + this.state.role_id, null).then( res => {
-			if(res && res.data.status){
-				this.setState({
-					role_id: this.state.role_id,
-					pages: res.data.data
-				});
-			}
-		});
+		if(this.state.role_id){
+			callApi('GET', config.ROLES_URL  + "/permission/" + this.state.role_id, null).then( res => {
+				if(res && res.data.status){
+					this.setState({
+						role_id: this.state.role_id,
+						pages: res.data.data
+					});
+				}
+			});
+		}
+		
 	}
 
-	
 	componentWillReceiveProps(nextprops){
 		this.setState({
 			isLogin: nextprops.authentication.loggedIn
 		});	
+
 		if(nextprops.authentication.role && typeof nextprops.authentication.role !== 'undefined'){
-			callApi('GET', config.ROLE_URL + "/" + nextprops.authentication.role, null).then( res => {
+			callApi('GET', config.ROLES_URL  + "/permission/" + nextprops.authentication.role, null).then( res => {
 				if(res.data.status){
 					this.setState({
 						role_id: nextprops.authentication.role,
@@ -60,6 +64,10 @@ class App extends Component {
 				}
 			});
 		}
+	}
+
+	onActLogout = () => {
+		this.props.onActLogout();
 	}
 
 	render() {
@@ -71,7 +79,7 @@ class App extends Component {
 							<div className="App" >
 								<Navbar/>
 								<div className="page-container row-fluid">
-									<Sidebar/>
+									<Sidebar role_id={this.state.role_id} onActLogout={this.onActLogout} />
 									<div className="page-content ">
 										<div className="content sm-gutter">
 										<div className="page-title"></div>
@@ -161,16 +169,13 @@ const mapStateToProps = state => {
 	}
 }
 
-// const mapDispatchToProps = (dispatch, props) => {
-// 	return {
-// 		getUsers : () => {
-// 			dispatch(actFetchUsersRequest());
-// 		},
-// 		onDeleteUser : (id) => {
-// 			dispatch(actDeleteUserRequest(id));
-// 		}
-// 	}
-// }
+const mapDispatchToProps = (dispatch, props) => {
+    return {
+        onActLogout: () => {
+            dispatch(actLogoutRequest());
+        }
+    }
+}
 
-export default connect(mapStateToProps, null)(App);
+export default connect(mapStateToProps, mapDispatchToProps)(App);
 

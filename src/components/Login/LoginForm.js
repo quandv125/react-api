@@ -46,7 +46,7 @@ class LoginForm extends Component {
 		
 		return (
 				<div>
-						{this.showMessageError()}
+					{this.showMessageError()}
 				
 					<form className="animated fadeIn validate" noValidate onSubmit={this.onSave}>
 						<div className="row form-row m-l-20 m-r-20 xs-m-l-10 xs-m-r-10">
@@ -57,7 +57,7 @@ class LoginForm extends Component {
 										onChange={this.onChangeForm}
 										className="form-control" 
 										name="email" 
-										placeholder="Name"/>
+										placeholder="Email"/>
 									<Validator 
 										isValidationError={this.isValidationError}
 										isFormSubmitted={this.state.submitted} 
@@ -74,7 +74,7 @@ class LoginForm extends Component {
 										onChange={this.onChangeForm}
 										className="form-control" 
 										name="password" 
-										placeholder="Password"/>
+										placeholder="Mật khẩu"/>
 									<Validator 
 										isValidationError={this.isValidationError}
 										isFormSubmitted={this.state.submitted} 
@@ -93,7 +93,7 @@ class LoginForm extends Component {
 								{/* </div> */}
 								<br/>
 								<Button type="submit" className="btn btn-primary btn-cons" variant="contained" style={ styles.buttonLogin } color="primary">
-									Submit
+									Đăng nhập
 								</Button>
 								
 							</div>
@@ -130,8 +130,10 @@ class LoginForm extends Component {
 
 	showMessageError() {
 		if( this.state.loginError && this.state.loginError === 'false' ) {
-			return 	<div className="alert alert-danger"> {this.state.messages} </div>;
+			// alert('Tài khoản hoặc mật khẩu không chính xác');
+			return 	<div className="alert alert-danger text-center"> Tài khoản hoặc mật khẩu không chính xác </div>;
 		}
+		return true;
 	}
 	
 }

@@ -69,13 +69,14 @@ class UsersPage extends Component {
 	onDelete (id) {
 		
 		Swal({
-            title: 'Are you sure?',
-            text: "Are you sure you wish to delete this item?",
+            title: 'Bạn có chắc chắn muốn xóa',
+            text: "",
             type: 'warning',
             showCancelButton: true,
             confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
-            confirmButtonText: 'Yes, Add it!'
+			cancelButtonColor: '#d33',
+			cancelButtonText: 'Hủy',
+            confirmButtonText: 'Đồng ý!'
           }).then((result) => {
             if (result.value) {
                 this.props.onDeleteUser(id)
@@ -124,7 +125,7 @@ class UsersPage extends Component {
 			<CSSTransitionGroup transitionName={config.PAGETRANSITION} transitionAppear={true} transitionAppearTimeout={config.TRANSITIONSPEED} transitionEnter={false} transitionLeave={false}>
 				<div className="grid simple">
 					<div className="grid-body no-border">
-						<Link to="/" className="margin-right20">
+						<Link to="/" className="margin-right10">
 							<Button type="submit" className="btn btn-primary btn-cons" variant="contained" color="primary">
 							<i className="material-icons">arrow_back</i>
 							</Button>	
@@ -135,9 +136,9 @@ class UsersPage extends Component {
 							</Button>
 						</Link>
 					
-						<Link to="/users/add" className="float-right margin-right20">
+						<Link to="/users/add" style={{marginTop: 2}} className="float-right margin-right10">
 							<Button type="submit" className="btn btn-primary btn-cons" variant="contained" color="primary">
-								Thêm mới nhân viên
+								Thêm mới
 							</Button>					
 						</Link>
 						<div className="clearfix"></div><br/>
@@ -167,6 +168,13 @@ class UsersPage extends Component {
 
 				  			// })}
 							data={users}
+							noDataText="Không tìm thấy kết quả!"
+						previousText= 'Trang trước'
+						nextText= 'Trang tiếp'
+						loadingText= 'Loading...'
+						pageText= 'Trang'
+						ofText= 'trong	'
+						rowsText= 'Nhân viên'
 							filterable
 							defaultFilterMethod={(filter, row) =>
 								String(row[filter.id]) === filter.value}
@@ -203,7 +211,14 @@ class UsersPage extends Component {
 											id: "lastname",
 											accessor: d => d.lastname,
 											filterMethod: (filter, rows) => matchSorter(rows, filter.value, { keys: ["lastname"] }),
-											filterAll: true
+											filterAll: true,
+											Cell: (row) => {
+												return <div>
+													<Link to={`users/edit/${row.original.id}`}>
+													  	{row.original.lastname}
+													</Link>
+												</div>;
+											}
 										},
 										{
 											Header: "Email",
@@ -275,8 +290,8 @@ class UsersPage extends Component {
 													case String(config.MANAGER):
 														data = row[filter.id] === config.MANAGER;
 														break;
-													case String(config.MEMBER):
-														data = row[filter.id] === config.MEMBER;
+													case String(config.DOCTOR):
+														data = row[filter.id] === config.DOCTOR;
 														break;
 													case String(config.ASSISTANT):
 														data = row[filter.id] === config.ASSISTANT;
@@ -349,7 +364,7 @@ class UsersPage extends Component {
 						defaultSorted={[
 							{
 							  id: "row",
-							  desc: true
+							//   desc: true
 							}
 						  ]}
 						defaultPageSize={10}  

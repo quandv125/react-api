@@ -20,7 +20,8 @@ class ServiceList extends Component {
 		super(props);
 		this.state = {
 			service : [],
-			loggedOut: false
+			loggedOut: false,
+			role_id: sessionStorage.getItem('authentication') ? JSON.parse(sessionStorage.getItem('authentication')).role_id : '',
 		}
 	
 		this.onDelete = this.onDelete.bind(this);
@@ -39,20 +40,23 @@ class ServiceList extends Component {
 	onDelete (id) {
 		
 		Swal({
-            title: 'Are you sure?',
-            text: "Are you sure you wish to delete this item?",
+            title: 'Bạn có chắc chắn muốn xóa',
+            text: "",
             type: 'warning',
             showCancelButton: true,
             confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
-            confirmButtonText: 'Yes, Add it!'
+			cancelButtonColor: '#d33',
+			cancelButtonText: 'Không',
+            confirmButtonText: 'Có'
           }).then((result) => {
             if (result.value) {
 				this.props.onDeleteService(id)
-				Swal('Good job!','You clicked the button!','success')
+				Swal('Xóa thành công!','','success')
             }
         })
 	}
+
+	
 
 	render() {
 		if(this.state.loggedOut){
@@ -80,7 +84,7 @@ class ServiceList extends Component {
 						</Link>
 						<div className="clearfix"></div><br/>
 								
-						{this.showservice(service)}
+						{this.showCategoryData(service)}
 
 					</div>
 				</div>
@@ -88,6 +92,14 @@ class ServiceList extends Component {
 			</CSSTransitionGroup>
 		);
 	} // end render
+
+	showCategoryData = (service) => {
+		if(this.state.role_id === config.MANAGER  || this.state.role_id === config.ADMINISTRATOR) {
+			return this.showserviceforManager(service)
+		} else {
+			return this.showservice(service)
+		}
+	}
 
 	showservice (service) {
 		var result = null;
@@ -101,12 +113,18 @@ class ServiceList extends Component {
 							}
 						})}
 						data={service}
-						noDataText="Oh Not found!"
+						noDataText="Không tìm thấy kết quả!"
+						previousText= 'Trang trước'
+						nextText= 'Trang tiếp'
+						loadingText= 'Loading...'
+						pageText= 'Trang'
+						ofText= 'trong	'
+						rowsText= ''
 						filterable
 						defaultFilterMethod={(filter, row) => String(row[filter.id]) === filter.value}
 						columns={[
 							{
-								Header: 'Danh mục',
+								Header: 'Danh mục dịch vụ',
 								columns: [
 									{
 										Header: "#",
@@ -118,7 +136,7 @@ class ServiceList extends Component {
 										}
 									},
 									{
-										Header: "Tên danh mục",
+										Header: "Tên danh mục dịch vụ",
 										id: "title",
 										accessor: d => d.title,
 										filterMethod: (filter, rows) => matchSorter(rows, filter.value, { keys: ["title"] }),
@@ -133,7 +151,103 @@ class ServiceList extends Component {
 										}
 									},
 									{
-										Header: "Dịch vụ",
+										Header: "Loại dịch vụ",
+										id: "product_categorie",
+										accessor: d => d.product_categorie,
+										filterMethod: (filter, rows) => matchSorter(rows, filter.value, { keys: ["product_categorie"] }),
+										filterAll: true,
+										maxWidth: 600,
+										Cell: (row) => {
+											return <div className="text-center">
+												<Link to={`service/edit/${row.original.id}`}>
+													  {row.original.product_categorie}
+												</Link>
+											</div>;
+										}
+									},
+									{
+										Header: "Mô tả",
+										id: "desc",
+										accessor: d => d.desc,
+										filterMethod: (filter, rows) => matchSorter(rows, filter.value, { keys: ["desc"] }),
+										maxWidth: 600,
+										filterAll: true
+									},
+									
+								]
+							}
+					]}
+					defaultSorted={[{
+						id: "row",
+						// desc: true
+					}]}
+					defaultPageSize={10}  
+					// style={{
+					// 	height: "800px" // This will force the table body to overflow and scroll, since there is not enough room
+					// }}
+					className="-striped -highlight"
+				/>
+		}
+		// if (service) {
+			// result = service.map((service, index) => {
+			// 	console.log(service);
+			// 	return (<serviceItem key={index} service={service} index={index} onDelete={this.onDelete}/>);
+			// });
+		// }
+		return result;
+	}
+
+	showserviceforManager (service) {
+		var result = null;
+		if ( service && typeof service !== 'undefined' && service.length > 0) {
+			return <ReactTable
+						getTdProps={( column ) => ({
+							onClick: e => {
+								if(column.Header !== 'Action'){
+									return (<Link to={`service/1/edit`}>	</Link>);
+								}
+							}
+						})}
+						data={service}
+						noDataText="Không tìm thấy kết quả!"
+						previousText= 'Trang trước'
+						nextText= 'Trang tiếp'
+						loadingText= 'Loading...'
+						pageText= 'Trang'
+						ofText= 'trong	'
+						rowsText= ''
+						filterable
+						defaultFilterMethod={(filter, row) => String(row[filter.id]) === filter.value}
+						columns={[
+							{
+								Header: 'Danh mục dịch vụ',
+								columns: [
+									{
+										Header: "#",
+										id: "row",
+										filterable: false,
+										maxWidth: 100,
+										Cell: (row) => {
+											return <div>{row.index+1}</div>;
+										}
+									},
+									{
+										Header: "Tên danh mục dịch vụ",
+										id: "title",
+										accessor: d => d.title,
+										filterMethod: (filter, rows) => matchSorter(rows, filter.value, { keys: ["title"] }),
+										filterAll: true,
+										maxWidth: 600,
+										Cell: (row) => {
+											return <div className="text-center">
+												<Link to={`service/edit/${row.original.id}`}>
+													  {row.original.title}
+												</Link>
+											</div>;
+										}
+									},
+									{
+										Header: "Loại dịch vụ",
 										id: "product_categorie",
 										accessor: d => d.product_categorie,
 										filterMethod: (filter, rows) => matchSorter(rows, filter.value, { keys: ["product_categorie"] }),
@@ -160,8 +274,9 @@ class ServiceList extends Component {
 										filterable: false,
 										maxWidth: 250,
 										Cell: row => (
+											
 											<Button type="submit" className="btn btn-primary btn-cons-small" variant="fab" color="secondary" size="small"  onClick={ () => this.onDelete(row.original.id)}>
-											<i className="material-icons">delete</i>
+												<i className="material-icons">delete</i>
 											</Button>
 										)
 									}

@@ -10,6 +10,7 @@ import Checkbox from '@material-ui/core/Checkbox';
 import { ToastContainer, toast } from 'react-toastify';
 // Note: include <ToastContainer/>
 import 'react-toastify/dist/ReactToastify.css';
+import ModalCalling from './../../components/Customers/ModalCalling';
 
 class ProductActionPage extends Component {
 
@@ -23,7 +24,7 @@ class ProductActionPage extends Component {
 			title: '',
 			price: '',
 			price_max: '',
-			currency: '',
+			currency: 'VND',
 			category_id: '25',
 			service_id: '19',
 			unit: '',
@@ -162,6 +163,7 @@ class ProductActionPage extends Component {
 
 				<div className="grid simple ">
 					<div className="grid-body no-border">
+					<ModalCalling />
 						<Link to="/products" className="margin-right20">
 							<Button type="submit" className="btn btn-primary btn-cons" variant="contained" color="primary">
 							<i className="material-icons">arrow_back</i>
@@ -169,23 +171,23 @@ class ProductActionPage extends Component {
 						</Link>
 						<Link to="/products/add" className="float-right">
 								<Button type="submit" className="btn btn-primary btn-cons" variant="contained" color="primary">
-									Thêm sản phẩm
+									Thêm dịch vụ
 								</Button>
 							</Link>
 						<ToastContainer />
 						<form noValidate onSubmit={this.handleFormSubmit}>
-							<legend>Sản phẩm</legend>
+							<legend>Dịch vụ</legend>
 							<div className="col-lg-6 col-sm-12 col-xs-12 col-md-6">
 									
 									<div className="form-group">
-										<label>Tên sản phẩm*</label>
+										<label>Tên dịch vụ* (Không được để trống)</label>
 										<input 
 											type="text" 
 											className="form-control" 
 											value={this.state.title} 
 											onChange={this.onChangeForm} 
 											name="title" 
-											placeholder="Tên sản phẩm"/>
+											placeholder="Tên dịch vụ"/>
 											<Validator 
 												isValidationError={this.isValidationError}
 												isFormSubmitted={this.state.submitted} 
@@ -194,7 +196,7 @@ class ProductActionPage extends Component {
 												validationMessages={{ required: "Trường này không được để trống"}}/>
 									</div>
 									<div className="form-group">
-										<label>Giá*</label>
+										<label>Giá* (Không được để trống)</label>
 										<Cleave className="input-numeral form-control" 
 											placeholder="Nhập giá của sản phẩm" 
 											name="price"
@@ -255,7 +257,7 @@ class ProductActionPage extends Component {
 							</div>
 							<div className="col-lg-6 col-sm-12 col-xs-12 col-md-6">
 									<div className="form-group">
-										<label>Thời gian (Dành cho sản phẩm yêu cầu thời gian hoàn thành)</label>
+										<label>Thời gian (Dành cho dịch vụ yêu cầu thời gian hoàn thành)</label>
 										<input 
 											type="text" 
 											className="form-control" 
@@ -337,7 +339,7 @@ class ProductActionPage extends Component {
 
 							</div>
 						
-									<Button type="submit" variant="contained" color="primary">Lưu</Button>
+							<Button type="submit" variant="contained" color="primary">Lưu</Button>
 							
 							</form>
 					</div>

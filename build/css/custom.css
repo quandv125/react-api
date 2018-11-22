@@ -38,6 +38,9 @@
 .margin-right20{
   margin-right: 20px;
 }
+.margin-right10{
+  margin-right: 10px;
+}
 .margin-left20{
   margin-left: 20px;
 }
@@ -47,16 +50,28 @@
 .float-right{
   float: right;
 }
+.margin-top20{
+  margin-top: 20px;
+}
 .register-form{
   width: 300px;
   margin: 10px auto;
+}
+.rt-tbody .rt-td {
+  border-right: 1px solid rgba(0,0,0,0.02);
+  font-weight: bold;
+}
+.ReactTable .rt-thead .rt-resizable-header-content {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-weight: bold;
 }
 .btn-cons-small {
   min-width: 40px !important;
   width: 40px !important;
   height: 40px !important;
 }
-@media (min-width: 768px) {
+@media (min-width: 368px) {
   .navbar-inverse .navbar-nav>li>span:hover,   .navbar-inverse .navbar-nav>li>span:hover {
     color: #e4e4e4;
     background-color: transparent;

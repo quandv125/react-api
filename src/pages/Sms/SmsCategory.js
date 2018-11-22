@@ -70,7 +70,15 @@ class SmsCategory extends Component {
 		if( category ){
 			if ( category && typeof category !== 'undefined' && category.length > 0) {
 				return <ReactTable
-							data={category} filterable
+							data={category} 
+							noDataText="Không tìm thấy kết quả!"
+							previousText= 'Trang trước'
+							nextText= 'Trang tiếp'
+							loadingText= 'Loading...'
+							pageText= 'Trang'
+							ofText= 'trong	'
+							rowsText= ''
+							filterable
 							defaultFilterMethod={(filter, row) =>
 								String(row[filter.id]) === filter.value}
 							columns={[

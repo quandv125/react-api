@@ -26,7 +26,7 @@ class SmsCategoryActionPage extends Component {
 		var {match} = this.props;
 		if(match) {
 			var id = match.params.id;
-			console.log(id);
+			// console.log(id);
 			callApi('GET', config.SMS_CATEGORY_URL + "/" +id, null).then(res => {
 				var data = res.data.data;
 
@@ -91,14 +91,14 @@ class SmsCategoryActionPage extends Component {
 							<form noValidate onSubmit={this.handleFormSubmit}>
 							
 								<div className="form-group">
-									<label>Title</label>
+									<label>Tiêu đề</label>
 									<input 
 										type="text" 
 										className="form-control" 
 										value={this.state.title} 
 										onChange={this.onChangeFrom} 
 										name="title" 
-										placeholder="title"/>
+										placeholder="Tiêu đề"/>
 									<Validator 
 										isValidationError={this.isValidationError}
 										isFormSubmitted={this.state.submitted} 
@@ -107,7 +107,7 @@ class SmsCategoryActionPage extends Component {
 										validationMessages={{ required: "Trường này không được để trống", maxLength: "Độ dài tối đa: 50 "}}/>
 								</div>
 								<div className="form-group">
-									<label>Content</label>
+									<label>Nội dung</label>
 									
 									<textarea name="desc" onChange={this.onChangeFrom} value={this.state.desc} className="form-control" rows="3" >  </textarea>
 									

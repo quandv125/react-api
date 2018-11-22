@@ -13,14 +13,17 @@ import { Redirect } from 'react-router-dom';
 import ReactTable from "react-table";
 import "react-table/react-table.css";
 import matchSorter from 'match-sorter';
-
+import { connectIO } from '../../socketIO/client';
+import { ToastContainer, toast } from 'react-toastify';
 class CategoryList extends Component {
 
 	constructor(props) {
 		super(props);
 		this.state = {
 			category : [],
-			loggedOut: false
+			loggedOut: false,
+			role_id: sessionStorage.getItem('authentication') ? JSON.parse(sessionStorage.getItem('authentication')).role_id : '',
+			service_id: sessionStorage.getItem('authentication') ? JSON.parse(sessionStorage.getItem('authentication')).service_id : '',
 		}
 	
 		this.onDelete = this.onDelete.bind(this);
@@ -31,21 +34,31 @@ class CategoryList extends Component {
             loggedOut: nextprops.authentication.loggedOut
         });
 	}
+
+	
 	
 	componentWillMount(){
+		if(this.state.role_id && this.state.role_id === config.ASSISTANT){
+			connectIO(message => {
+				if(String(this.state.service_id) === String(message)) {
+					toast.success("Bạn có bệnh nhân khám mới !", { position: "top-right", autoClose: false, hideProgressBar: true,	closeOnClick: true });
+				}
+			});
+		}
 		this.props.getcategory();
 	}
 
 	onDelete (id) {
 		
 		Swal({
-            title: 'Are you sure?',
-            text: "Are you sure you wish to delete this item?",
+            title: 'Bạn có chắc chắn muốn xóa?',
+            text: "",
             type: 'warning',
             showCancelButton: true,
             confirmButtonColor: '#3085d6',
             cancelButtonColor: '#d33',
-            confirmButtonText: 'Yes, Add it!'
+			confirmButtonText: 'Có',
+			cancelButtonText: 'Không'
           }).then((result) => {
             if (result.value) {
 				this.props.onDeleteCategory(id)
@@ -80,14 +93,23 @@ class CategoryList extends Component {
 						</Link>
 						<div className="clearfix"></div><br/>
 								
-						{this.showcategory(category)}
+						{this.showCategoryData(category)}
 
 					</div>
 				</div>
-					
+				<ToastContainer />
 			</CSSTransitionGroup>
 		);
 	} // end render
+
+	showCategoryData = (category) => {
+		if(this.state.role_id === config.MANAGER  || this.state.role_id === config.ADMINISTRATOR) {
+			return this.showcategoryforManager(category)
+		} else {
+			return this.showcategory(category)
+		}
+		 
+	}
 
 	showcategory (category) {
 		var result = null;
@@ -101,12 +123,18 @@ class CategoryList extends Component {
 							}
 						})}
 						data={category}
-						noDataText="Không tìm thấy dữ liệu!"
+						noDataText="Không tìm thấy kết quả!"
+						previousText= 'Trang trước'
+						nextText= 'Trang tiếp'
+						loadingText= 'Loading...'
+						pageText= 'Trang'
+						ofText= 'trong	'
+						rowsText= ''
 						filterable
 						defaultFilterMethod={(filter, row) => String(row[filter.id]) === filter.value}
 						columns={[
 							{
-								Header: 'Dịch vụ',
+								Header: 'Loại Dịch vụ',
 								columns: [
 									{
 										Header: "#",
@@ -119,7 +147,80 @@ class CategoryList extends Component {
 									},
 								
 									{
-										Header: "Tên dịch vụ",
+										Header: "Tên loại dịch vụ",
+										id: "title",
+										accessor: d => d.title,
+										filterMethod: (filter, rows) => matchSorter(rows, filter.value, { keys: ["title"] }),
+										filterAll: true,
+										maxWidth: 600,
+										Cell: (row) => {
+											return <div className="text-center">
+												<Link to={`category/edit/${row.original.id}`}>
+													  {row.original.title}
+												</Link>
+											</div>;
+										}
+									},
+									{
+										Header: "Mô tả",
+										id: "desc",
+										accessor: d => d.desc,
+										filterMethod: (filter, rows) => matchSorter(rows, filter.value, { keys: ["desc"] }),
+										maxWidth: 600,
+										filterAll: true
+									},
+									
+								]
+							}
+					]}
+					defaultSorted={[{
+						id: "row",
+					}]}
+					defaultPageSize={5}  
+					className="-striped -highlight"
+				/>
+		}
+		
+		return result;
+	}
+
+	showcategoryforManager (category) {
+		var result = null;
+		if ( category && typeof category !== 'undefined' && category.length > 0) {
+			return <ReactTable
+						getTdProps={( column ) => ({
+							onClick: e => {
+								if(column.Header !== 'Action'){
+									return (<Link to={`category/1/edit`}>	</Link>);
+								}
+							}
+						})}
+						data={category}
+						noDataText="Không tìm thấy kết quả!"
+						previousText= 'Trang trước'
+						nextText= 'Trang tiếp'
+						loadingText= 'Loading...'
+						pageText= 'Trang'
+						ofText= 'trong	'
+						rowsText= ''
+						filterable
+						defaultFilterMethod={(filter, row) => String(row[filter.id]) === filter.value}
+						columns={[
+							{
+								Header: 'Loại Dịch vụ',
+								columns: [
+									{
+										Header: "#",
+										id: "row",
+										filterable: false,
+										maxWidth: 100,
+										Cell: (row) => {
+											return <div>{row.index+1}</div>;
+										}
+									},
+								
+									{
+										Header: "Tên loại dịch vụ",
 										id: "title",
 										accessor: d => d.title,
 										filterMethod: (filter, rows) => matchSorter(rows, filter.value, { keys: ["title"] }),
@@ -156,21 +257,12 @@ class CategoryList extends Component {
 					]}
 					defaultSorted={[{
 						id: "row",
-						// desc: true
 					}]}
 					defaultPageSize={5}  
-					// style={{
-					// 	height: "800px" // This will force the table body to overflow and scroll, since there is not enough room
-					// }}
 					className="-striped -highlight"
 				/>
 		}
-		// if (category) {
-			// result = category.map((category, index) => {
-			// 	console.log(category);
-			// 	return (<categoryItem key={index} category={category} index={index} onDelete={this.onDelete}/>);
-			// });
-		// }
+		
 		return result;
 	}
 }

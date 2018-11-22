@@ -7,12 +7,26 @@ class Sidebar extends Component {
         super(props)
         this.state = {
             name: sessionStorage.getItem('authentication') ? JSON.parse(sessionStorage.getItem('authentication')).name : '',
-            display_name: sessionStorage.getItem('authentication') ? JSON.parse(sessionStorage.getItem('authentication')).display_name : ''
+            display_name: sessionStorage.getItem('authentication') ? JSON.parse(sessionStorage.getItem('authentication')).display_name : '',
+            service: sessionStorage.getItem('authentication') ? JSON.parse(sessionStorage.getItem('authentication')).service : ''
         }
     }
 
+    showService = (service) => {
+
+        if(service){
+            return "( " + service + " )";
+        }
+    }
+
+    onActLogout = () => {
+        this.props.onActLogout();
+    }
+
     render() {
-        var {name, display_name} = this.state;
+        var {name, display_name, service} = this.state;
+        var {role_id} = this.props;
+        
         return (
             <div>
                 <div className="page-sidebar" id="main-menu">
@@ -25,12 +39,12 @@ class Sidebar extends Component {
                             </div>
                             <div className="user-info sm">
                                 <div className="username">{name}</div>
-                                <div className="status">{display_name}</div>
+                                <div className="status">{display_name} {this.showService(service)}</div>
                             </div>
                         </div>
-                            <p className="menu-title sm"> BROWSE <span className="pull-right"><a href="/"><i className="material-icons">refresh</i></a></span></p>
+                            <p className="menu-title sm"> Menu <span className="pull-right"><a href="/"><i className="material-icons">refresh</i></a></span></p>
                         
-                            <Menu /> 
+                            <Menu role_id={role_id} onActLogout={this.onActLogout}/> 
                             
                         <div className="clearfix"></div>
 

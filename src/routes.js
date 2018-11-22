@@ -4,11 +4,13 @@ import HomePage from './pages/Home/HomePage';
 import UsersPage from './pages/Users/UsersPage';
 import UserAddPage from './pages/Users/UserAddPage';
 import ChangePass from './pages/Users/ChangePass';
+import ChangePassUser from './pages/Users/ChangePassUser';
 import MyAccount from './pages/Users/MyAccount';
 import Permission from './pages/Users/Permission';
 
 import CustomersPage from './pages/Customer/CustomersPage';
 import CustomerActionPage from './pages/Customer/CustomerActionPage';
+import CustomerInfoPage from './pages/Customer/CustomerInfoPage';
 
 import SmsPage from './pages/Sms/SmsPage';
 import SmsActionPage from './pages/Sms/SmsActionPage';
@@ -34,6 +36,8 @@ import ServiceActionPage from './pages/Service/ServiceActionPage';
 
 import RolePage from './pages/Roles/RolesPage';
 import RoleActionPage from './pages/Roles/RoleActionPage';
+
+import InvoiceInfo from './pages/Invoice/InvoiceInfo';
 // 404
 import NotFoundPage from './pages/NotFound/404_NotFoundPage';
 // 403
@@ -74,6 +78,12 @@ const routes = [
 		path: '/change-password',
 		exact: false,
 		main: ({match, location, history}) => <ChangePass match={match} history={history} location={location}/>
+	},
+	{
+		path: '/change-pass-users/:id',
+		exact: false,
+		main: ({match, location, history}) => <ChangePassUser match={match} history={history} location={location}/>
+
 	},
 	{
 		path: '/permission/edit/:id',
@@ -150,6 +160,12 @@ const routes = [
 		exact: false,
 		main: ({match, location, history}) => <RoleActionPage match={match} history={history} location={location}/>
 	},
+	// invoice | id => order_id
+	{
+		path: '/orders/invoice/:id',
+		exact: true, // required
+		main: ({match, location, history}) => <InvoiceInfo match={match} location={location} history={history}/>
+	},
 	// Orders
 	{
 		path: '/orders',
@@ -186,6 +202,11 @@ const routes = [
 		path: '/customers/edit/:id',
 		exact: false,
 		main: ({match, location, history}) => <CustomerActionPage match={match} history={history} location={location}/>
+	},
+	{
+		path: '/customers/info/:id',
+		exact: false,
+		main: ({match, location, history}) => <CustomerInfoPage match={match} history={history} location={location}/>
 	},
 	// Sms
 	{

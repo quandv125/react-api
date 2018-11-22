@@ -8,6 +8,10 @@ import { actFetchProductsRequest, actDeleteProductRequest } from '../../actions/
 import Button from '@material-ui/core/Button';
 import { Redirect } from 'react-router-dom';
 import Swal from 'sweetalert2'
+import ModalCalling from './../../components/Customers/ModalCalling';
+import { ToastContainer } from 'react-toastify';
+import {notification} from './../../socketIO/getNotification';
+
 
 class ProductList extends Component {
 
@@ -16,7 +20,9 @@ class ProductList extends Component {
 		this.state = {
 			products : [],
 			loggedOut: false,
-			categories: []
+			categories: [],
+			role_id: sessionStorage.getItem('authentication') ? JSON.parse(sessionStorage.getItem('authentication')).role_id : '',
+			service_id: sessionStorage.getItem('authentication') ? JSON.parse(sessionStorage.getItem('authentication')).service_id : '',
 		}
 		
 	}
@@ -28,19 +34,20 @@ class ProductList extends Component {
 	}
 	
 	componentWillMount(){
-		this.props.getProducts();			
+		notification();
+		this.props.getProducts();
 	}
 
 	onDelete = (id) => {
 
 		Swal({
-            title: 'Bạn có chắn chắn muốn xóa?',
-            text: "Bạn có chắn chắn muốn xóa sản phẩm này?",
+            title: 'Bạn có chắn chắn muốn xóa sản phẩm này?',
+            text: "",
             type: 'warning',
             showCancelButton: true,
             confirmButtonColor: '#3085d6',
 			cancelButtonColor: '#d33',
-			cancelButtonText: 'Hủy',
+			cancelButtonText: 'Không',
             confirmButtonText: 'Đồng ý!'
           }).then((result) => {
             if (result.value) {
@@ -57,29 +64,31 @@ class ProductList extends Component {
 		
 		return (
 			<CSSTransitionGroup transitionName={config.PAGETRANSITION} transitionAppear={true} transitionAppearTimeout={config.TRANSITIONSPEED} transitionEnter={false} transitionLeave={false}>
+				
 				<div className="grid simple">
 					<div className="grid-body no-border">
-							<Link to="/" className="margin-right20">
+					<ModalCalling />	<ToastContainer />
+							<Link to="/" className="margin-bottom20 margin-right10">
 								<Button type="submit" className="btn btn-primary btn-cons" variant="contained" color="primary">
 								<i className="material-icons">arrow_back</i>
 								</Button>	
 							</Link>
 								
-							<Link to="/category" className="margin-bottom20 margin-right20">
+							<Link to="/category" className="margin-bottom20 margin-right10">
 								<Button type="submit" className="btn btn-primary btn-cons" variant="contained" color="primary">
-									Dịch vụ
+									Loại dịch vụ
 								</Button>
 							</Link>
 
-							<Link to="/service" className="margin-bottom20">
+							<Link to="/service" className="margin-bottom20 margin-right10">
 								<Button type="submit" className="btn btn-primary btn-cons" variant="contained" color="primary">
-									Danh mục
+									Danh mục dịch vụ
 								</Button>
 							</Link>
 
-							<Link to="/products/add" className="float-right">
-								<Button type="submit" className="btn btn-primary btn-cons" variant="contained" color="primary">
-									Thêm sản phẩm
+							<Link to="/products/add" className="add-new-products">
+								<Button type="submit" className="margin-top10 btn btn-primary btn-cons" variant="contained" color="primary">
+									Thêm mới
 								</Button>
 							</Link>
 						<div className="clearfix"></div><br/>

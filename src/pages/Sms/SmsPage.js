@@ -11,6 +11,7 @@ import Button from '@material-ui/core/Button';
 import ReactTable from "react-table";
 import "react-table/react-table.css";
 import matchSorter from 'match-sorter';
+import ModalCalling from './../../components/Customers/ModalCalling';
 
 class SmsPage extends Component {
 	
@@ -88,7 +89,7 @@ class SmsPage extends Component {
 							</Link>
 						</div>
 						
-
+						<ModalCalling />
 						
 						<div className="clearfix"></div><br/>
 								
@@ -112,7 +113,7 @@ class SmsPage extends Component {
 		var result = null;
 		if( sms ){
 			if ( sms && typeof sms !== 'undefined' && sms.length > 0) {
-				console.log(sms);
+				// console.log(sms);
 				return <ReactTable
 							// getTdProps={( column ) => ({
 							// 	onClick: e => {
@@ -124,6 +125,13 @@ class SmsPage extends Component {
 
 				  			// })}
 							data={sms}
+							noDataText="Không tìm thấy kết quả!"
+							previousText= 'Trang trước'
+							nextText= 'Trang tiếp'
+							loadingText= 'Loading...'
+							pageText= 'Trang'
+							ofText= 'trong	'
+							rowsText= 'Tin nhắn'
 							filterable
 							defaultFilterMethod={(filter, row) =>
 								String(row[filter.id]) === filter.value}
@@ -149,9 +157,9 @@ class SmsPage extends Component {
 											filterAll: true,
 											Cell: (row) => {
 												return <div>
-													<Link to={`sms/${row.original.id}/edit`}>
+													{/* <Link to={`sms/${row.original.id}/edit`}> */}
 													  	{row.original.message_id}
-													</Link>
+													{/* </Link> */}
 												</div>;
 											}
 										},

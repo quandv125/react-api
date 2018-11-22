@@ -109,21 +109,22 @@ export const actDeleteService = (id) => {
 // Order
 export const actFetchOrdersRequest = (user_id) => {
     return (dispatch) => {
-        console.log(user_id);
-        if (user_id === null) {
-            console.log('user_id => NULL');
-            return apiCaller('GET',  config.ORDER_URL  , null).then( res => {
-                if( res ){
-                    dispatch(actFetchOrders(res.data));
-                }
-            });
-        } else {console.log('user_id');
+        // console.log(user_id);
+        // if (user_id === null) {
+            // console.log('user_id => NULL');
+            // return apiCaller('GET',  config.ORDER_URL  , null).then( res => {
+            //     if( res ){
+            //         dispatch(actFetchOrders(res.data));
+            //     }
+            // });
+        // } else {
+        //     // console.log('user_id');
             return apiCaller('GET',  config.ORDER_URL + '/product_category_id/' + user_id  , null).then( res => {
                 if( res ){
                     dispatch(actFetchOrders(res.data));
                 }
             });
-        }
+        // }
         
     }
 }
@@ -230,7 +231,9 @@ export const actAddUser = (user, userOld) => {
 export const actAddUserRequest = (user) => {
     return (dispatch) => {
         return apiCaller('POST', config.USER_URL , user).then( res => {
-            dispatch(actAddUser(res.data, user));
+            if(res.data.status){
+                dispatch(actAddUser(res.data, user)); 
+            }
         });
     }
 }
@@ -385,7 +388,7 @@ export const actLogin = (user) => {
 export const actLoginRequest = (user) => {
     return dispatch => {
         return apiCaller('POST', config.LOGIN_URL, user).then(res => {
-            console.log(res);
+            // console.log(res);
             dispatch(actLogin(res.data));
         });
     }

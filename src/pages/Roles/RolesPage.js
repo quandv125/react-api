@@ -39,8 +39,8 @@ class RoleList extends Component {
 	onDelete (id) {
 		
 		Swal({
-            title: 'Are you sure?',
-            text: "Are you sure you wish to delete this item?",
+            title: 'Bạn có chắc chắn muốn xóa?',
+            text: "",
             type: 'warning',
             showCancelButton: true,
             confirmButtonColor: '#3085d6',
@@ -49,7 +49,7 @@ class RoleList extends Component {
           }).then((result) => {
             if (result.value) {
 				this.props.onDeleteRole(id)
-				Swal('Good job!','You clicked the button!','success')
+				Swal('Xóa thành công!','','success')
             }
         })
 	}
@@ -102,6 +102,12 @@ class RoleList extends Component {
 						})}
 						data={role}
 						noDataText="Không tìm thấy kết quả!"
+						previousText= 'Trang trước'
+						nextText= 'Trang tiếp'
+						loadingText= 'Loading...'
+						pageText= 'Trang'
+						ofText= 'trong	'
+						rowsText= ''
 						filterable
 						defaultFilterMethod={(filter, row) => String(row[filter.id]) === filter.value}
 						columns={[

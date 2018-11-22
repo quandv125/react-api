@@ -33,6 +33,8 @@ export const LOGOUT_URL = domain + 'logout';
 
 export const CRMWORLDFONE_URL = domain + 'worldfone';
 
+export const HOME_URL = domain + 'home';
+export const DOMAIN = domain;
 export const GENDER_MALE = 0;
 export const GENDER_FEMALE = 1;
 
@@ -63,12 +65,13 @@ export const USER_ADD = 'user/store';
 
 export const ADMINISTRATOR = 14;
 export const MANAGER = 15;
-export const MEMBER = 16;
+export const DOCTOR = 16;
 export const ASSISTANT = 33;
 export const RECRPTIONIST = 34;
 
 export const TOKEN = sessionStorage.getItem('authentication') ? JSON.parse(sessionStorage.getItem('authentication')).access_token : '';
 export const ROLE = sessionStorage.getItem('authentication') ? JSON.parse(sessionStorage.getItem('authentication')).role_id : '';
+export const SERVICE_ID = sessionStorage.getItem('authentication') ? JSON.parse(sessionStorage.getItem('authentication')).service_id : '';
 export const USER_ID = sessionStorage.getItem('authentication') ? JSON.parse(sessionStorage.getItem('authentication')).id : '';
 export const ISLOGIN = sessionStorage.getItem('authentication') ? true : false;
 

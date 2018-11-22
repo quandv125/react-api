@@ -11,6 +11,7 @@ import Button from '@material-ui/core/Button';
 import ReactTable from "react-table";
 import "react-table/react-table.css";
 import matchSorter from 'match-sorter';
+import ModalCalling from './../../components/Customers/ModalCalling';
 
 class CallingPage extends Component {
 	
@@ -68,7 +69,7 @@ class CallingPage extends Component {
 							<i className="material-icons">arrow_back</i>
 							</Button>	
 						</Link>
-						
+						<ModalCalling />
 						<div className="clearfix"></div><br/>
 								
 						{ this.showCalling(calling) }
@@ -93,6 +94,13 @@ class CallingPage extends Component {
 			if ( calling && typeof calling !== 'undefined' && calling.length > 0) {
 				return <ReactTable
 							data={calling}
+							noDataText="Không tìm thấy kết quả!"
+							previousText= 'Trang trước'
+							nextText= 'Trang tiếp'
+							loadingText= 'Loading...'
+							pageText= 'Trang'
+							ofText= 'trong	'
+							rowsText= 'bản ghi'
 							filterable
 							defaultFilterMethod={(filter, row) =>
 								String(row[filter.id]) === filter.value}
@@ -109,21 +117,21 @@ class CallingPage extends Component {
 												return <div>{row.index+1}</div>;
 											}
 										},
-										{
-											Header: "STT",
-											id: "id",
-											width: 100,
-											accessor: d => d.id,
-											filterMethod: (filter, rows) => matchSorter(rows, filter.value, { keys: ["id"] }),
-											filterAll: true,
-											Cell: (row) => {
-												return <div>
-													<Link to={`calling/${row.original.id}/edit`}>
-													  	{row.original.id}
-													</Link>
-												</div>;
-											}
-										},
+										// {
+										// 	Header: "STT",
+										// 	id: "id",
+										// 	width: 100,
+										// 	accessor: d => d.id,
+										// 	filterMethod: (filter, rows) => matchSorter(rows, filter.value, { keys: ["id"] }),
+										// 	filterAll: true,
+										// 	Cell: (row) => {
+										// 		return <div>
+										// 			{/* <Link to={`calling/${row.original.id}/edit`}> */}
+										// 			  	{row.original.id}
+										// 			{/* </Link> */}
+										// 		</div>;
+										// 	}
+										// },
 										{
 											Header: "Khách hàng",
 											id: "customer",

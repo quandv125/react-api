@@ -11,11 +11,12 @@ class OrderData extends Component {
                         <table className="table table-hover">
                             <thead>
                                 <tr>
-                                    <th>#</th>
-                                    <th>Mã sản phẩm</th>
-                                    <th>Sản phẩm/Dịch vụ</th>
+                                   
+                                    <th>Dịch vụ</th>
+                                    {/* <th>Giá</th> */}
                                     <th>Số lượng</th>
-                                    <th></th>
+                                    <th>Ghi chú</th>
+                                    <th>Xóa</th>
                                 </tr>
                             </thead>
                             <tbody>

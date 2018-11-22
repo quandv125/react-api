@@ -5,12 +5,14 @@
   "dependencies": {
     "@material-ui/core": "^3.2.2",
     "axios": "^0.18.0",
+    "chart.js": "^2.7.3",
     "cleave.js": "^1.4.4",
     "express": "^4.16.4",
     "jquery": "^3.3.1",
     "lodash": "^4.17.10",
     "match-sorter": "^2.3.0",
     "react": "^16.3.2",
+    "react-chartjs-2": "^2.7.4",
     "react-datepicker": "^1.7.0",
     "react-datetime": "^2.15.0",
     "react-day-picker": "^7.2.4",
@@ -24,6 +26,7 @@
     "react-router-dom": "^4.3.1",
     "react-router-transition": "^1.2.1",
     "react-scripts": "^2.0.4",
+    "react-select": "^2.0.0-beta.7",
     "react-table": "^6.8.6",
     "react-toastify": "^4.4.0",
     "react-transition-group": "^1.2.1",
@@ -31,7 +34,8 @@
     "redux-thunk": "^2.3.0",
     "socket.io": "^2.1.1",
     "socket.io-client": "^2.1.1",
-    "sweetalert2": "^7.28.11"
+    "sweetalert2": "^7.28.11",
+    "toastr": "^2.1.4"
   },
   "scripts": {
     "start": "react-scripts start",

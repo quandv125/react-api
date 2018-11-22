@@ -571,13 +571,17 @@ body.boxed-layout .footer-widget {
   margin: 0;
   padding: 0;
 }
-.page-sidebar .page-sidebar-wrapper > ul > li {
+.logout-action{
+  display: none !important;
+}
+.page-sidebar .page-sidebar-wrapper > ul > li, .page-sidebar .page-sidebar-wrapper > ul > li.logout-action {
   display: block;
   margin: 0;
   padding: 0;
   border: 0px;
 }
-.page-sidebar .page-sidebar-wrapper > ul > li > a {
+
+.page-sidebar .page-sidebar-wrapper > ul > li > a, .page-sidebar .page-sidebar-wrapper > ul > li.logout-action > .my-link-logout  {
   color: #8b91a0;
   display: block;
   position: relative;
@@ -591,7 +595,7 @@ body.boxed-layout .footer-widget {
 .page-sidebar .page-sidebar-wrapper > ul > li > a.open {
   background: #313131;
 }
-.page-sidebar .page-sidebar-wrapper > ul > li > a i {
+.page-sidebar .page-sidebar-wrapper > ul > li > a i, .page-sidebar-wrapper > ul > li.logout-action > span i {
   font-size: 19px;
   position: relative;
   top: 3px;
@@ -2225,7 +2229,7 @@ blockquote.pull-right small:after {
   content: "";
 }
 .logo {
-  margin: 18px 14px;
+  margin: 5px 25px;
 }
 .normal {
   font-weight: normal;
@@ -5013,7 +5017,7 @@ form legend,
 .grid.simple .grid-body.no-border {
   border: 0px;
   padding-top: 20px;
-  min-height: 150px;
+  min-height: 275px;
 }
 .grid.simple .grid-body h4 {
   color: #282323;
@@ -8750,6 +8754,7 @@ body.rtl .footer-widget {
 }
 /*** Desktops & Laptops ***/
 @media (min-width: 980px) {
+  
   /*** Page sidebar ***/
   body.bottom-header .page-sidebar {
     margin-top: 0;
@@ -8837,6 +8842,12 @@ body.rtl .footer-widget {
 }
 /*** General tablets and phones ***/
 @media (max-width: 979px) {
+  input[name="email"], input[name="password"] {
+    width: 280px;
+}
+  .logout-action{
+    display: block !important;
+  }
   /*** Body ***/
   body {
     margin: 0px !important;
@@ -8895,6 +8906,9 @@ body.rtl .footer-widget {
 }
 /* Landscape view of all tablet devices */
 @media (min-width: 768px) and (max-width: 1024px) {
+  input[name="email"], input[name="password"] {
+      width: 280px;
+  }
   .horizontal-menu .page-content {
     margin-left: 0px;
   }
@@ -9220,6 +9234,9 @@ body.rtl .footer-widget {
 }
 /* Portrait view of all tablet devices */
 @media only screen and (min-device-width: 768px) and (max-device-width: 1024px) and (orientation: portrait) {
+  .logout-action{
+    display: block !important;
+  }
   body {
     background-color: #1b1e24;
   }
@@ -9628,7 +9645,7 @@ body.rtl .footer-widget {
   .logo {
     margin-right: auto;
     margin-left: auto;
-    margin-top: 16px;
+    margin-top: 5px;
   }
   .header-quick-nav {
     display: none;
@@ -9766,6 +9783,9 @@ body.rtl .footer-widget {
 }
 /*** Phones ***/
 @media (max-width: 480px) {
+  .logout-action{
+    display: block;
+  }
   body.hide-top-content-header .header {
     width: 100%;
   }
@@ -9774,6 +9794,9 @@ body.rtl .footer-widget {
   }
   .page-title h3 {
     width: 80%;
+  }
+  .add-new-products button{
+    margin-top: 10px;  
   }
   .page-content .content {
     padding: 8px;

@@ -3,28 +3,22 @@ import {Link} from 'react-router-dom'
 class CustomerDataTr extends Component {
     render() {
         var { customer, order_id } = this.props;
-        console.log(customer);
+        
         return (
            
             <tr>
+                
                 <td>
                     <Link to={"/orders/edit/"+ customer.id + "/" + order_id}>
-                        {customer.id}
+                        {customer.transaction_id}
                     </Link>
-                </td>
-                <td>
-                    
                 </td>
                 <td>
                     <Link to={"/orders/edit/"+ customer.id + "/" + order_id}>
                         {customer.time}
                     </Link>
                 </td>	
-                <td>
-                    <Link to={"/orders/edit/"+ customer.id + "/" + order_id}>
-                        {customer.transaction_id}
-                    </Link>
-                </td>
+               
                 <td>{customer.category.title}</td>
                 <td>{customer.user ? customer.user.firstname + " " + customer.user.lastname:''}</td>
                 <td>{customer.note}</td>
