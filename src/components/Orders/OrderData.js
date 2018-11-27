@@ -13,8 +13,8 @@ class OrderData extends Component {
                                 <tr>
                                    
                                     <th>Dịch vụ</th>
-                                    {/* <th>Giá</th> */}
-                                    <th>Số lượng</th>
+                                    <th>Giá</th>
+                                    <th>S.lượng</th>
                                     <th>Ghi chú</th>
                                     <th>Xóa</th>
                                 </tr>

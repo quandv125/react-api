@@ -25,6 +25,9 @@ const orders = (state = initialState, action) => {
                 order_by_date: state.order_by_date
             }
             return state;
+        case Types.ADD_ORDERS:
+            state = { status: null, orders: null , order_by_date: null}
+            return state;
         default: 
             return state;
     }

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import Button from '@material-ui/core/Button';
 import { Link } from 'react-router-dom';
-
+import moment from 'moment' // convert date => dd/mm/yyyy
 // Import React Table
 import ReactTable from "react-table";
 import "react-table/react-table.css";
@@ -62,7 +62,7 @@ class OrderList extends Component {
 									{
 										Header: "",
 										filterable: false,
-										maxWidth: 80,
+										width: 50,
 										Cell: row => (
 											<div>
 												<Button type="submit" className=" btn btn-primary btn-cons-small" variant="fab" color="secondary" size="small" onClick={ () => this.onOpenModal(row.original.id) }>
@@ -78,7 +78,7 @@ class OrderList extends Component {
 										accessor: d => d.transaction_id,
 										filterMethod: (filter, rows) => matchSorter(rows, filter.value, { keys: ["transaction_id"] }),
 										filterAll: true,
-										// maxWidth: 200,
+										width: 150,
 										Cell: (row) => {
 											return <div>
 												<Link to={`orders/edit/${row.original.id}/${row.original.customer_id}`}>
@@ -92,7 +92,7 @@ class OrderList extends Component {
 										id: "customer_title",
 										accessor: d => d.customer_title,
 										filterMethod: (filter, rows) => matchSorter(rows, filter.value, { keys: ["customer_title"] }),
-										// maxWidth: 250,
+										width: 180,
 										filterAll: true,
 										Cell: (row) => {
 											return <div>
@@ -119,9 +119,9 @@ class OrderList extends Component {
 										// maxWidth: 300,
 									},
 									{
-										Header: "Thời gian",
+										Header: "Thời gian khám lại",
 										id: "time",
-										accessor: d => d.time,
+										accessor: d => d.time ? moment(d.time).format('DD/MM/YYYY') : "",
 										filterMethod: (filter, rows) => matchSorter(rows, filter.value, { keys: ["time"] }),
 										filterAll: true,
 										// maxWidth: 200,

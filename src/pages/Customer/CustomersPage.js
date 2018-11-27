@@ -11,12 +11,14 @@ import ReactTable from "react-table";
 import "react-table/react-table.css";
 import matchSorter from 'match-sorter';
 import ModalCalling from './../../components/Customers/ModalCalling';
+import moment from 'moment';
 
 class CustomersPage extends Component {
 	
 	constructor(props) {
 		super(props);
 		this.state = {
+			customers: [],
 			note: '',
 			loggedOut: false,
 			open: false,
@@ -28,7 +30,16 @@ class CustomersPage extends Component {
 	}
 
 	componentWillMount(){
-		this.props.getCustomers();
+		
+		if(this.props.customers && this.props.customers.customers && this.props.customers.customers.length > 0){
+			this.setState({
+				customers: this.props.customers.customers
+			});
+		} else {
+			console.log('initD');
+			this.props.getCustomers();
+		}
+		
 	}
 
 	componentWillReceiveProps(nextprops){
@@ -73,6 +84,7 @@ class CustomersPage extends Component {
 		if (this.props.customers !== null) {
 			var {customers} = this.props.customers;
 		}
+		
 		return (
 			<CSSTransitionGroup transitionName={config.PAGETRANSITION} transitionAppear={true} transitionAppearTimeout={config.TRANSITIONSPEED} transitionEnter={false} transitionLeave={false}>
 				<div className="grid simple">
@@ -144,6 +156,21 @@ class CustomersPage extends Component {
 											}
 										},
 										{
+											Header: "Mã KH",
+											id: "customer_id",
+											width: 100,
+											accessor: d => d.customer_id,
+											filterMethod: (filter, rows) => matchSorter(rows, filter.value, { keys: ["customer_id"] }),
+											filterAll: true,
+											Cell: (row) => {
+												return <div>
+													<Link to={`customers/edit/${row.original.id}`}>
+													  	{row.original.customerID}
+													</Link>
+												</div>;
+											}
+										},
+										{
 											Header: "Số điện thoại",
 											id: "phone",
 											accessor: d => d.phone,
@@ -177,7 +204,7 @@ class CustomersPage extends Component {
 										{
 											Header: "Email",
 											id: "email",
-											width: 250,
+											width: 100,
 											accessor: d => d.email,
 											filterMethod: (filter, rows) => matchSorter(rows, filter.value, { keys: ["email"] }),
 											filterAll: true
@@ -191,35 +218,49 @@ class CustomersPage extends Component {
 										},
 										
 										{
-											Header: "Giới tính",
-											id: "gender",
-											width: 100,
-											accessor: d => d.gender,
-											Cell: ({ value }) => (value === config.GENDER_MALE	 ? (<span className="label label-warning">Nữ</span>) : (<span className="label label-primary">Nam</span>)),
-											filterMethod: (filter, row) => {
-												if (filter.value === "all") {
-												  	return true;
-												}
-												if (filter.value === String(config.GENDER_MALE)) {
-													return row[filter.id] === config.GENDER_MALE;
-												}
-												if (filter.value === String(config.GENDER_FEMALE)) {
-													return row[filter.id] === config.GENDER_FEMALE;
-												}
-
-											  },
-											  Filter: ({ filter, onChange }) =>
-												<select
-												  className="sel-role"
-												  onChange={event => onChange(event.target.value)}
-												  style={{ width: "100%" }}
-												  value={filter ? filter.value : "all"}
-												>
-												  <option value="all">Tất cả</option>
-												  <option value="0">Nữ</option>
-												  <option value="1">Nam</option>
-												</select>
+											Header: "Loại Dịch vụ",
+											id: "service_name",
+											accessor: d => d.service_name,
+											filterMethod: (filter, rows) => matchSorter(rows, filter.value, { keys: ["service_name"] }),
+											filterAll: true
 										},
+										{
+											Header: "Ngày",
+											id: "created_at",
+											accessor: d =>  moment(d.created_at).format('DD/MM/YYYY HH:mm:ss'),
+											filterMethod: (filter, rows) => matchSorter(rows, filter.value, { keys: ["created_at"] }),
+											filterAll: true
+										},
+										// {
+										// 	Header: "Giới tính",
+										// 	id: "gender",
+										// 	width: 100,
+										// 	accessor: d => d.gender,
+										// 	Cell: ({ value }) => (value === config.GENDER_MALE	 ? (<span className="label label-warning">Nữ</span>) : (<span className="label label-primary">Nam</span>)),
+										// 	filterMethod: (filter, row) => {
+										// 		if (filter.value === "all") {
+										// 		  	return true;
+										// 		}
+										// 		if (filter.value === String(config.GENDER_MALE)) {
+										// 			return row[filter.id] === config.GENDER_MALE;
+										// 		}
+										// 		if (filter.value === String(config.GENDER_FEMALE)) {
+										// 			return row[filter.id] === config.GENDER_FEMALE;
+										// 		}
+
+										// 	  },
+										// 	  Filter: ({ filter, onChange }) =>
+										// 		<select
+										// 		  className="sel-role"
+										// 		  onChange={event => onChange(event.target.value)}
+										// 		  style={{ width: "100%" }}
+										// 		  value={filter ? filter.value : "all"}
+										// 		>
+										// 		  <option value="all">Tất cả</option>
+										// 		  <option value="0">Nữ</option>
+										// 		  <option value="1">Nam</option>
+										// 		</select>
+										// },
 										
 									]
 								}
@@ -277,6 +318,21 @@ class CustomersPage extends Component {
 											}
 										},
 										{
+											Header: "Mã KH",
+											id: "customerID",
+											width: 100,
+											accessor: d => d.customerID,
+											filterMethod: (filter, rows) => matchSorter(rows, filter.value, { keys: ["customerID"] }),
+											filterAll: true,
+											Cell: (row) => {
+												return <div>
+													<Link to={`customers/edit/${row.original.id}`}>
+													  	{row.original.customerID}
+													</Link>
+												</div>;
+											}
+										},
+										{
 											Header: "Số điện thoại",
 											id: "phone",
 											accessor: d => d.phone,
@@ -310,7 +366,7 @@ class CustomersPage extends Component {
 										{
 											Header: "Email",
 											id: "email",
-											width: 250,
+											width: 100,
 											accessor: d => d.email,
 											filterMethod: (filter, rows) => matchSorter(rows, filter.value, { keys: ["email"] }),
 											filterAll: true
@@ -322,39 +378,53 @@ class CustomersPage extends Component {
 											filterMethod: (filter, rows) => matchSorter(rows, filter.value, { keys: ["address"] }),
 											filterAll: true
 										},
-										
 										{
-											Header: "Giới tính",
-											id: "gender",
-											width: 100,
-											accessor: d => d.gender,
-											Cell: ({ value }) => (value === config.GENDER_MALE	 ? (<span className="label label-warning">Nữ</span>) : (<span className="label label-primary">Nam</span>)),
-											filterMethod: (filter, row) => {
-												if (filter.value === "all") {
-												  	return true;
-												}
-												if (filter.value === String(config.GENDER_MALE)) {
-													return row[filter.id] === config.GENDER_MALE;
-												}
-												if (filter.value === String(config.GENDER_FEMALE)) {
-													return row[filter.id] === config.GENDER_FEMALE;
-												}
-
-											  },
-											  Filter: ({ filter, onChange }) =>
-												<select
-												  className="sel-role"
-												  onChange={event => onChange(event.target.value)}
-												  style={{ width: "100%" }}
-												  value={filter ? filter.value : "all"}
-												>
-												  <option value="all">Tất cả</option>
-												  <option value="0">Nữ</option>
-												  <option value="1">Nam</option>
-												</select>
+											Header: "Loại Dịch vụ",
+											id: "service_name",
+											accessor: d => d.service_name,
+											filterMethod: (filter, rows) => matchSorter(rows, filter.value, { keys: ["service_name"] }),
+											filterAll: true
 										},
 										{
+											Header: "Ngày",
+											id: "created_at",
+											accessor: d => moment(d.created_at).format('DD/MM/YYYY HH:mm:ss'),
+											filterMethod: (filter, rows) => matchSorter(rows, filter.value, { keys: ["created_at"] }),
+											filterAll: true
+										},
+										// {
+										// 	Header: "Giới tính",
+										// 	id: "gender",
+										// 	width: 100,
+										// 	accessor: d => d.gender,
+										// 	Cell: ({ value }) => (value === config.GENDER_MALE	 ? (<span className="label label-warning">Nữ</span>) : (<span className="label label-primary">Nam</span>)),
+										// 	filterMethod: (filter, row) => {
+										// 		if (filter.value === "all") {
+										// 		  	return true;
+										// 		}
+										// 		if (filter.value === String(config.GENDER_MALE)) {
+										// 			return row[filter.id] === config.GENDER_MALE;
+										// 		}
+										// 		if (filter.value === String(config.GENDER_FEMALE)) {
+										// 			return row[filter.id] === config.GENDER_FEMALE;
+										// 		}
+
+										// 	  },
+										// 	  Filter: ({ filter, onChange }) =>
+										// 		<select
+										// 		  className="sel-role"
+										// 		  onChange={event => onChange(event.target.value)}
+										// 		  style={{ width: "100%" }}
+										// 		  value={filter ? filter.value : "all"}
+										// 		>
+										// 		  <option value="all">Tất cả</option>
+										// 		  <option value="0">Nữ</option>
+										// 		  <option value="1">Nam</option>
+										// 		</select>
+										// },
+										{
 											Header: "",
+											width: 80,
 											filterable: false,
 											Cell: row => (
 												

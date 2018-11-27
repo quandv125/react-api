@@ -23,6 +23,9 @@ const products = (state = initialState, action) => {
                 products: state.products
             }
             return state;
+        case Types.UPDATE_PRODUCTS:
+            state = { status: null, customers: null }
+            return state;
         default: 
             return state;
     }

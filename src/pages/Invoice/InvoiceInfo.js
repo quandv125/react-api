@@ -39,20 +39,7 @@ class InvoiceInfo extends Component {
 		}
     }
 
-    todayNow = () => {
-        var today = new Date();
-        var dd = today.getDate();
-        var mm = today.getMonth() + 1; //January is 0!
-        var yyyy = today.getFullYear();
-        if (dd < 10) {
-        dd = '0' + dd;
-        } 
-        if (mm < 10) {
-        mm = '0' + mm;
-        } 
-        var now = dd + '/' + mm + '/' + yyyy;
-        return now;
-    }
+    
     
     showInvoiceDetail = (order) => {
         var result = null;
@@ -87,11 +74,7 @@ class InvoiceInfo extends Component {
                             <div className="col-ls-12 col-md-12">
                                 <div className="card">
           
-                                    <div className="card-header">
-                                       
-                                        Ngày:  <strong> {this.todayNow()} </strong> 
-                                        {/* <span className="float-right"> <strong>Trạng thái:</strong> </span> */}
-                                    </div>
+                                    
                                     
                                     <div className="clearfix margin-top20"></div>
                                     {this.showInvoiceDetail(order)}

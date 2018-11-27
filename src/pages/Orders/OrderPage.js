@@ -40,6 +40,9 @@ class OrderPage extends Component {
 				if(String(this.state.service_id) === String(message)) {
 					this.props.getOrders(this.state.user_id);
 					toast.success("Bạn có bệnh nhân khám mới !", { position: "top-right", autoClose: false, hideProgressBar: true,	closeOnClick: true });
+
+					// this.audio = new Audio("http://183.91.11.132/music.mp3");
+					// this.audio.play()
 				}
 			});
 		}
@@ -54,7 +57,17 @@ class OrderPage extends Component {
 	}
 	
 	componentWillMount(){
-		this.props.getOrders(this.state.user_id);
+		if(this.props.orders && this.props.orders.orders && this.props.orders.orders.length > 0){
+			// console.log('props');
+			this.setState({
+				orders: this.props.orders.orders,
+				order_by_date: this.props.orders.order_by_date
+			});
+		} else {
+			console.log('initD');
+			this.props.getOrders(this.state.user_id);
+		}
+		
 	}
 
 	onDelete = (id) => {

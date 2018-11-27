@@ -80,7 +80,6 @@ class CustomerActionPage extends Component {
 	getCustomerData = (id) => {
 		callApi('GET', config.ORDER_URL +'/customer/'+ id, null).then(res => {
 			if(res && res.data.status){
-				console.log(res.data);
 				this.setState({
 					customer_data: res.data.orders
 				});	

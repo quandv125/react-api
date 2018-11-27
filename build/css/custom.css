@@ -64,8 +64,17 @@
 .ReactTable .rt-thead .rt-resizable-header-content {
   overflow: hidden;
   text-overflow: ellipsis;
-  font-weight: bold;
+  font-weight: bold !important;
 }
+.ReactTable  {
+  font-weight: bold !important;
+  border: 2px solid rgba(82, 47, 47, 0.41)  !important;
+}
+
+.ReactTable .rt-table {
+  font-weight: bold !important;
+}
+
 .btn-cons-small {
   min-width: 40px !important;
   width: 40px !important;

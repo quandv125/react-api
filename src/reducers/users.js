@@ -32,7 +32,7 @@ const users = (state = initialState, action) => {
             };
             return state;
         case Types.UPDATE_USERS:
- 
+           
             let {id} = action.user.user; 
             index = findIndex(state.users, { id: id });
             if (index !== -1) {

@@ -16,6 +16,7 @@ class CustomerData extends Component {
                                     <th>Danh mục</th>
                                     <th>Bác sỹ</th>
                                     <th>Chú thích</th>
+                                    <th>Ngày khám</th>
                                 </tr>
                             </thead>
                             <tbody>

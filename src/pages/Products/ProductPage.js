@@ -35,7 +35,13 @@ class ProductList extends Component {
 	
 	componentWillMount(){
 		notification();
-		this.props.getProducts();
+		if(this.props.products && this.props.products.products && this.props.products.products.length > 0){
+			this.setState({
+				products: this.props.products.products
+			});
+		} else {
+			this.props.getProducts();
+		}
 	}
 
 	onDelete = (id) => {
@@ -107,6 +113,7 @@ class ProductList extends Component {
 }
 
 const mapStateToProps = (state) => {
+
 	return {
 		products: state.products,
 		authentication: state.authentication

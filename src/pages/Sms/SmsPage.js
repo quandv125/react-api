@@ -6,7 +6,7 @@ import { connect } from 'react-redux';
 import { actFetchSmsRequest, actDeleteSmsRequest } from '../../actions/index';
 import { Redirect } from 'react-router-dom';
 import Button from '@material-ui/core/Button';
-
+import moment from 'moment'
 // Import React Table
 import ReactTable from "react-table";
 import "react-table/react-table.css";
@@ -18,6 +18,7 @@ class SmsPage extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
+			sms: [],
 			loggedOut: false,
 			isLogin: config.TOKEN.length > 10 ? true : false
 		}
@@ -25,7 +26,13 @@ class SmsPage extends Component {
 	}
 
 	componentWillMount(){
-		this.props.getSms();
+		if(this.props.sms && this.props.sms.sms && this.props.sms.sms.length > 0){
+			this.setState({
+				sms: this.props.sms.sms
+			});
+		} else {
+			this.props.getSms();
+		}
 	}
 
 	componentWillReceiveProps(nextprops){
@@ -59,10 +66,10 @@ class SmsPage extends Component {
 		if (this.props.sms !== null) {
 			var {sms} = this.props.sms;
 		}
-		// var balance = null;
-		// if (this.props.info !== null) {
-		// 	balance = 'Tài khoản: ' + this.props.info.data.balance + ' đ';
-		// }
+		var balance = null;
+		if (this.props.info !== null) {
+			balance = 'Tài khoản còn lại: ' + this.props.info.data.balance + ' đ';
+		}
 		return (
 			<CSSTransitionGroup transitionName={config.PAGETRANSITION} transitionAppear={true} transitionAppearTimeout={config.TRANSITIONSPEED} transitionEnter={false} transitionLeave={false}>
 				<div className="grid simple">
@@ -76,9 +83,9 @@ class SmsPage extends Component {
 						</div>
 						<div className="col-lg-4 col-md-4 col-xs-8 col-sm-8 text-center">
 							
-							{/* <div className="balance-sms">
+							<div className="balance-sms">
 								{balance}
-							</div> */}
+							</div>
 							
 						</div>
 						<div className="col-lg-4 col-md-4 col-xs-2 col-sm-2">
@@ -112,6 +119,7 @@ class SmsPage extends Component {
 	showSms (sms) {
 		var result = null;
 		if( sms ){
+			console.log(sms);
 			if ( sms && typeof sms !== 'undefined' && sms.length > 0) {
 				// console.log(sms);
 				return <ReactTable
@@ -146,6 +154,15 @@ class SmsPage extends Component {
 											filterable: false,
 											Cell: (row) => {
 												return <div>{row.index+1}</div>;
+											}
+										},
+										{
+											Header: "Kiểu",
+											id: "type",
+											maxWidth: 80,
+											filterable: false,
+											Cell: (row) => {
+												return <div>{row.original.type === 'Auto' ? 'Tự Động': ''}</div>;
 											}
 										},
 										{
@@ -233,10 +250,10 @@ class SmsPage extends Component {
 											filterAll: true
 										},
 										{
-											Header: "Gía",
+											Header: "giá",
 											id: "price",
 											width: 80,
-											accessor: d => d.price,
+											accessor: d => d.price + ' đ',
 											filterMethod: (filter, rows) => matchSorter(rows, filter.value, { keys: ["price"] }),
 											filterAll: true
 										},
@@ -244,7 +261,7 @@ class SmsPage extends Component {
 											Header: "Thời gian",
 											id: "created_at",
 											width: 200,
-											accessor: d => d.created_at,
+											accessor: d => moment(d.created_at).format('DD/MM/YYYY HH:mm:ss'),
 											filterMethod: (filter, rows) => matchSorter(rows, filter.value, { keys: ["created_at"] }),
 											filterAll: true
 										},						

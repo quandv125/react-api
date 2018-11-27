@@ -18,6 +18,7 @@ class UsersPage extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
+			users: [],
 			product_categories: [],
 			loggedOut: false,
 			isLogin: config.TOKEN.length > 10 ? true : false
@@ -63,7 +64,14 @@ class UsersPage extends Component {
 	}
 	
 	componentWillMount(){
-		this.props.getUsers();
+		
+		if(this.props.users && this.props.users.users && this.props.users.users.length > 0){
+			this.setState({
+				users: this.props.users.users
+			});
+		} else {
+			this.props.getUsers();
+		}
 	}
 
 	onDelete (id) {

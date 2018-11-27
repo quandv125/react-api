@@ -10,12 +10,28 @@ import Button from '@material-ui/core/Button';
 import Modal from 'react-responsive-modal';
 import CustomerData from './../../components/Customers/CustomerData';
 import CustomerDataTr from './../../components/Customers/CustomerDataTr';
+import { actUpdateCustomerRequest, actAddOrderRequest  } from '../../actions/index';
+
 import DatePicker from 'react-datepicker';
 import moment from 'moment';
 import Swal from 'sweetalert2'
 import Radio from '@material-ui/core/Radio';
 import socketIOClient from 'socket.io-client'
 // import Cleave from 'cleave.js/react';
+import Select from 'react-select';
+const options = [
+	
+	{
+		value: '25', label: 'Nha Khoa'
+	},
+	{
+		value: '26', label: 'Laser'
+	},
+	{
+		value: '27', label: 'Spa'
+	}
+];
+
 
 class CustomerActionPage extends Component {
 	constructor(props) {
@@ -23,6 +39,7 @@ class CustomerActionPage extends Component {
 		
 		this.state = {
 			id: '',
+			customerID: '',
 			username: 'customer',
 			firstname: '',
 			lastname: '',
@@ -31,15 +48,18 @@ class CustomerActionPage extends Component {
 			phone: '',
 			birthday: '',
 			startDate: null,
-			gender: config.GENDER_FEMALE,
+			gender: config.GENDER_MALE,
 			isValidation: '',
 			submitted: false,
 			isFormValidationErrors : true,
 			open: false,
 			service: '25',
 			customer_data: '',
-			selectedValue: 'male'
+			selectedValue: 'male',
+			note: '',
+			selectedServices: [options[0]]
 		};
+		// console.log(this.state.gender);
 		this.onChangeForm = this.onChangeForm.bind(this);
 		this.handleFormSubmit = this.handleFormSubmit.bind(this);
 		this.isValidationError = this.isValidationError.bind(this);
@@ -57,14 +77,17 @@ class CustomerActionPage extends Component {
 			var id = match.params.id;
 			callApi('GET', config.CUSTOMER_URL  + "/" + id, null).then(res => {
 				var data = res.data.data;
+				// console.log(data.gender);
 				this.setState({
 					id: data.id ? data.id  : '',
+					customerID: data.customerID ? data.customerID  : '',
 					username: data.username ? data.username : '',
 					firstname: data.firstname ? data.firstname : '',
 					lastname: data.lastname ? data.lastname : '',
 					email: data.email ? data.email : '',
 					address: data.address ? data.address : '',
 					phone: data.phone ? data.phone : '',
+					selectedServices: data.options ? data.options : [options[0]],
 					selectedValue: data.gender ? this.returnGender(data.gender) : 'male',
 					startDate: data.birthday ? this.convertNumberToDate(data.birthday) : null,
 				});
@@ -72,6 +95,22 @@ class CustomerActionPage extends Component {
 			this.getCustomerData(id)
 		}
 	}
+
+	showCustomerService = () => {
+		if (options !== '' && typeof options === 'object'){
+		
+            return (<Select
+                value={this.state.selectedServices}
+                onChange={this.handleChangeServices}
+                options={options}
+				defaultValue={[options[0]]}
+				isMulti={true}
+            />);
+		}
+	}
+	handleChangeServices = (selectedServices) => {
+        this.setState({  selectedServices });
+    }
 
 	returnGender = (gender) => {
 		return gender === config.GENDER_MALE ? 'male' : 'female';
@@ -97,8 +136,13 @@ class CustomerActionPage extends Component {
 
 	convertNumberToDate = (date) => {
 		// date => 2018-10-25 15:28:46
-		var date_time = moment(date, "YYYY-MM-DD");
-		return date_time;
+
+		if(date && date !== "0000-00-00 00:00:00"){
+			var date_time = moment(date, "YYYY-MM-DD");
+			return date_time;
+		}
+		return null;
+		
 	}
 
 	isValidationError(flag){
@@ -135,20 +179,23 @@ class CustomerActionPage extends Component {
 		event.preventDefault();
 		this.setState( { submitted:true } );
 		var {history} = this.props;
-		var {id, username, firstname, lastname, email, phone, address, gender, birthday} = this.state;
-		var data = { username: username, firstname: firstname, lastname: lastname, email: email, phone: phone, address: address, gender: gender, birthday: birthday };
+		var {id, customerID,username, firstname, lastname, email, phone, address, gender, birthday, selectedServices} = this.state;
+		var data = { customerID: customerID, username: username, firstname: firstname, lastname: lastname, email: email, phone: phone, address: address, gender: gender, birthday: birthday, selectedServices: selectedServices };
+		
 		let { isFormValidationErrors } = this.state;
-		if ( !isFormValidationErrors && phone !== '' ){
+		if ( !isFormValidationErrors ){
 			if(id) { //update
+				
 				callApi('PUT', config.CUSTOMER_URL + "/" + id, data).then(res => {
 					Swal( 'Cập nhật thành công!', '', 'success')
+					this.props.onUpdateCustomer(id, data);
 					// history.goBack();
 				});
-			} else if(phone === '' && phone === '+84 ' && phone.length !== 15){
-				Swal( 'Lỗi...', 'Số điẹn thoại không đúng định dạng!', 'error')
 			} else { //create
 				callApi('POST', config.CUSTOMER_URL, data).then(res => {
+				
 					if(res.data.id) {
+						this.props.onUpdateCustomer(res.data.id, data);
 						Swal( 'Thêm khách hàng thành công!', '', 'success')
 						history.push("/customers/edit/"+res.data.id);
 					} else {
@@ -180,6 +227,7 @@ class CustomerActionPage extends Component {
 			  }).then((result) => {
 				if (result.value) {
 					callApi('POST', config.ORDER_URL, data).then(res => {
+						this.props.onAddOrder();
 						Swal('Thêm dịch vụ thành công','','success')
 						this.onCloseModal();
 						this.getCustomerData(id);
@@ -262,6 +310,22 @@ class CustomerActionPage extends Component {
 					<div className="col-lg-12 col-xs-12 col-md-12">
 					<form noValidate onSubmit={this.handleFormSubmit}>
 						<div className="col-md-6 col-lg-6">
+							<div className="form-group">
+								<label>Mã khách hàng ( Nếu để trống mã khách hàng sẽ tự khởi tạo, tối đa 50 kí tự )</label>
+								<input 
+									type="text" 
+									className="form-control" 
+									value={this.state.customerID} 
+									onChange={this.onChangeForm} 
+									name="customerID" 
+									placeholder="Mã khách hàng"/>
+								<Validator 
+									isValidationError={this.isValidationError}
+									isFormSubmitted={this.state.submitted} 
+									reference={{customerID : this.state.customerID}}
+									validationRules={{ maxLength:50 }} 
+									validationMessages={{  maxLength: "Độ dài tối đa là : 50 "}}/>
+							</div>
 							
 							<div className="form-group">
 								<label>Họ*( Không được để trống )</label>
@@ -279,63 +343,7 @@ class CustomerActionPage extends Component {
 									validationRules={{required:true, maxLength:50}} 
 									validationMessages={{ required: "Trường này không được để trống", maxLength: "Độ dài tối đa là : 10 "}}/>
 							</div>
-							<div className="form-group">
-								<label>Email</label>
-								<input 
-									type="text" 
-									className="form-control" 
-									value={this.state.email} 
-									onChange={this.onChangeForm} 
-									name="email" 
-									placeholder="Email"/>
-								{/* <Validator 
-									isValidationError={this.isValidationError}
-									isFormSubmitted={this.state.submitted} 
-									reference={{email : this.state.email}}
-									validationRules={{required:true, email:true}} 
-									validationMessages={{ required: "Trường này không được để trống", email: "Email không đúng định dạnh"}}/>
-								 */}
-							</div>
-							<div className="form-group">
-									<label>Ngày sinh</label>
-									<DatePicker
-										className="form-control"
-										dateFormat="DD-MM-YYYY"
-										placeholderText="Ex: 25-10-2018"
-										name="birthday" 
-										todayButton="Today"
-										withPortal
-										// peekNextMonth
-										// showMonthDropdown
-										showYearDropdown
-										dropdownMode="select"
-										selected={this.state.startDate}
-										onChange={this.handleChangeDate} 
-									/>
-									
-							</div>
-							<div className="form-group">
-								<span>Nữ</span>
-								<Radio
-									checked={this.state.selectedValue === 'male'}
-									onChange={this.handleChange('selectedValue')}
-									value='male'
-									name="gender"
-									aria-label="male"
-								/>
-								<span>Nam</span>
-								<Radio
-									checked={this.state.selectedValue === 'female'}
-									onChange={this.handleChange('selectedValue')}
-									value='female'
-									name="gender"
-									aria-label="female"
-								/>
-									
-								
-							</div>
-						</div>
-						<div className="col-md-6 col-lg-6">
+							
 							<div className="form-group">
 								<label>Tên*( Không được để trống )</label>
 								<input 
@@ -354,7 +362,50 @@ class CustomerActionPage extends Component {
 								
 							</div>
 							<div className="form-group">
-								<label>Số điện thoại (VD:  0987654321)*( Không được để trống )</label>
+								<label>Khách hàng thuộc dịch vụ</label>
+								{this.showCustomerService()}
+							</div>
+							<div className="form-group">
+								<span>Nữ</span>
+								<Radio
+									checked={this.state.selectedValue === 'male'}
+									onChange={this.handleChange('selectedValue')}
+									value='male'
+									name="gender"
+									aria-label="male"
+								/>
+								<span>Nam</span>
+								<Radio
+									checked={this.state.selectedValue === 'female'}
+									onChange={this.handleChange('selectedValue')}
+									value='female'
+									name="gender"
+									aria-label="female"
+								/>
+							</div>
+							
+						</div>
+						<div className="col-md-6 col-lg-6">
+							<div className="form-group">
+								<label>Email</label>
+								<input 
+									type="text" 
+									className="form-control" 
+									value={this.state.email} 
+									onChange={this.onChangeForm} 
+									name="email" 
+									placeholder="Email"/>
+								{/* <Validator 
+									isValidationError={this.isValidationError}
+									isFormSubmitted={this.state.submitted} 
+									reference={{email : this.state.email}}
+									validationRules={{required:true, email:true}} 
+									validationMessages={{ required: "Trường này không được để trống", email: "Email không đúng định dạnh"}}/>
+								 */}
+							</div>
+							
+							<div className="form-group">
+								<label>Số điện thoại (VD:  0987654321)</label>
 								{/* <Cleave className="input-numeral form-control" 
 											placeholder="PHONE" 
 											name="phone"
@@ -379,14 +430,14 @@ class CustomerActionPage extends Component {
 										name="phone" 
 										placeholder="Số điện thoại"/>
 								</div>
-								
+{/* 								
 								<Validator 
 									isValidationError={this.isValidationError}
 									isFormSubmitted={this.state.submitted} 
 									reference={{phone : this.state.phone}}
 									validationRules={{required:true, minLength: 10, maxLength:10 }} 
 									validationMessages={{ required: "Trường này không được để trống", number: "Số diện thoại là chữ số", maxLength: "Độ dài tối đa là : 10 kí tự", minLength: "Độ dài tối thiểu là 10 kí tự"}}/>
-								
+								 */}
 							</div>
 							
 							<div className="form-group">
@@ -406,7 +457,27 @@ class CustomerActionPage extends Component {
 									validationMessages={{ required: "Trường này không được để trống", maxLength: "Độ dài tối đa là : 10 "}}/> */}
 							</div>
 							
-						
+							<div className="form-group">
+									<label>Ngày sinh</label>
+									<DatePicker
+										className="form-control"
+										dateFormat="DD-MM-YYYY"
+										placeholderText="Ex: 25-10-2018"
+										name="birthday" 
+										todayButton="Today"
+										withPortal
+										// peekNextMonth
+										// showMonthDropdown
+										showYearDropdown
+										dropdownMode="select"
+										selected={this.state.startDate}
+										onChange={this.handleChangeDate} 
+									/>
+									
+							</div>
+
+							
+							
 						</div> 
 						<div className="col-xs-12 col-sm-12 col-md-12 col-lg-12 text-center">
 							<Button type="submit" className="btn btn-primary btn-cons"  variant="contained" color="primary">
@@ -453,5 +524,15 @@ const mapStateToProps = state => {
     }
 }
 
+const mapDispatchToProps = (dispatch, props) => {
+	return {
+		onUpdateCustomer : (id, data) => {
+			dispatch(actUpdateCustomerRequest(id, data));
+		},
+		onAddOrder : () => {
+			dispatch(actAddOrderRequest());
+		}
+	}
+}
 
-export default connect(mapStateToProps, null)(CustomerActionPage);
+export default connect(mapStateToProps, mapDispatchToProps)(CustomerActionPage);

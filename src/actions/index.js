@@ -19,7 +19,12 @@ export const actFetchProducts = (products) => {
         products
     }
 }
-
+// Update Products
+export const actUpdateProductsRequest = (id, data) => {
+    return (dispatch) => {
+        dispatch({type: Types.UPDATE_PRODUCTS, data, id});
+    }
+}
 // Delete Product    
 export const actDeleteProductRequest = (id) => {
     return (dispatch) => {
@@ -135,7 +140,12 @@ export const actFetchOrders = (orders) => {
         orders
     }
 }
-
+// Update Orders
+export const actAddOrderRequest = () => {
+    return (dispatch) => {
+        dispatch({type: Types.ADD_ORDERS});
+    }
+}
 // Delete Order    
 export const actDeleteOrderRequest = (id) => {
     return (dispatch) => {
@@ -296,6 +306,14 @@ export const actFetchCustomers = (customers) => {
         customers
     }
 }
+
+export const actUpdateCustomerRequest = (id, data) => {
+    console.log('213');
+    return (dispatch) => {
+        dispatch({type: Types.UPDATE_CUSTOMERS, data, id});
+    }
+}
+
 // Delete customer    
 export const actDeleteCustomerRequest = (id) => {
     return (dispatch) => {

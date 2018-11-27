@@ -6,7 +6,7 @@ import { connect } from 'react-redux';
 import { actFetchCallingRequest, actDeleteCallingRequest } from '../../actions/index';
 import { Redirect } from 'react-router-dom';
 import Button from '@material-ui/core/Button';
-
+import moment from 'moment' // convert date => dd/mm/yyyy
 // Import React Table
 import ReactTable from "react-table";
 import "react-table/react-table.css";
@@ -18,6 +18,7 @@ class CallingPage extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
+			calling: [],
 			loggedOut: false,
 			isLogin: config.TOKEN.length > 10 ? true : false
 		}
@@ -25,7 +26,13 @@ class CallingPage extends Component {
 	}
 
 	componentWillMount(){
-		this.props.getCalling();
+		if(this.props.calling && this.props.calling && this.props.calling.length > 0){
+			this.setState({
+				calling: this.props.calling.calling
+			});
+		} else {
+			this.props.getCalling();
+		}
 	}
 
 	componentWillReceiveProps(nextprops){
@@ -56,6 +63,7 @@ class CallingPage extends Component {
 		if(loggedOut){
 			return <Redirect to={{ pathname: "/"}}/>;
 		}
+		
 		if (this.props.calling !== null) {
 			var {calling} = this.props;
 		}
@@ -206,7 +214,7 @@ class CallingPage extends Component {
 											Header: "Ngày/ giờ",
 											id: "created_at",
 											// width: 200,
-											accessor: d => d.created_at,
+											accessor: d => moment(d.created_at).format('DD/MM/YYYY HH:mm:ss'),
 											filterMethod: (filter, rows) => matchSorter(rows, filter.value, { keys: ["created_at"] }),
 											filterAll: true
 										},						
@@ -242,9 +250,10 @@ class CallingPage extends Component {
 }
 
 const mapStateToProps = state => {
+	
 	return {
 		authentication: state.authentication,
-		calling: state.calling.Calling
+		calling: state.calling.calling
 	}
 }
 

@@ -12,6 +12,8 @@ import AddRemainder from './../../components/Orders/AddRemainder';
 import Modal from 'react-responsive-modal';
 import Cleave from 'cleave.js/react';
 import Swal from 'sweetalert2'
+import { connect } from "react-redux";
+import { actAddOrderRequest  } from '../../actions/index';
 
 class OrderActionPage extends Component {
 
@@ -323,6 +325,7 @@ class OrderActionPage extends Component {
 		var {history} = this.props;
 		callApi('DELETE', config.ORDER_URL + "/" +id, null).then(res => {
 			if(res && res.data.status){
+				this.props.onAddOrder();
 				history.push("/orders");
 			}
 		});
@@ -449,4 +452,19 @@ class OrderActionPage extends Component {
 	} // end render
 }
 
-export default OrderActionPage;
+const mapStateToProps = state => {
+    return {
+        authentication: state.authentication
+    }
+}
+
+const mapDispatchToProps = (dispatch, props) => {
+	return {
+		
+		onAddOrder : () => {
+			dispatch(actAddOrderRequest());
+		}
+	}
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(OrderActionPage);

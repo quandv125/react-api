@@ -8,6 +8,9 @@ import Button from '@material-ui/core/Button';
 import Validator from 'react-forms-validator';
 import Checkbox from '@material-ui/core/Checkbox';
 import { ToastContainer, toast } from 'react-toastify';
+import { actUpdateProductsRequest } from '../../actions/index';
+import { connect } from "react-redux";
+
 // Note: include <ToastContainer/>
 import 'react-toastify/dist/ReactToastify.css';
 import ModalCalling from './../../components/Customers/ModalCalling';
@@ -83,7 +86,7 @@ class ProductActionPage extends Component {
 						is_publish: data.is_publish? true : false,
 						time: data.time? data.time : ''
 					});
-					console.log(data.category_id, data.service_id);
+					// console.log(data.category_id, data.service_id);
 					this.getServiceByCategoryID( data.category_id );
 				});
 			}
@@ -139,12 +142,13 @@ class ProductActionPage extends Component {
 			// console.log(data);return;
 			if(id) { //update
 				callApi('PUT', config.PRODUCT_URL  + "/" + id, data).then( res => {
-					console.log(res);
+					this.props.onUpdateProduct(id, data);
 					toast.success("Cập nhật sản phẩm thành công", { position: "top-right", hideProgressBar: false,	closeOnClick: true });
 					// history.push("/products");
 				});
 			} else { //create
 				callApi('POST', config.PRODUCT_URL, data ).then( res => {
+					this.props.onUpdateProduct(null, data);
 					toast.success("Thêm mới sản phẩm thành công !", { position: "top-right", hideProgressBar: false,	closeOnClick: true });
 					//C1 // history.push("/products-list");
 					// console.log(res);
@@ -157,7 +161,7 @@ class ProductActionPage extends Component {
 	}
 
 	render() {
-		console.log(this.state.category_id, this.state.service_id);
+		// console.log(this.state.category_id, this.state.service_id);
 		return (
 			<CSSTransitionGroup transitionName={config.PAGETRANSITION} transitionAppear={true} transitionAppearTimeout={config.TRANSITIONSPEED} transitionEnter={false} transitionLeave={false}>
 
@@ -368,4 +372,19 @@ class ProductActionPage extends Component {
 
 }
 
-export default ProductActionPage;
+
+const mapStateToProps = state => {
+    return {
+        authentication: state.authentication
+    }
+}
+
+const mapDispatchToProps = (dispatch, props) => {
+	return {
+		onUpdateProduct : (id, data) => {
+			dispatch(actUpdateProductsRequest(id, data));
+		}
+	}
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(ProductActionPage);

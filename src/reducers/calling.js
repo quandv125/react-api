@@ -1,26 +1,28 @@
 import * as Types from '../constants/ActionType';
 import {findIndex} from 'lodash';
-var initialState = { status: null, Calling: null };
+var initialState = { status: null, calling: null };
 
 const Calling = (state = initialState, action) => {
    
     switch(action.type){
         case Types.FETCH_CALLING:
             if (action.Calling.status){
+             
                 state = {
                     status: action.Calling.status, 
-                    Calling: action.Calling.data
+                    calling: action.Calling.data
                 }
             }
+            
             return state;
         case Types.DELETE_CALLING:
-            var index = findIndex(state.Calling, { id: action.id });
+            var index = findIndex(state.calling, { id: action.id });
             if (index !== -1) {
-				state.Calling.splice(index, 1);
+				state.calling.splice(index, 1);
             }
             state = {
                 status: false,
-                Calling: state.Calling
+                calling: state.Calling
             }
             return state;
         // case Types.ADD_Calling: 

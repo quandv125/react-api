@@ -49,11 +49,7 @@ class OrderDataTr extends Component {
             <tr>
                 
                 <td>{order_detail.product_title}</td>
-                {/* <td onClick={ () => this.changePrice(order_detail.id, order_detail.product_title, order_detail.product_price)}>
-                    
-                    <span className="label label-primary">{this.format_money(order_detail.product_price)}</span>
-
-                </td> */}
+                {this.showPrice(order_detail)}
                 <td>{order_detail.quantity}</td>
                 <td>
                     <span style={{marginRight: 20}}>{order_detail.note}</span>
@@ -80,6 +76,18 @@ class OrderDataTr extends Component {
         }
         return null;
     }
+
+    showPrice = (order_detail) => {
+        if(this.state.role_id === config.ADMINISTRATOR || this.state.role_id === config.MANAGER){
+            return (
+                <td onClick={ () => this.changePrice(order_detail.id, order_detail.product_title, order_detail.product_price)}>
+                    <span className="label label-primary">{this.format_money(order_detail.product_price)}</span>
+                </td>
+            );
+        } 
+            return (<td></td>);
+    }
+
     format_money = (amount, decimalCount = 0, decimal = ".", thousands = ",") => {
         try {
           decimalCount = Math.abs(decimalCount);
