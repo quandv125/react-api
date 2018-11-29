@@ -9,8 +9,8 @@ import Button from '@material-ui/core/Button';
 import { Redirect } from 'react-router-dom';
 import Swal from 'sweetalert2'
 import ModalCalling from './../../components/Customers/ModalCalling';
-import { ToastContainer } from 'react-toastify';
-import {notification} from './../../socketIO/getNotification';
+// import { ToastContainer } from 'react-toastify';
+// import {notification} from './../../socketIO/getNotification';
 
 
 class ProductList extends Component {
@@ -34,7 +34,7 @@ class ProductList extends Component {
 	}
 	
 	componentWillMount(){
-		notification();
+		// notification();
 		if(this.props.products && this.props.products.products && this.props.products.products.length > 0){
 			this.setState({
 				products: this.props.products.products
@@ -73,7 +73,7 @@ class ProductList extends Component {
 				
 				<div className="grid simple">
 					<div className="grid-body no-border">
-					<ModalCalling />	<ToastContainer />
+					<ModalCalling />	
 							<Link to="/" className="margin-bottom20 margin-right10">
 								<Button type="submit" className="btn btn-primary btn-cons" variant="contained" color="primary">
 								<i className="material-icons">arrow_back</i>

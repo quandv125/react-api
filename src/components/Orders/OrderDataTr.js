@@ -47,7 +47,7 @@ class OrderDataTr extends Component {
         return (
            
             <tr>
-                
+                <td>{order_detail.count}</td>
                 <td>{order_detail.product_title}</td>
                 {this.showPrice(order_detail)}
                 <td>{order_detail.quantity}</td>

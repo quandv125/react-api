@@ -308,7 +308,6 @@ export const actFetchCustomers = (customers) => {
 }
 
 export const actUpdateCustomerRequest = (id, data) => {
-    console.log('213');
     return (dispatch) => {
         dispatch({type: Types.UPDATE_CUSTOMERS, data, id});
     }

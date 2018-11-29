@@ -7,8 +7,8 @@ import callApi from './../../utils/apiCaller';
 import {HorizontalBar} from 'react-chartjs-2';
 import ModalCalling from './../../components/Customers/ModalCalling';
 // import { connectIO } from '../../socketIO/client';
-import { ToastContainer } from 'react-toastify';
-import {notification} from './../../socketIO/getNotification';
+// import { ToastContainer } from 'react-toastify';
+// import {notification} from './../../socketIO/getNotification';
 
 
 class Home extends Component {
@@ -28,7 +28,7 @@ class Home extends Component {
 	
 	
 	componentWillMount(){
-		notification();
+		// notification();
 		callApi('GET', config.HOME_URL , null).then(res => {
 			if(res.data.status){
 				this.setState({
@@ -147,7 +147,6 @@ class Home extends Component {
 								<div className="grid simple">
 									<div className="grid-body no-border">
 									<ModalCalling />
-									<ToastContainer />
 									<div className="row">
 											<div className="col-md-4 col-vlg-4 col-sm-6">
 												<div className="tiles green m-b-12">

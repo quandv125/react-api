@@ -11,7 +11,7 @@ class OrderData extends Component {
                         <table className="table table-hover">
                             <thead>
                                 <tr>
-                                   
+                                    <th>Khám lần</th>
                                     <th>Dịch vụ</th>
                                     <th>Giá</th>
                                     <th>S.lượng</th>

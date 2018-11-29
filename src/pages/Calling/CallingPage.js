@@ -26,13 +26,13 @@ class CallingPage extends Component {
 	}
 
 	componentWillMount(){
-		if(this.props.calling && this.props.calling && this.props.calling.length > 0){
-			this.setState({
-				calling: this.props.calling.calling
-			});
-		} else {
+		// if(this.props.calling && this.props.calling && this.props.calling.length > 0){
+		// 	this.setState({
+		// 		calling: this.props.calling.calling
+		// 	});
+		// } else {
 			this.props.getCalling();
-		}
+		// }
 	}
 
 	componentWillReceiveProps(nextprops){

@@ -11,7 +11,7 @@ import ModalOrder from './../../components/Orders/ModalOrder';
 import ModalFilterOrder from './../../components/Orders/ModalFilterOrder';
 import callApi from '../../utils/apiCaller';
 import { connectIO } from '../../socketIO/client';
-import { ToastContainer, toast } from 'react-toastify';
+
 // Note: include <ToastContainer/>
 import 'react-toastify/dist/ReactToastify.css';
 import Button from '@material-ui/core/Button';
@@ -36,12 +36,12 @@ class OrderPage extends Component {
 		
 		if(this.state.role_id && this.state.role_id === config.ASSISTANT){
 			connectIO(message => {
-				console.log(message, this.state.service_id);
+			
 				if(String(this.state.service_id) === String(message)) {
 					this.props.getOrders(this.state.user_id);
-					toast.success("Bạn có bệnh nhân khám mới !", { position: "top-right", autoClose: false, hideProgressBar: true,	closeOnClick: true });
+					// toast.success("Bạn có bệnh nhân khám mới !", { position: "top-right", autoClose: false, hideProgressBar: true,	closeOnClick: true });
 
-					// this.audio = new Audio("http://183.91.11.132/music.mp3");
+					// this.audio = new Audio("http://183.91.11.132/alert.mp3");
 					// this.audio.play()
 				}
 			});
@@ -170,7 +170,7 @@ class OrderPage extends Component {
 				<CSSTransitionGroup transitionName={config.PAGETRANSITION} transitionAppear={true} transitionAppearTimeout={config.TRANSITIONSPEED} transitionEnter={false} transitionLeave={false}>
 					<div className="grid simple">
 						<div className="grid-body no-border">
-						<ToastContainer />
+						
 							<div className="col-md-6">
 								<div className="page-title"> 
 									<i className="material-icons">card_giftcard</i>
@@ -205,7 +205,7 @@ class OrderPage extends Component {
 				<CSSTransitionGroup transitionName={config.PAGETRANSITION} transitionAppear={true} transitionAppearTimeout={config.TRANSITIONSPEED} transitionEnter={false} transitionLeave={false}>
 					<div className="grid simple">
 						<div className="grid-body no-border">
-						<ToastContainer />
+						
 							<div className="col-md-12">
 								<div className="page-title margin-bottom15"> 
 									<i className="material-icons">card_giftcard</i>

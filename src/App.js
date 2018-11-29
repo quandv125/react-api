@@ -6,7 +6,7 @@ import Navbar from './components/Elements/Navbar';
 import Sidebar from './components/Elements/Sidebar';
 import Login from './pages/Login/Login';
 import routes from './routes';
-import { ISLOGIN, ROLE } from './constants/config';
+import { ISLOGIN, ROLE, SERVICE_ID } from './constants/config';
 import { connect } from 'react-redux';
 import { CSSTransitionGroup } from 'react-transition-group'
 import * as config from './constants/config';
@@ -14,7 +14,8 @@ import Forbidden from './pages/NotFound/403_Forbidden'; // 403
 import {findIndex, split} from 'lodash';
 import callApi from './utils/apiCaller';
 import { actLogoutRequest } from './actions/index';
-
+import { connectIO } from './socketIO/client';
+import { ToastContainer, toast } from 'react-toastify';
 class App extends Component {
 
 	constructor(props){
@@ -22,7 +23,25 @@ class App extends Component {
 		this.state = {
 			isLogin : ISLOGIN,
 			role_id : ROLE,
+			service_id: SERVICE_ID,
 			pages: ''
+		}
+		this.alert_new_order()
+	}
+
+	alert_new_order = () => {
+		if(this.state.role_id && this.state.role_id === config.ASSISTANT){
+			connectIO(message => {
+				if(String(this.state.service_id) === String(message)) {
+					// this.props.getOrders(this.state.user_id);
+					console.log('new order');
+					toast.success("Bạn có bệnh nhân khám mới !", { position: "top-right", autoClose: false, hideProgressBar: true,	closeOnClick: true });
+					this.audio = new Audio("http://183.91.11.132/alert.mp3");
+					if(this.audio){
+						this.audio.play()
+					}
+				}
+			});
 		}
 	}
 
@@ -76,8 +95,9 @@ class App extends Component {
 				<Router>
 					<Route render={({ location }) => (
 						<CSSTransitionGroup transitionName={config.PAGETRANSITION} transitionAppear={true} transitionAppearTimeout={config.TRANSITIONSPEED} transitionEnter={false} transitionLeave={false}>
+							<ToastContainer />
 							<div className="App" >
-								<Navbar/>
+								<Navbar/> 	
 								<div className="page-container row-fluid">
 									<Sidebar role_id={this.state.role_id} onActLogout={this.onActLogout} />
 									<div className="page-content ">

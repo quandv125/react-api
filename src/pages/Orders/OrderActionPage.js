@@ -181,6 +181,7 @@ class OrderActionPage extends Component {
 	}
 
 	handleAddServiceBySelt = (data_props) => {
+		// Tự điền dịch vụ không có trong database
 		var {product_title, product_quantity}  = data_props;
 		var {order}  = this.state;
 		var data = {order_id: order.id, product_title : product_title, quantity: product_quantity}
@@ -204,6 +205,7 @@ class OrderActionPage extends Component {
 					this.setState({
 						date_remain: time
 					});
+					this.props.onAddOrder();
 					Swal('Thành công!','Đặt lịch khám lại thành công','success')
 				}
 			});
