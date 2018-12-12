@@ -15,6 +15,8 @@ export const SMS_URL = domain + 'sms';
 export const ORDER_URL = domain + 'order';
 export const ORDERS_URL = domain + 'orders';
 
+export const BILLING_URL = domain + 'order-billing';
+
 export const ORDER_DETAIL_URL = domain + 'order-detail';
 export const CATEGORY_URL = domain + 'product-category';
 export const SERVICE_URL = domain + 'product-service';

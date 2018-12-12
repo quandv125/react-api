@@ -176,7 +176,7 @@ class CategoryList extends Component {
 					defaultSorted={[{
 						id: "row",
 					}]}
-					defaultPageSize={5}  
+					defaultPageSize={10}  
 					className="-striped -highlight"
 				/>
 		}
@@ -258,7 +258,7 @@ class CategoryList extends Component {
 					defaultSorted={[{
 						id: "row",
 					}]}
-					defaultPageSize={5}  
+					defaultPageSize={10}  
 					className="-striped -highlight"
 				/>
 		}

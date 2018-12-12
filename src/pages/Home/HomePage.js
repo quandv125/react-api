@@ -21,6 +21,7 @@ class Home extends Component {
 			products: [],
 			customers: [],
 			product_order: [],
+			order_month: [],
 			role_id: sessionStorage.getItem('authentication') ? JSON.parse(sessionStorage.getItem('authentication')).role_id : '',
 		};
 		this.onTest = this.onTest.bind(this);
@@ -35,7 +36,8 @@ class Home extends Component {
 					orders: res.data.orders,
 					products: res.data.products,
 					customers: res.data.customers,
-					product_order: res.data.product_order
+					product_order: res.data.product_order,
+					order_month: res.data.order_month
 				});
 			}
 		});
@@ -98,6 +100,19 @@ class Home extends Component {
 		});
 		
 	}
+	getToday = () => {
+		var today = new Date();
+		var dd = today.getDate();
+		var mm = today.getMonth()+1; //January is 0!
+		var yyyy = today.getFullYear();
+		if(dd<10){
+			dd='0'+dd;
+		} 
+		if(mm<10){
+			mm='0'+mm;
+		} 
+		return dd+'/'+mm+'/'+yyyy;
+	}	
 	month_year = () => {
 		var today = new Date();
 		var dd = today.getDate();
@@ -111,11 +126,20 @@ class Home extends Component {
 		} 
 		return mm+'/'+yyyy;
 	}
+
 	year = () => {
 		var today = new Date();
 		return today.getFullYear();
 	}
 
+	currency = (n, currency) => {
+		if(n && n !== ''){
+			var num = String(n);
+			return currency + num.replace(/./g, function(c, i, a) {
+				return i > 0 && c !== "." && (a.length - i) % 3 === 0 ? "," + c : c;
+			});
+		}
+	};
 	
 	//Case 1:  1. contrucstor 2. componentWillMount 3. render 4. componentDidMount
 	//Case 2:  1. func: test 2. shouldComponentUpdate 3. ComponentWillUpdate 4. render 5. componentDidUpdate
@@ -124,7 +148,7 @@ class Home extends Component {
 		  
 		// console.log('render'); // 3 | 1.4
 		var { orders, products, customers, product_order } = this.state;
-		// console.log(product_order);
+		console.log(customers);
 		const data = {
 			labels: product_order.key,
 			datasets: [
@@ -158,21 +182,21 @@ class Home extends Component {
 														<div className="tiles-title ">Lịch sử sử dụng dịch vụ </div>
 														<div className="widget-stats">
 															<div className="wrapper transparent">
-																<span className="item-title">Tất cả</span> <span className="item-count animate-number semi-bold" data-value="25" data-animation-duration="700">
+																<span className="item-title">Tất cả</span> <span className="item-count animate-number semi-bold" data-value={orders.all} data-animation-duration="700">
 																	{orders.all}
 																</span>
 															</div>
 														</div>
 														<div className="widget-stats">
 															<div className="wrapper transparent">
-																<span className="item-title">Tuần nay</span> <span className="item-count animate-number semi-bold" data-value="75" data-animation-duration="700">
+																<span className="item-title">Tuần nay</span> <span className="item-count animate-number semi-bold" data-value={orders.week} data-animation-duration="700">
 																	{orders.week}
 																</span>
 															</div>
 														</div>
 														<div className="widget-stats ">
 															<div className="wrapper last">
-																<span className="item-title">Tháng {this.month_year()}</span> <span className="item-count animate-number semi-bold" data-value="17" data-animation-duration="700">
+																<span className="item-title">Tháng {this.month_year()}</span> <span className="item-count animate-number semi-bold" data-value={orders.month} data-animation-duration="700">
 																	{orders.month}
 																</span>
 															</div>
@@ -195,21 +219,21 @@ class Home extends Component {
 														<div className="tiles-title ">Khách hàng </div>
 														<div className="widget-stats">
 															<div className="wrapper transparent">
-																<span className="item-title">Tất cả</span> <span className="item-count animate-number semi-bold" data-value="0" data- animation-duration="700">
+																<span className="item-title">Tất cả</span> <span className="item-count animate-number semi-bold" data-value={customers.all} data- animation-duration="700">
 																	{customers.all}
 																</span>
 															</div>
 														</div>
 														<div className="widget-stats">
 															<div className="wrapper transparent">
-																<span className="item-title">Tuần này</span> <span className="item-count animate-number semi-bold" data-value="0" data-animation-duration="700">
+																<span className="item-title">Tuần này</span> <span className="item-count animate-number semi-bold" data-value={customers.week} data-animation-duration="700">
 																	{customers.week}
 																</span>
 															</div>
 														</div>
 														<div className="widget-stats ">
 															<div className="wrapper last">
-																<span className="item-title">Tháng {this.month_year()}</span> <span className="item-count animate-number semi-bold" data-value="0" data-animation-duration="700">
+																<span className="item-title">Tháng {this.month_year()}</span> <span className="item-count animate-number semi-bold" data-value={customers.month} data-animation-duration="700">
 																	{customers.month}
 																</span>
 															</div>
@@ -255,12 +279,88 @@ class Home extends Component {
 													</div>
 												</div>
 											</div>
-											<div className="clearfix"></div>
+											<div className="clearfix"> </div>
+											<br/>
+											{/* <div className="col-md-6 col-vlg-6 col-sm-6">
+												<div className="tiles purple m-b-12">
+													<div className="tiles-body">
+														
+														<div className="tiles-title ">Doanh thu tháng {this.month_year()}</div>
+														<div className="widget-stats">
+															<div className="wrapper transparent">
+																<span className="item-title">Tổng số tiền thu được</span> <span className="item-count animate-number semi-bold" data-value={order_month.money_payment} data-animation-duration="700">
+																	{this.currency(order_month.money_payment, '')}
+																</span>
+															</div>
+														</div>
+														<div className="widget-stats">
+															<div className="wrapper transparent">
+																<span className="item-title">Tổng số tiền phải thu</span> 
+																<span className="item-count animate-number semi-bold" data-value={order_month.totalPriceQuantity} data-animation-duration="700">
+																{this.currency(order_month.totalPriceQuantity, '')}
+																</span>
+															</div>
+														</div>
+														<div className="widget-stats ">
+															<div className="wrapper last">
+																<span className="item-title">Tiền nợ</span> <span className="item-count animate-number semi-bold" data-value={order_month.indebtedness} data-animation-duration="700">
+																{this.currency(order_month.indebtedness, '')}
+																</span>
+															</div>
+														</div>
+														<div className="progress transparent progress-small no-radius m-t-20" >
+															<div className="progress-bar progress-bar-white animate-progress-bar" data-percentage="100%"></div>
+														</div>
+														<div className="description"> <span className="text-white mini-description "> <span className="blend"></span></span>
+														</div>
+													</div>
+												</div>
+											</div> */}
+
+											{/* <div className="col-md-6 col-vlg-6 col-sm-6">
+												<div className="tiles purple m-b-12">
+													<div className="tiles-body">
+														
+														<div className="tiles-title ">Doanh thu tháng {this.month_year()}</div>
+														<div className="widget-stats">
+															<div className="wrapper transparent">
+																<span className="item-title">Tổng số tiền thu được</span> <span className="item-count animate-number semi-bold" data-value={order_month.money_payment} data-animation-duration="700">
+																	{this.currency(order_month.money_payment, '')}
+																</span>
+															</div>
+														</div>
+														<div className="widget-stats">
+															<div className="wrapper transparent">
+																<span className="item-title">Tổng số tiền phải thu</span> 
+																<span className="item-count animate-number semi-bold" data-value={order_month.totalPriceQuantity} data-animation-duration="700">
+																{this.currency(order_month.totalPriceQuantity, '')}
+																</span>
+															</div>
+														</div>
+														<div className="widget-stats ">
+															<div className="wrapper last">
+																<span className="item-title">Tiền nợ</span> <span className="item-count animate-number semi-bold" data-value={order_month.indebtedness} data-animation-duration="700">
+																{this.currency(order_month.indebtedness, '')}
+																</span>
+															</div>
+														</div>
+														<div className="progress transparent progress-small no-radius m-t-20" >
+															<div className="progress-bar progress-bar-white animate-progress-bar" data-percentage="100%"></div>
+														</div>
+														<div className="description"> <span className="text-white mini-description "> <span className="blend"></span></span>
+														</div>
+													</div>
+												</div>
+											</div> */}
+
 											<div className="col-md-10 col-vlg-10 col-sm-10">
 												<HorizontalBar data={data} />
 											</div>
 											
-										</div></div></div>
+										</div>
+										<div className="clearfix"></div>
+										
+										</div></div>
 							
 							)
 							: 

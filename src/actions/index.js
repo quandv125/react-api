@@ -248,6 +248,43 @@ export const actAddUserRequest = (user) => {
     }
 }
 //
+
+
+// Billing
+export const actFetchBillingRequest = () => {
+    return (dispatch) => {
+        return apiCaller('GET',  config.BILLING_URL  , null).then( res => {
+            if(res){
+                dispatch(actFetchBilling(res.data));
+            }
+        });
+    }
+}
+
+export const actFetchBilling = (billing) => {
+    return {
+        type: Types.FETCH_BILLING,
+        billing
+    }
+}
+
+// Delete Billing    
+export const actDeleteBillingRequest = (id) => {
+    return (dispatch) => {
+        return apiCaller('DELETE', config.BILLING_URL  + "/" + id , null).then( res => {
+			dispatch(actDeleteBilling(id));
+		}); 
+    }
+}
+
+export const actDeleteBilling = (id) => {
+    return {
+        type: Types.DELETE_BILLING,
+        id
+    }
+}
+///////
+
 export const actError = (status, msg) => {
     return {
         type: Types.ERROR,

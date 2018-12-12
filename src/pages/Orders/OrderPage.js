@@ -160,7 +160,7 @@ class OrderPage extends Component {
 		if(this.state.loggedOut){
 			return <Redirect to={{ pathname: "/"}}/>;
 		}
-		
+		// console.log(this.props);
 		if(!this.state.filter){
 			if (this.props.orders !== null) {
 				var {orders} = this.props.orders;

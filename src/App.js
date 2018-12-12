@@ -30,9 +30,9 @@ class App extends Component {
 	}
 
 	alert_new_order = () => {
-		if(this.state.role_id && this.state.role_id === config.ASSISTANT){
+		if(sessionStorage.getItem('authentication') ? JSON.parse(sessionStorage.getItem('authentication')).role_id : '' === config.ASSISTANT){
 			connectIO(message => {
-				if(String(this.state.service_id) === String(message)) {
+				if(String(sessionStorage.getItem('authentication') ? JSON.parse(sessionStorage.getItem('authentication')).service_id : '') === String(message)) {
 					// this.props.getOrders(this.state.user_id);
 					console.log('new order');
 					toast.success("Bạn có bệnh nhân khám mới !", { position: "top-right", autoClose: false, hideProgressBar: true,	closeOnClick: true });

@@ -36,3 +36,6 @@ export const DELETE_ROLE = 'DELETE_ROLE';
 
 export const FETCH_CALLING = 'FETCH_CALLING';
 export const DELETE_CALLING = 'DELETE_CALLING';
+
+export const FETCH_BILLING = 'FETCH_BILLING';
+export const DELETE_BILLING = 'DELETE_BILLING';

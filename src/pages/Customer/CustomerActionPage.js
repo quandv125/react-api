@@ -47,7 +47,9 @@ class CustomerActionPage extends Component {
 			address: '',
 			phone: '',
 			birthday: '',
+			created_at: '',
 			startDate: null,
+			startCreated: null,
 			gender: config.GENDER_MALE,
 			isValidation: '',
 			submitted: false,
@@ -57,7 +59,8 @@ class CustomerActionPage extends Component {
 			customer_data: '',
 			selectedValue: 'male',
 			note: '',
-			selectedServices: [options[0]]
+			selectedServices: [options[0]],
+			categories: []
 		};
 		// console.log(this.state.gender);
 		this.onChangeForm = this.onChangeForm.bind(this);
@@ -77,7 +80,7 @@ class CustomerActionPage extends Component {
 			var id = match.params.id;
 			callApi('GET', config.CUSTOMER_URL  + "/" + id, null).then(res => {
 				var data = res.data.data;
-				// console.log(data.gender);
+				
 				this.setState({
 					id: data.id ? data.id  : '',
 					customerID: data.customerID ? data.customerID  : '',
@@ -90,15 +93,45 @@ class CustomerActionPage extends Component {
 					selectedServices: data.options ? data.options : [options[0]],
 					selectedValue: data.gender ? this.returnGender(data.gender) : 'male',
 					startDate: data.birthday ? this.convertNumberToDate(data.birthday) : null,
+					startCreated: data.created_at ? this.convertNumberToDate(data.created_at) : null,
+					created_at:  data.created_at ? this.convertNumberToDate(data.created_at) : null,
 				});
+			});
+			callApi('GET', config.CATEGORY_URL , null).then(res => {
+				var data = res.data;
+				if(data.status){
+					this.setState({
+						categories: data.data
+					});
+				}
 			});
 			this.getCustomerData(id)
 		}
 	}
 
+	getToday = () => {
+		var today = new Date();
+		var dd = today.getDate();
+		var mm = today.getMonth()+1; //January is 0!
+		var yyyy = today.getFullYear();
+		if(dd<10){
+			dd='0'+dd;
+		} 
+		if(mm<10){
+			mm='0'+mm;
+		} 
+		return yyyy+'-'+mm+'-'+dd;
+	}	
+
 	showCustomerService = () => {
 		if (options !== '' && typeof options === 'object'){
-		
+			var {categories} = this.state;
+			const options = [];
+			if(categories && categories.length > 0){
+				categories.map(data => options.push(
+					{ value: data.id, label: data.title }
+				));
+			}
             return (<Select
                 value={this.state.selectedServices}
                 onChange={this.handleChangeServices}
@@ -156,6 +189,13 @@ class CustomerActionPage extends Component {
 		  	startDate: date
 		});
 	}
+	handleChangeCreated = (date) => {
+		const valueOfInput = date ? date.format('YYYY-MM-DD H:mm:ss') : null;
+		this.setState({
+			created_at: valueOfInput,
+		  	startCreated: date
+		});
+	}
 
 	handleChange = name => event => {
 		// Input, checkbox, Radio, Select
@@ -179,9 +219,8 @@ class CustomerActionPage extends Component {
 		event.preventDefault();
 		this.setState( { submitted:true } );
 		var {history} = this.props;
-		var {id, customerID,username, firstname, lastname, email, phone, address, gender, birthday, selectedServices} = this.state;
-		var data = { customerID: customerID, username: username, firstname: firstname, lastname: lastname, email: email, phone: phone, address: address, gender: gender, birthday: birthday, selectedServices: selectedServices };
-		
+		var {id, customerID,username, firstname, lastname, email, phone, address, gender, birthday, selectedServices, created_at} = this.state;
+		var data = { customerID: customerID, username: username, firstname: firstname, lastname: lastname, email: email, phone: phone, address: address, gender: gender, birthday: birthday, selectedServices: selectedServices, created_at: created_at ? created_at : this.getToday()  };
 		let { isFormValidationErrors } = this.state;
 		if ( !isFormValidationErrors ){
 			if(id) { //update
@@ -193,8 +232,7 @@ class CustomerActionPage extends Component {
 				});
 			} else { //create
 				callApi('POST', config.CUSTOMER_URL, data).then(res => {
-				
-					if(res.data.id) {
+					if(res.data && res.data.id) {
 						this.props.onUpdateCustomer(res.data.id, data);
 						Swal( 'Thêm khách hàng thành công!', '', 'success')
 						history.push("/customers/edit/"+res.data.id);
@@ -240,6 +278,19 @@ class CustomerActionPage extends Component {
 		}
 	}
 
+	ShowCategories = () => {
+		var {categories} = this.state;
+		const options = [];
+		if(categories && categories.length > 0){
+			categories.map(data => options.push(
+				<option key={data.id} value={data.id}>{data.title}</option>
+			));
+			return options;
+		}else {
+			return null;
+		}
+	}
+
 	render() {
 		if(this.state.loggedOut){
 			return <Redirect to={{ pathname: "/"}}/>;
@@ -281,14 +332,12 @@ class CustomerActionPage extends Component {
 											value={this.state.service}
 											onChange={this.onChangeForm}
 										>
-											<option value="25">Nha Khoa</option>
-											<option value="26">Laser</option>
-											<option value="27">Spa</option>
+											{this.ShowCategories()}
 										</select>
 									</div>
 								</div>
 								<div className="form-group">
-									<label>Chú tích</label>
+									<label>Chú thích</label>
 									<input 
 										type="text" 
 										className="form-control" 
@@ -311,7 +360,7 @@ class CustomerActionPage extends Component {
 					<form noValidate onSubmit={this.handleFormSubmit}>
 						<div className="col-md-6 col-lg-6">
 							<div className="form-group">
-								<label>Mã khách hàng ( Nếu để trống mã khách hàng sẽ tự khởi tạo, tối đa 50 kí tự )</label>
+								<label>Mã khách hàng ( Nếu để trống mã khách hàng sẽ tự động tạo, tối đa 50 kí tự )</label>
 								<input 
 									type="text" 
 									className="form-control" 
@@ -475,6 +524,24 @@ class CustomerActionPage extends Component {
 									/>
 									
 							</div>
+
+							<div className="form-group">
+									<label>Ngày tạo (Nếu để trống thì sẽ tự động tạo)</label>
+									<DatePicker
+										className="form-control"
+										dateFormat="DD-MM-YYYY"
+										placeholderText="Ex: 25-10-2018"
+										name="created_at" 
+										todayButton="Today"
+										withPortal
+										showYearDropdown
+										dropdownMode="select"
+										selected={this.state.startCreated}
+										onChange={this.handleChangeCreated} 
+									/>
+									
+							</div>
+							
 
 							
 							

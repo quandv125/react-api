@@ -96,6 +96,7 @@ class InvoiceDetails extends Component {
     
     render() {
         var {order} = this.props;
+        var name = order.customer ? order.customer.firstname + ' ' + order.customer.lastname : ''
         return (
             
                 <div className="card-body">
@@ -109,10 +110,10 @@ class InvoiceDetails extends Component {
                         <div className="col-sm-6">
                             
                             <div>
-                                Tên khách hàng: <strong>{order.customer.firstname + ' ' + order.customer.lastname} </strong>
+                                Tên khách hàng: <strong>{name} </strong>
                             </div>
-                            <div>Điện thoại: {order.customer.phone}</div>
-                            <div>Địa chỉ: {order.customer.address}</div>
+                            <div>Điện thoại: {order.customer ? order.customer.phone : ''}</div>
+                            <div>Địa chỉ: {order.customer ? order.customer.address : ''}</div>
                             <div>Diễn giải: {this.state.note}    
                                 <Button type="submit" className="btn btn-primary btn-cons-small" style={{marginLeft: 20}} variant="fab" color="secondary" size="small"  onClick={ () => this.openModal(order.id)}>
                                     <i className="material-icons">create</i>
@@ -121,7 +122,7 @@ class InvoiceDetails extends Component {
                         </div>
                         <div className="col-sm-6">
                             <div>Mã đơn: <strong>{order.transaction_id}</strong></div>
-                            <div>Thông tin:  {order.customer.gender === config.GENDER_MALE ? 'Nữ' : 'Nam'}  {order.customer.birthday ? "- " + moment(order.customer.birthday).format('DD/MM/YYYY ') : ''}</div>
+                            <div>Thông tin:  {order.customer && order.customer.gender === config.GENDER_MALE ? 'Nữ' : 'Nam'}  {order.customer && order.customer.birthday ? "- " + moment(order.customer.birthday).format('DD/MM/YYYY ') : ''}</div>
                         </div>
                     </div>
                   

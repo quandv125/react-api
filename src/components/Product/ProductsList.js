@@ -7,7 +7,7 @@ import "react-table/react-table.css";
 import matchSorter from 'match-sorter';
 import callApi from './../../utils/apiCaller';
 import Button from '@material-ui/core/Button';
-
+import {findIndex} from 'lodash';
 class ProductList extends Component {
 
 	constructor(props) {
@@ -40,18 +40,19 @@ class ProductList extends Component {
 		this.props.onDelete(id);
 	}
 
-	showCategory = () => {
+	showCategory = (categories) => {
 		const options = [];
-		const {categories} = this.state;
-		categories.map(data => options.push(
-			<option key={data.id} value={data.title}>{data.title}</option>
-		));
+		if(categories && categories.length > 0){
+			categories.map(data => options.push(
+				<option key={data.id} value={data.id}>{data.title}</option>
+			));
+		}
 		return options;
 	}
 
 	render() {
 		var products = this.props.children;
-		// console.log(products);
+		
 		return (
 			<div>
 				{products && typeof products !== 'undefined' && products.length > 0  ? (
@@ -128,6 +129,30 @@ class ProductList extends Component {
 								if (filter.value === '27') {
 									return row[filter.id] === 27;
 								}
+								if (filter.value === '28') {
+									return row[filter.id] === 28;
+								}
+								if (filter.value === '29') {
+									return row[filter.id] === 29;
+								}
+								if (filter.value === '30') {
+									return row[filter.id] === 30;
+								}
+								if (filter.value === '31') {
+									return row[filter.id] === 31;
+								}
+								if (filter.value === '32') {
+									return row[filter.id] === 32;
+								}
+								if (filter.value === '33') {
+									return row[filter.id] === 33;
+								}
+								if (filter.value === '34') {
+									return row[filter.id] === 34;
+								}
+								if (filter.value === '35') {
+									return row[filter.id] === 35;
+								}
 							},
 							Filter: ({ filter, onChange }) =>
 								<select
@@ -137,9 +162,7 @@ class ProductList extends Component {
 								value={filter ? filter.value : "all"}
 								>
 								<option value="all">Tất cả</option>
-								<option value="25">Nha Khoa</option>
-								<option value="26">Laser</option>
-								<option value="27">Spa</option>
+								{this.showCategory(this.state.categories)}
 								</select>
 						},
 						{
@@ -343,6 +366,30 @@ class ProductList extends Component {
 								if (filter.value === '27') {
 									return row[filter.id] === 27;
 								}
+								if (filter.value === '28') {
+									return row[filter.id] === 28;
+								}
+								if (filter.value === '29') {
+									return row[filter.id] === 29;
+								}
+								if (filter.value === '30') {
+									return row[filter.id] === 30;
+								}
+								if (filter.value === '31') {
+									return row[filter.id] === 31;
+								}
+								if (filter.value === '32') {
+									return row[filter.id] === 32;
+								}
+								if (filter.value === '33') {
+									return row[filter.id] === 33;
+								}
+								if (filter.value === '34') {
+									return row[filter.id] === 34;
+								}
+								if (filter.value === '35') {
+									return row[filter.id] === 35;
+								}
 							},
 							Filter: ({ filter, onChange }) =>
 								<select
@@ -495,20 +542,14 @@ class ProductList extends Component {
 
 	showCategoryTitle = ( key ) => {
 		var d = null;
-		// console.log(key);
-		switch (key) {
-			case 25:
-				d = 'Nha Khoa';
-				break;
-			case 26:
-				d = 'Laser';
-				break;
-			default:
-				d = 'Spa';
-				break;
+		var {categories} = this.state;
+		if(categories && categories.length > 0){
+			var index = findIndex(categories, function(o) { return o.id === key; });
+			d = categories[index].title;
 		}
 		return d;
 	}
+	
 	
 }
 

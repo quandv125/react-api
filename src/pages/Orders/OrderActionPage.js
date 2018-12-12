@@ -370,7 +370,7 @@ class OrderActionPage extends Component {
 	
 		return (
 
-			<CSSTransitionGroup transitionName="worksTransition" transitionAppear={true} transitionAppearTimeout={500} transitionEnter={false} transitionLeave={false}>
+			<CSSTransitionGroup transitionName={config.PAGETRANSITION} transitionAppear={true} transitionAppearTimeout={config.TRANSITIONSPEED} transitionEnter={false} transitionLeave={false}>
 
 				<React.Fragment>
 					<div className="col-lg-12 col-md-12">

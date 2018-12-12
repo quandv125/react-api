@@ -21,6 +21,12 @@ const menu = [
 		exact: false,
 		icon: 'card_giftcard'
 	},
+	// {
+	// 	name: 'Thanh toán',
+	// 	to: '/billing',
+	// 	exact: false,
+	// 	icon: 'assignment'
+	// },
 	{
 		name: 'Khách hàng',
 		to: '/customers',
@@ -60,6 +66,12 @@ const menuReceptionist = [
 		exact: false,
 		icon: 'layers'
 	},
+	// {
+	// 	name: 'Thanh toán',
+	// 	to: '/billing',
+	// 	exact: false,
+	// 	icon: 'assignment'
+	// },
 	{
 		name: 'Khách hàng',
 		to: '/customers',

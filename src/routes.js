@@ -37,6 +37,9 @@ import ServiceActionPage from './pages/Service/ServiceActionPage';
 import RolePage from './pages/Roles/RolesPage';
 import RoleActionPage from './pages/Roles/RoleActionPage';
 
+import BillingPage from './pages/Billing/BillingPage';
+import BillingActionPage from './pages/Billing/BillingActionPage';
+
 import InvoiceInfo from './pages/Invoice/InvoiceInfo';
 // 404
 import NotFoundPage from './pages/NotFound/404_NotFoundPage';
@@ -252,6 +255,17 @@ const routes = [
 		path: '/sms-category/edit/:id',
 		exact: false,
 		main: ({match, location, history}) => <SmsCategoryActionPage match={match} history={history} location={location}/>
+	},
+	// Sms Billing
+	{
+		path: '/billing',
+		exact: true,
+		main: ({location, history}) => <BillingPage history={history} location={location}/>
+	},
+	{
+		path: '/billing/edit/:id',
+		exact: false,
+		main: ({match, location, history}) => <BillingActionPage match={match} history={history} location={location}/>
 	},
 	// LOGIN
 	{
