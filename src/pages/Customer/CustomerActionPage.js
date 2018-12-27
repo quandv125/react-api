@@ -47,7 +47,7 @@ class CustomerActionPage extends Component {
 			address: '',
 			phone: '',
 			birthday: '',
-			created_at: '',
+			created_at: moment().format('YYYY-MM-DD H:mm:ss'),
 			startDate: null,
 			startCreated: null,
 			gender: config.GENDER_MALE,
@@ -94,7 +94,7 @@ class CustomerActionPage extends Component {
 					selectedValue: data.gender ? this.returnGender(data.gender) : 'male',
 					startDate: data.birthday ? this.convertNumberToDate(data.birthday) : null,
 					startCreated: data.created_at ? this.convertNumberToDate(data.created_at) : null,
-					created_at:  data.created_at ? this.convertNumberToDate(data.created_at) : null,
+					created_at:  data.created_at ,
 				});
 			});
 			callApi('GET', config.CATEGORY_URL , null).then(res => {
@@ -107,6 +107,14 @@ class CustomerActionPage extends Component {
 			});
 			this.getCustomerData(id)
 		}
+		callApi('GET', config.CATEGORY_URL , null).then(res => {
+			var data = res.data;
+			if(data.status){
+				this.setState({
+					categories: data.data
+				});
+			}
+		});
 	}
 
 	getToday = () => {
@@ -183,14 +191,15 @@ class CustomerActionPage extends Component {
    	}
 
 	handleChangeDate = (date) => {
-		const valueOfInput = date ? date.format('YYYY-MM-DD H:mm:ss') : null;
+		const valueOfInput = date ? date.format('YYYY-MM-DD')+" "+moment().format('H:mm:ss') : null;
 		this.setState({
 			birthday: valueOfInput,
 		  	startDate: date
 		});
 	}
+
 	handleChangeCreated = (date) => {
-		const valueOfInput = date ? date.format('YYYY-MM-DD H:mm:ss') : null;
+		const valueOfInput = date ? date.format('YYYY-MM-DD')+" "+moment().format('H:mm:ss') : null;
 		this.setState({
 			created_at: valueOfInput,
 		  	startCreated: date
@@ -220,7 +229,8 @@ class CustomerActionPage extends Component {
 		this.setState( { submitted:true } );
 		var {history} = this.props;
 		var {id, customerID,username, firstname, lastname, email, phone, address, gender, birthday, selectedServices, created_at} = this.state;
-		var data = { customerID: customerID, username: username, firstname: firstname, lastname: lastname, email: email, phone: phone, address: address, gender: gender, birthday: birthday, selectedServices: selectedServices, created_at: created_at ? created_at : this.getToday()  };
+		var data = { customerID: customerID, username: username, firstname: firstname, lastname: lastname, email: email, phone: phone, address: address, gender: gender, birthday: birthday, selectedServices: selectedServices, created_at: created_at  };
+		// console.log(data.created_at);
 		let { isFormValidationErrors } = this.state;
 		if ( !isFormValidationErrors ){
 			if(id) { //update
@@ -529,7 +539,7 @@ class CustomerActionPage extends Component {
 									<label>Ngày tạo (Nếu để trống thì sẽ tự động tạo)</label>
 									<DatePicker
 										className="form-control"
-										dateFormat="DD-MM-YYYY"
+										dateFormat="DD-MM-YYYY "
 										placeholderText="Ex: 25-10-2018"
 										name="created_at" 
 										todayButton="Today"
@@ -543,10 +553,8 @@ class CustomerActionPage extends Component {
 							</div>
 							
 
-							
-							
 						</div> 
-						<div className="col-xs-12 col-sm-12 col-md-12 col-lg-12 text-center">
+						<div className="col-xs-12 col-sm-12 col-md-12 col-lg-12 text-center" style={{minHeight:100}}>
 							<Button type="submit" className="btn btn-primary btn-cons"  variant="contained" color="primary">
 								Lưu <i className="material-icons">done_all</i>
 							</Button>	

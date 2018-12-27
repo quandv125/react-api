@@ -120,7 +120,7 @@ class LoginForm extends Component {
 	onSave (event) {
 		event.preventDefault();
 		var {email, password} = this.state;
-		var data = { email: email, password: password};
+		var data = { email: email, password: password, type: null};
 		if(email !== '' && password !== '' && !this.state.isFormValidationErrors){
 			this.props.onLogin(data);
 		} else {

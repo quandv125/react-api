@@ -31,7 +31,7 @@ const customers = (state = initialState, action) => {
         //     };
         //     return state;
         case Types.UPDATE_CUSTOMERS:
-        console.log('action test');
+        // console.log('action test');
             state = { status: null, customers: null }
             return state;
             // let {id} = action; 
