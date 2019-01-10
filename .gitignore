@@ -1,4 +1,6 @@
 #/node_modules
 #/public/storage
 .vscode
+.idea
+.idea/workspace.xml
 README.md
