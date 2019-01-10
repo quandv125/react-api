@@ -1,2 +1,2 @@
 Example ReactJs 123
-ubuntu v2
+ubuntu
